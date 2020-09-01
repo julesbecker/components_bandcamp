@@ -21,7 +21,7 @@ const data = LoadJson("locations-and-their-genres.json").map((d) => {
     for (var i = 0; i < d.artist_cats.length; i++) {
       // "relative" is what will be on the bar chart, so sorting artists accordingly.
       d.artist_cats.sort((a, b) => (a.relative < b.relative) ? 1 : -1)
-      // total_no determines the circle size
+      // total_no determines circle size
       d.total_no = d.total_no + d.artist_cats[i].count;
     }
     d.mostpopular = d.artist_cats[0].genre;

@@ -67,7 +67,7 @@ const tip = d3.tip()
   .offset([-10, 0])
   .html(function(d) {return `<div style='float: right'>${d.place}</div>`})
 
-var height = 650;
+var height = 700;
 var width = 900;
 var specs = {
   "m_h": height*.7,
@@ -91,21 +91,21 @@ const radius = d3.scaleSqrt()
 
 const svg = d3.select("body")
     .append("svg")
-      .style("width", width)
-      .style("height", height);
+      .style("width", "900px") //need "px" after the number for Firefox
+      .style("height", "700px");
 
 map = svg.append("g")
     .attr("id", "map");
 
-map.append("rect")
+const mapbg = map.append("rect")
     .attr("x", -100)
     .attr("y", -100)
-    .attr("width", width*2 )
-    .attr("height", height*2)
+    .attr("width", width*1.25)
+    .attr("height", height*1.25)
     .attr("fill", "#191A1A");
 
 map.append('text')
-    .text("Cities With the Highest Number of Bandcamp Sales")
+    .text("Cities With Highest Number of Bandcamp Sales")
     .attr('fill', 'white')
     .attr('class', 'title')
     .attr("font-family", "sans-serif")
@@ -143,15 +143,15 @@ const bMargin = 50
 const chart = svg.append("g")
     .attr("transform", `translate(0, ${specs["c_h"]-160}) `);
 
-chart.append("g")
-    .attr("opacity", .9)
-    .append('text')
-      .text('Sales by genre')
-      .attr('fill', 'white')
-      .attr('class', 'title')
-      .attr('x', width / 2 )
-      .attr('y', height*.3)
-      .attr('text-anchor', 'middle');
+// chart.append("g")
+//     .attr("opacity", .9)
+//     .append('text')
+//       .text('Sales by genre')
+//       .attr('fill', 'white')
+//       .attr('class', 'title')
+//       .attr('x', width / 2 )
+//       .attr('y', height*.3)
+//       .attr('text-anchor', 'middle');
 
 const charttext = chart.append("g")
     .attr("opacity", .9)
@@ -253,7 +253,7 @@ function drawCircles(selection, n) {
     selectedCircles.each(function() {
       console.log("n = 1")
       d3.select(this)
-        .attr("r", 1.5);
+        .attr("r", 1.1);
     })
   };
 }
@@ -278,14 +278,14 @@ const selectedCircles = cityCircles.selectAll("circles")
       d3.select(this).attr('fill-opacity', 0.7);
     })
     .on('mouseout', function(d) {
-      // hide the tooltip on mouse out
+      // hide tooltip on mouse out
       tip.hide();
       d3.select(this).attr('fill-opacity', 0.3)
     });
 
 // SECTION: Load circle toggle
 // ATTN: Right now, it's DOM radio buttons for the sake of adding the function.
-// Will need to sort out the aesthetics later.
+// Will sort out the aesthetics later.
 const buttons = d3.selectAll('input');
 
 buttons.on('change', function() {
@@ -303,6 +303,7 @@ function zoomed() {
 }
 
 map.call(d3.zoom()
+    .translateExtent([[0, 0], [width, height]])
     .extent([[0, 0], [width, height]])
     .scaleExtent([1, 8])
     .on("zoom", zoomed));
