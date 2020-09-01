@@ -94,17 +94,14 @@ const svg = d3.select("body")
       .style("width", "900px") //need "px" after the number for Firefox
       .style("height", "700px");
 
-map = svg.append("g")
-    .attr("id", "map");
-
-const mapbg = map.append("rect")
+const mapbg = svg.append("rect")
     .attr("x", -100)
     .attr("y", -100)
     .attr("width", width*1.25)
     .attr("height", height*1.25)
     .attr("fill", "#191A1A");
 
-map.append('text')
+svg.append('text')
     .text("Cities With Highest Number of Bandcamp Sales")
     .attr('fill', 'white')
     .attr('class', 'title')
@@ -114,10 +111,13 @@ map.append('text')
     .attr('x', width/2)
     .attr('y', 20);
 
+const map = svg.append("g")
+    .attr("id", "map");
+
 map.append("path")
     .datum(topojson.feature(theworld, theworld.objects.land))
-    .attr("stroke", "#515150")
-    .attr("stroke-width", .4)
+    // .attr("stroke", "#515150") // removing stroke did the most to alleviate performance issues
+    // .attr("stroke-width", .4)
     .attr("fill", "#343332")
     .attr("d", path);
 
@@ -126,7 +126,7 @@ map.append("path")
     .attr("id", "graticule")
     .attr("stroke", "#515150")
     .attr("stroke-width", 1)
-    .attr("opacity", "0.3")
+    .attr("stroke-opacity", "0.3")
     .attr("fill", "none");
 
 map.append("path")
@@ -154,7 +154,7 @@ const chart = svg.append("g")
 //       .attr('text-anchor', 'middle');
 
 const charttext = chart.append("g")
-    .attr("opacity", .9)
+    .attr("stroke-opacity", .9)
     .append('text')
       .text('')
       .attr('fill', 'white')
@@ -171,7 +171,6 @@ const charty = chart.append("g")
     .attr("id", "y_axis");
 
 const chartbars = chart.append("g")
-    .attr("opacity", .9)
     .attr("id", "bars");
 
 
@@ -223,7 +222,7 @@ function updateBars(selection, data) {
         .append("rect")
           .attr("fill", color) //(d) => genreColors(d.x)
           .attr("rx", 1)
-          .attr("opacity", 0.6)
+          .attr("fill-opacity", 0.6)
           .attr("x", (data, i) => xScale(i))
           .attr("y", data => yScale(data.y)) //specs["m_h"] here turns them upside-down, for some reason
           .attr("width", xScale.bandwidth())
