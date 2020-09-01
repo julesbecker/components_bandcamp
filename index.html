@@ -28,7 +28,7 @@ function scenedata(city) {
   // takes in the city scene array and spits out the information needed for the bar chart
   var scene_array = [];
   var num_array = [];
-  for (var i = 0; i < scene.length; i++) {
+  for (let i = 0; i < scene.length; i++) {
     num_array.push(Math.abs(+scene[i].relative))
     scene_array.push({x: scene[i].genre, y: Math.abs(+scene[i].relative), fill:genreColors(scene[i].genre)})
   }
@@ -45,7 +45,7 @@ const genreColors = (genre) => {
     if (str.length < 4) {str = "<".concat(str)}
     if (str.length > 9) {str = str.substring(5,9)}
   	var arr1 = [];
-  	for (var n = 0; n < str.length; n ++)
+  	for (let n = 0; n < str.length; n ++)
       {
     		var hex = Number(str.charCodeAt(n)).toString(16);
     		arr1.push(hex);
@@ -153,32 +153,32 @@ const chart = svg.append("g")
 //       .attr('y', height*.3)
 //       .attr('text-anchor', 'middle');
 
-const charttext = chart.append("g")
+chart.append("g")
     .attr("stroke-opacity", .9)
+    .attr("id", "chartlabel")
     .append('text')
       .text('')
       .attr('fill', 'white')
       .attr('class', 'title')
       .attr('x', width / 2 )
-      .attr('y', 50)
+      .attr('y', -100)
       .attr('text-anchor', 'middle');
 
-const chartx = chart.append("g")
+chart.append("g")
     .attr("id", "x_axis")
     .attr('stroke', 'white');
 
-const charty = chart.append("g")
+chart.append("g")
     .attr("id", "y_axis");
 
-const chartbars = chart.append("g")
+chart.append("g")
     .attr("id", "bars");
-
 
 
 // Setting up updating functions...
 
 function updateBars(selection, data) {
-    var color = genreColors(data.mostpopular);
+    let color = genreColors(data.mostpopular);
     let scene = scenedata(data)["scene"];
     let yScale = d3.scaleLinear()
         .domain([0.5, chartmax]).nice()
@@ -215,6 +215,11 @@ function updateBars(selection, data) {
         .attr("transform", `rotate(-40)`);
 
     selection
+        .select("g#chartlabel")
+        .select("text")
+        .text(data.place);
+
+    selection
         .select("g#bars")
         .selectAll("rect")
         .data(scene)
@@ -232,14 +237,12 @@ function updateBars(selection, data) {
 map.call(tip);
 
 function drawCircles(selection, n) {
-  console.log("n (selectedCircles)", n)
   if (n != "1") {
     selectedCircles.each(function() {
       d3.select(this)
       .attr('r', null)
     });
     selectedCircles.each(function() {
-      console.log("n != 1")
       d3.select(this)
           .attr("r", d => radius(d.total_no));
     });
@@ -250,7 +253,6 @@ function drawCircles(selection, n) {
       .attr('r', null)
     });
     selectedCircles.each(function() {
-      console.log("n = 1")
       d3.select(this)
         .attr("r", 1.1);
     })
@@ -258,7 +260,6 @@ function drawCircles(selection, n) {
 }
 
 const cityCircles = map.append("g")
-  .attr("fill", "#aa0000")
   .attr("fill-opacity", 0.3);
 
 const selectedCircles = cityCircles.selectAll("circles")
@@ -273,7 +274,6 @@ const selectedCircles = cityCircles.selectAll("circles")
       var updata = scenedata(d);
       tip.show(d, this);
       chart.call(updateBars, d);
-      console.log("this", this, "d", d, "updata", updata);
       d3.select(this).attr('fill-opacity', 0.7);
     })
     .on('mouseout', function(d) {
