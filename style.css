@@ -32,3 +32,8 @@
   stroke: #000;
   stroke-width: 1px;
 }
+
+.clip-me {
+  fill: #222;
+  clip-path: url(#cp);
+}

@@ -14,7 +14,6 @@ function LoadJson(url) {
     return json;
   };
 
-
 const data = LoadJson("locations-and-their-genres.json").map((d) => {
     d.total_no = 0;
     d.coords = [d.long, d.lat];
