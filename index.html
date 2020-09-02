@@ -13,6 +13,8 @@
 </head>
 <body>
   <div id="chart-area">
+    <button id="zoom_in">+</button>
+    <button id="zoom_out">-</button>
     <form>
         <label><input type="radio" name="circsize" value="1" checked>Equal Size</label>
         <label><input type="radio" name="circsize" value="2">Comparative Size</label>
@@ -25,7 +27,7 @@
 
 function scenedata(city) {
   var scene = city.artist_cats.slice(0,24)
-  // takes in the city scene array and spits out the information needed for the bar chart
+  // takes in city's scene array and spits out the data needed for the bar chart
   var scene_array = [];
   var num_array = [];
   for (let i = 0; i < scene.length; i++) {
@@ -87,14 +89,20 @@ const path = d3.geoPath()
 
 const radius = d3.scaleSqrt()
     .domain([0, d3.max(data, city => city.total_no)])
-    .range([0, width / 50]);
+    .range([1, width / 50]);
+
+data.map((d) => { d.radius = radius(d.total_no); });
 
 const svg = d3.select("body")
     .append("svg")
       .style("width", "900px") //need "px" after the number for Firefox
       .style("height", "700px");
 
-const mapbg = svg.append("rect")
+
+const map = svg.append("g")
+    .attr("id", "map");
+
+const mapbg = map.append("rect")
     .attr("x", 0)
     .attr("y", 0)
     .attr("width", width)
@@ -102,13 +110,9 @@ const mapbg = svg.append("rect")
     .attr("mask", "url(#myMask)")
     .attr("fill", "#191A1A");
 
-
-const map = svg.append("g")
-    .attr("id", "map");
-
 map.append("path")
     .datum(topojson.feature(theworld, theworld.objects.land))
-    // .attr("stroke", "#515150") // removing stroke did the most to alleviate performance issues
+    // .attr("stroke", "#515150") // removing stroke made biggest difference re: performance issues
     // .attr("stroke-width", .4)
     .attr("fill", "#343332")
     .attr("d", path);
@@ -142,7 +146,6 @@ var bb = svg.append("path")
     .attr("stroke-width", 1)
     .attr("stroke", "#515150");
 
-
 svg.append('text')
     .text("Cities With Highest Number of Bandcamp Sales")
     .attr('fill', 'white')
@@ -160,16 +163,6 @@ const bMargin = 50
 
 const chart = svg.append("g")
     .attr("transform", `translate(0, ${specs["c_h"]-160}) `);
-
-// chart.append("g")
-//     .attr("opacity", .9)
-//     .append('text')
-//       .text('Sales by genre')
-//       .attr('fill', 'white')
-//       .attr('class', 'title')
-//       .attr('x', width / 2 )
-//       .attr('y', height*.3)
-//       .attr('text-anchor', 'middle');
 
 chart.append("g")
     .attr("stroke-opacity", .9)
@@ -254,25 +247,28 @@ function updateBars(selection, data) {
 
 map.call(tip);
 
+
 function drawCircles(selection, n) {
   if (n != "1") {
     selectedCircles.each(function() {
       d3.select(this)
       .attr('r', null)
     });
-    selectedCircles.each(function() {
+    circleR = selectedCircles.each(function() {
       d3.select(this)
           .attr("r", d => radius(d.total_no));
+    // console.log("this.r", this.r.animVal.valueInSpecifiedUnits)
     });
   }
   else {
+    circleR = 5;
     selectedCircles.each(function() {
       d3.select(this)
       .attr('r', null)
     });
     selectedCircles.each(function() {
       d3.select(this)
-        .attr("r", 1.1);
+        .attr("r", 5);
     })
   };
 }
@@ -301,29 +297,47 @@ const selectedCircles = cityCircles.selectAll("circles")
     });
 
 // SECTION: Load circle toggle
-// ATTN: Right now, it's DOM radio buttons for the sake of adding the function.
-// Will sort out the aesthetics later.
 const buttons = d3.selectAll('input');
+let buttonvalue = 1;
 
 buttons.on('change', function() {
     cityCircles.call(drawCircles, this.value);
+    buttonvalue = d3.select('input[name="circsize"]:checked').node().value;
 });
 
 // ATTN: This would ideally be directly connected to the button checked, but I
 // have found no easy way to accomplish this yet.
 d3.select(window).on("load", function() {
-    cityCircles.call(drawCircles, "1");
+    buttonvalue = d3.select('input[name="circsize"]:checked').node().value;
+    cityCircles.call(drawCircles, buttonvalue);
+
 });
 
 function zoomed() {
     map.attr("transform", d3.event.transform);
 }
 
-map.call(d3.zoom()
+let zoom = map.call(d3.zoom()
     .translateExtent([[10, 80], [890, 585]])
     .extent([[10, 80], [890, 585]])
-    .scaleExtent([1, 4])
-    .on("zoom", zoomed));
+    .scaleExtent([1, 8])
+    .on("zoom", function() {
+      const { transform } = d3.event;
+      map.attr('transform', transform);
+      map.selectAll("circle")
+        .attr('r', d => {
+          buttonvalue != 1 ? radiusval=d.radius:radiusval=5;
+          return radiusval / transform.k;
+        });
+    })
+);
+
+d3.select("#zoom_in").on("click", function() {
+      zoom.scaleBy(svg.transition().duration(750), 1.2);
+    });
+d3.select("#zoom_out").on("click", function() {
+      zoom.scaleBy(svg.transition().duration(750), 0.8);
+    });
 
 </script>
 </body>
