@@ -13,8 +13,6 @@
 </head>
 <body>
   <div id="chart-area">
-    <button id="zoom_in">+</button>
-    <button id="zoom_out">-</button>
     <form>
         <label><input type="radio" name="circsize" value="1" checked>Equal Size</label>
         <label><input type="radio" name="circsize" value="2">Comparative Size</label>
@@ -305,8 +303,6 @@ buttons.on('change', function() {
     buttonvalue = d3.select('input[name="circsize"]:checked').node().value;
 });
 
-// ATTN: This would ideally be directly connected to the button checked, but I
-// have found no easy way to accomplish this yet.
 d3.select(window).on("load", function() {
     buttonvalue = d3.select('input[name="circsize"]:checked').node().value;
     cityCircles.call(drawCircles, buttonvalue);
@@ -331,13 +327,6 @@ let zoom = map.call(d3.zoom()
         });
     })
 );
-
-d3.select("#zoom_in").on("click", function() {
-      zoom.scaleBy(svg.transition().duration(750), 1.2);
-    });
-d3.select("#zoom_out").on("click", function() {
-      zoom.scaleBy(svg.transition().duration(750), 0.8);
-    });
 
 </script>
 </body>
