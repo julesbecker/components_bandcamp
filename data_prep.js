@@ -26,7 +26,7 @@ const data = LoadJson("locations-and-their-genres.json").map((d) => {
     d.mostpopular = d.artist_cats[0].genre;
   return d})
 
-const theworld = LoadJson("world50.json");
+const theworld = LoadJson("world10.json");
 
 
 function findChartmax(data) {

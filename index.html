@@ -76,7 +76,6 @@ var specs = {
 
 const geooutline = ({type: "Sphere"});
 const graticule = d3.geoGraticule10();
-// Other projection options: d3.geoMercator(), d3.geoStereographic(), d3.geoEisenlohr()
 const projection = d3.geoPolyhedralButterfly()
     .translate([width / 2, (height / 2)-20])
     .precision(.1);
@@ -104,7 +103,6 @@ const mapbg = map.append("rect")
     .attr("y", 0)
     .attr("width", width)
     .attr("height", height)
-    .attr("mask", "url(#myMask)")
     .attr("fill", "#191A1A");
 
 map.append("path")
@@ -168,8 +166,9 @@ chart.append("g")
       .text('')
       .attr('fill', 'white')
       .attr('class', 'title')
+      .attr("font-size", "30px")
       .attr('x', width / 2 )
-      .attr('y', -100)
+      .attr('y', -185)
       .attr('text-anchor', 'middle');
 
 chart.append("g")
@@ -284,8 +283,10 @@ const selectedCircles = cityCircles.selectAll("circles")
       // show tooltip on mouse enter
       var updata = scenedata(d);
       tip.show(d, this);
-      chart.call(updateBars, d);
       d3.select(this).attr('fill-opacity', 0.7);
+    })
+    .on('click', function(d) {
+      chart.call(updateBars, d);
     })
     .on('mouseout', function(d) {
       // hide tooltip on mouse out
@@ -308,16 +309,27 @@ d3.select(window).on("load", function() {
 
 });
 
-function zoomed() {
-    map.attr("transform", d3.event.transform);
-}
+// The question: WHY is the map's pan function not getting the correct inputs?
+// (Seems like it stays bound to the old coordinates of the svg. How to test?)
+// Is there a way to call for the pan coordinates?
 
-let zoom = map.call(d3.zoom()
-    .translateExtent([[10, 80], [890, 585]])
-    .extent([[10, 80], [890, 585]])
+// removing possibilities:
+// problem remains without geo-polygon library
+
+// function zoomed() {
+//     map.attr("transform", d3.event.transform);
+// }
+
+console.dir(d3.select(map).node())
+
+
+let zoomed = svg.call(d3.zoom()
+    .translateExtent([[17, 100], [883, 580]])
+    .extent([[17, 100], [883, 580]])
     .scaleExtent([1, 8])
     .on("zoom", function() {
       const { transform } = d3.event;
+      console.log(transform)
       map.attr('transform', transform);
       map.selectAll("circle")
         .attr('r', d => {
