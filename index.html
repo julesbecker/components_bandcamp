@@ -21,18 +21,17 @@
 
 <script type="text/javascript">
 
+
 // SECTION: import data, add related functions
 
 function scenedata(city) {
   var scene = city.artist_cats.slice(0,24)
   // takes in city's scene array and spits out the data needed for the bar chart
   var scene_array = [];
-  var num_array = [];
   for (let i = 0; i < scene.length; i++) {
-    num_array.push(Math.abs(+scene[i].relative))
     scene_array.push({x: scene[i].genre, y: Math.abs(+scene[i].relative), fill:genreColors(scene[i].genre)})
   }
-  return {"scene": scene_array, "num_array": num_array};
+  return scene_array;
 };
 
 //SECTION: Set up Assets and styles
@@ -164,6 +163,7 @@ chart.append("g")
     .attr("id", "chartlabel")
     .append('text')
       .text('')
+      .attr("font-family", "Open Sans")
       .attr('fill', 'white')
       .attr('class', 'title')
       .attr("font-size", "30px")
@@ -178,21 +178,48 @@ chart.append("g")
 chart.append("g")
     .attr("id", "y_axis");
 
+let nullset = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+let xScale = d3.scaleBand()
+  .domain(d3.range(nullset.length))
+  .rangeRound([bMargin, width - bMargin])
+  .padding(0.1);
+
+let yScale = d3.scaleLinear()
+    .domain([0, d3.max(nullset)]).nice()
+    .range([600+ bMargin, bMargin]);
+
 chart.append("g")
-    .attr("id", "bars");
+    .attr("id", "bars")
+    .selectAll("rect")
+    .data(nullset)
+    .enter()
+    .append("rect")
+      .attr("x", (data, i) => xScale(i))
+      .attr("y", data => yScale(data))
+      .attr("fill", "blue")
+      .attr("rx", 1)
+      .attr("fill-opacity", 0.6);
 
 
-// Setting up updating functions...
-
-function updateBars(selection, data) {
+function updateBars(data) {
     let color = genreColors(data.mostpopular);
-    let scene = scenedata(data)["scene"];
+    let scene = scenedata(data);
+    let scenemax = data.artist_cats[0].relative
+    let selection = chart
+
+    var t = d3.transition()
+        .duration(600)
+        .ease(d3.easePolyInOut.exponent(4));
+
     let yScale = d3.scaleLinear()
-        .domain([0.5, chartmax]).nice()
+        .domain([0, scenemax]).nice()
         .range([specs["c_h"] - bMargin, bMargin]);
 
     let yAxis = g => g
         .attr("transform", `translate(${bMargin},0)`)
+        .transition(t)
+        .attr('stroke', 'white')
         .call(d3.axisLeft(yScale))
              .attr('stroke', 'white');
 
@@ -202,13 +229,12 @@ function updateBars(selection, data) {
       .padding(0.1);
 
     let xAxis = g => g
+      .transition(t).attr("opacity", 0).remove()
       .attr("transform", `translate(0,${specs["c_h"] - bMargin})`)
-      .call(d3.axisBottom(xScale).tickFormat(i => scene[i].x).tickSizeOuter(0));
-
-    selection
-        .select("g#bars")
-        .selectAll("rect")
-        .remove();
+      .transition(t).attr("opacity", 1)
+      .call(d3.axisBottom(xScale)
+      .tickFormat(i => scene[i].x)
+      .tickSizeOuter(0));
 
     selection
         .select("g#y_axis")
@@ -218,8 +244,8 @@ function updateBars(selection, data) {
         .select("g#x_axis")
         .call(xAxis)
         .selectAll("text")
-        .style("text-anchor", "end")
-        .attr("transform", `rotate(-40)`);
+            .style("text-anchor", "end")
+            .attr("transform", `rotate(-40)`);
 
     selection
         .select("g#chartlabel")
@@ -227,18 +253,15 @@ function updateBars(selection, data) {
         .text(data.place);
 
     selection
-        .select("g#bars")
         .selectAll("rect")
         .data(scene)
-        .enter()
-        .append("rect")
-          .attr("fill", color) //(d) => genreColors(d.x)
-          .attr("rx", 1)
-          .attr("fill-opacity", 0.6)
-          .attr("x", (data, i) => xScale(i))
-          .attr("y", data => yScale(data.y)) //specs["m_h"] here turns them upside-down, for some reason
-          .attr("width", xScale.bandwidth())
-          .attr("height", data => yScale(0) - yScale(data.y));
+        .transition() // <---- Here is the transition
+        .duration(500) // .5 seconds
+        .attr("fill", color) //(d) => genreColors(d.x)
+        .attr("x", (data, i) => xScale(i))
+        .attr("y", data => yScale(data.y)) //specs["m_h"] here turns them upside-down, for some reason
+        .attr("width", xScale.bandwidth())
+        .attr("height", data => yScale(0) - yScale(data.y));
 }
 
 map.call(tip);
@@ -281,12 +304,18 @@ const selectedCircles = cityCircles.selectAll("circles")
     //NOTE: mouseover behavior determined here
     .on('mouseenter', function(d) {
       // show tooltip on mouse enter
-      var updata = scenedata(d);
       tip.show(d, this);
       d3.select(this).attr('fill-opacity', 0.7);
     })
+
+    // d3.select(button)
+        // .on("click", function() {
+        // });
+
     .on('click', function(d) {
-      chart.call(updateBars, d);
+      // newData(); //Changes de values of the data
+      updateBars(d); //Updates the bar chart
+      // chart.call(updateBars, d);
     })
     .on('mouseout', function(d) {
       // hide tooltip on mouse out
@@ -304,24 +333,10 @@ buttons.on('change', function() {
 });
 
 d3.select(window).on("load", function() {
-    buttonvalue = d3.select('input[name="circsize"]:checked').node().value;
     cityCircles.call(drawCircles, buttonvalue);
+    buttonvalue = d3.select('input[name="circsize"]:checked').node().value;
 
 });
-
-// The question: WHY is the map's pan function not getting the correct inputs?
-// (Seems like it stays bound to the old coordinates of the svg. How to test?)
-// Is there a way to call for the pan coordinates?
-
-// removing possibilities:
-// problem remains without geo-polygon library
-
-// function zoomed() {
-//     map.attr("transform", d3.event.transform);
-// }
-
-console.dir(d3.select(map).node())
-
 
 let zoomed = svg.call(d3.zoom()
     .translateExtent([[17, 100], [883, 580]])
@@ -329,7 +344,6 @@ let zoomed = svg.call(d3.zoom()
     .scaleExtent([1, 8])
     .on("zoom", function() {
       const { transform } = d3.event;
-      console.log(transform)
       map.attr('transform', transform);
       map.selectAll("circle")
         .attr('r', d => {
