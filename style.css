@@ -27,6 +27,12 @@
   left: 0;
 }
 
+.sizeopts {
+  fill: white;
+  font-family: "sans-serif";
+  font-size: 16px;
+
+}
 
 .outline {
   stroke: #000;

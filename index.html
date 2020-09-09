@@ -10,28 +10,37 @@
 <script src="data_prep.js"></script>
 <script src="d3_tip.js"></script>
 <link rel="stylesheet" type="text/css" href="style.css" />
+<style>
+svg.sizeopts {
+  color: pink;
+  font-family: "sans-serif";
+  font-size: 16px;
+}
+</style>
 </head>
 <body>
   <div id="chart-area">
     <form>
-        <label><input type="radio" name="circsize" value="1" checked>Equal Size</label>
+        <label><input type="radio" name="circsize" class=".sizeopts" value="1" checked>Equal Size</label>
         <label><input type="radio" name="circsize" value="2">Comparative Size</label>
     </form>
   </div>
 
 <script type="text/javascript">
 
+// <form>
+//     <label><input type="radio" name="colortheme" value="1" checked>Light</label>
+//     <label><input type="radio" name="colortheme" value="2">Dark</label>
+// </form>
 
 // SECTION: import data, add related functions
 
 function scenedata(city) {
   var scene = city.artist_cats.slice(0,24)
   // takes in city's scene array and spits out the data needed for the bar chart
-  var scene_array = [];
-  for (let i = 0; i < scene.length; i++) {
-    scene_array.push({x: scene[i].genre, y: Math.abs(+scene[i].relative), fill:genreColors(scene[i].genre)})
-  }
-  return scene_array;
+  var scene_obj = Object.assign({}, ...scene.map(value => ({[value.genre]: value.relative})));
+  console.log("scene_obj", scene_obj);
+  return scene_obj;
 };
 
 //SECTION: Set up Assets and styles
@@ -74,7 +83,7 @@ var specs = {
 };
 
 const geooutline = ({type: "Sphere"});
-const graticule = d3.geoGraticule10();
+// const graticule = d3.geoGraticule10();
 const projection = d3.geoPolyhedralButterfly()
     .translate([width / 2, (height / 2)-20])
     .precision(.1);
@@ -140,15 +149,18 @@ svg.append("path")
     .attr("stroke-width", 1)
     .attr("stroke", "#515150");
 
+
 svg.append('text')
-    .text("Cities With Highest Number of Bandcamp Sales")
-    .attr('fill', 'white')
-    .attr('class', 'title')
-    .attr("font-family", "sans-serif")
-    .attr("font-size", "20px")
-    .attr('text-anchor', 'middle')
-    .attr('x', width/2)
+    .text("Equal Size")
+    .attr('class', '.sizeopts')
+    .attr('x', 20)
     .attr('y', 20);
+
+svg.append('text')
+    .text("Comparative Size")
+    .attr('class', '.sizeopts')
+    .attr('x', 20)
+    .attr('y', 40);
 
 const bMargin = 50
 
@@ -172,22 +184,27 @@ chart.append("g")
       .attr('text-anchor', 'middle');
 
 chart.append("g")
-    .attr("id", "x_axis")
-    .attr('stroke', 'white');
-
-chart.append("g")
     .attr("id", "y_axis");
 
 let nullset = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
 let xScale = d3.scaleBand()
-  .domain(d3.range(nullset.length))
-  .rangeRound([bMargin, width - bMargin])
-  .padding(0.1);
+    .domain(d3.range(nullset.length))
+    .rangeRound([bMargin, width - bMargin])
+    .padding(0.1);
+
+// let xAxis = g => g
+//     .call(d3.axisBottom(xScale)
+//         .tickFormat(g.i)
+//         .tickSizeOuter(0));
 
 let yScale = d3.scaleLinear()
     .domain([0, d3.max(nullset)]).nice()
     .range([600+ bMargin, bMargin]);
+
+chart.append("g")
+    .attr("id", "x_axis");
+    // .call(xAxis);
 
 chart.append("g")
     .attr("id", "bars")
@@ -219,49 +236,59 @@ function updateBars(data) {
     let yAxis = g => g
         .attr("transform", `translate(${bMargin},0)`)
         .transition(t)
+        // .style("cross-fade", ( url(white.png) 0%, url(black.png) 100%));
         .attr('stroke', 'white')
         .call(d3.axisLeft(yScale))
              .attr('stroke', 'white');
 
+     console.log(data)
+
     let xScale = d3.scaleBand()
-      .domain(d3.range(scene.length))
+      .domain(Object.keys(scene))
       .range([bMargin, width - bMargin])
       .padding(0.1);
 
-    let xAxis = g => g
-      .transition(t).attr("opacity", 0).remove()
-      .attr("transform", `translate(0,${specs["c_h"] - bMargin})`)
-      .transition(t).attr("opacity", 1)
-      .call(d3.axisBottom(xScale)
-      .tickFormat(i => scene[i].x)
-      .tickSizeOuter(0));
+    let xAxis = function(g) {
+      g.attr("transform", `translate(0,${specs["c_h"] - bMargin})`)
+          .call(d3.axisBottom(xScale)
+          .tickSizeOuter(0));
+    }
+
+    selection
+        .select("g#x_axis")
+        .attr("transform", `translate(0,${specs["c_h"] - bMargin})`)
+        .transition(t).duration(500).style("opacity", 1)
+        .call(xAxis)
+        .selectAll("text")
+            .style("text-anchor", "end")
+            .attr("transform", `rotate(-40)`)
+            .attr('fill', 'white');
 
     selection
         .select("g#y_axis")
         .call(yAxis);
 
     selection
-        .select("g#x_axis")
-        .call(xAxis)
-        .selectAll("text")
-            .style("text-anchor", "end")
-            .attr("transform", `rotate(-40)`);
-
-    selection
         .select("g#chartlabel")
         .select("text")
         .text(data.place);
 
+
+    let scenearray = [];
+    Object.keys(scene).map(key => scenearray.push({x:[key], y:scene[key]}));
+    console.log("scenearray", scenearray)
+
     selection
         .selectAll("rect")
-        .data(scene)
+        .data(scenearray)
         .transition() // <---- Here is the transition
         .duration(500) // .5 seconds
         .attr("fill", color) //(d) => genreColors(d.x)
-        .attr("x", (data, i) => xScale(i))
-        .attr("y", data => yScale(data.y)) //specs["m_h"] here turns them upside-down, for some reason
+        .attr("x", data => xScale(data.x))
+        .attr("y", data => yScale(data.y)) //specs["m_h"] here turns them upside-down
         .attr("width", xScale.bandwidth())
-        .attr("height", data => yScale(0) - yScale(data.y));
+        .attr("height", data => yScale(0) - yScale(data.y))
+        ;
 }
 
 map.call(tip);
@@ -313,9 +340,7 @@ const selectedCircles = cityCircles.selectAll("circles")
         // });
 
     .on('click', function(d) {
-      // newData(); //Changes de values of the data
       updateBars(d); //Updates the bar chart
-      // chart.call(updateBars, d);
     })
     .on('mouseout', function(d) {
       // hide tooltip on mouse out
