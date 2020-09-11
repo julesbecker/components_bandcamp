@@ -111,13 +111,13 @@ const mapbg = map.append("rect")
     .attr("y", 0)
     .attr("width", width)
     .attr("height", height)
-    .attr("fill", "#191A1A");
+    .attr("fill", "black");
 
 map.append("path")
     .datum(topojson.feature(theworld, theworld.objects.land))
     // .attr("stroke", "#515150") // removing stroke made biggest difference re: performance issues
     // .attr("stroke-width", .4)
-    .attr("fill", "#343332")
+    .attr("fill", "white")
     .attr("d", path);
 
 // map.append("path")
@@ -139,7 +139,7 @@ var customshape = `M0,700L233.92640648593908,329.99974719027483L170.640107484642
 
 svg.append("path")
     .attr("d", customshape)
-    .attr("fill", "#191A1A");
+    .attr("fill", "white");
 
 svg.append("path")
     .attr("id", "butterflyborder")
@@ -147,7 +147,7 @@ svg.append("path")
     .attr("d", path)
     .attr("fill", "none")
     .attr("stroke-width", 1)
-    .attr("stroke", "#515150");
+    .attr("stroke", "black");
 
 
 svg.append('text')
@@ -176,7 +176,6 @@ chart.append("g")
     .append('text')
       .text('')
       .attr("font-family", "Open Sans")
-      .attr('fill', 'white')
       .attr('class', 'title')
       .attr("font-size", "30px")
       .attr('x', width / 2 )
@@ -236,10 +235,7 @@ function updateBars(data) {
     let yAxis = g => g
         .attr("transform", `translate(${bMargin},0)`)
         .transition(t)
-        // .style("cross-fade", ( url(white.png) 0%, url(black.png) 100%));
-        .attr('stroke', 'white')
-        .call(d3.axisLeft(yScale))
-             .attr('stroke', 'white');
+        .call(d3.axisLeft(yScale));
 
      console.log(data)
 
@@ -257,12 +253,11 @@ function updateBars(data) {
     selection
         .select("g#x_axis")
         .attr("transform", `translate(0,${specs["c_h"] - bMargin})`)
-        .transition(t).duration(500).style("opacity", 1)
+        .transition(t).duration(500)
         .call(xAxis)
         .selectAll("text")
             .style("text-anchor", "end")
-            .attr("transform", `rotate(-40)`)
-            .attr('fill', 'white');
+            .attr("transform", `rotate(-40)`);
 
     selection
         .select("g#y_axis")
@@ -283,7 +278,7 @@ function updateBars(data) {
         .data(scenearray)
         .transition() // <---- Here is the transition
         .duration(500) // .5 seconds
-        .attr("fill", color) //(d) => genreColors(d.x)
+        .attr("fill", "red") //(d) => genreColors(d.x)
         .attr("x", data => xScale(data.x))
         .attr("y", data => yScale(data.y)) //specs["m_h"] here turns them upside-down
         .attr("width", xScale.bandwidth())
@@ -296,11 +291,11 @@ map.call(tip);
 
 function drawCircles(selection, n) {
   if (n != "1") {
-    selectedCircles.each(function() {
+    selectedShapes.each(function() {
       d3.select(this)
       .attr('r', null)
     });
-    circleR = selectedCircles.each(function() {
+    circleR = selectedShapes.each(function() {
       d3.select(this)
           .attr("r", d => radius(d.total_no));
     // console.log("this.r", this.r.animVal.valueInSpecifiedUnits)
@@ -308,31 +303,45 @@ function drawCircles(selection, n) {
   }
   else {
     circleR = 5;
-    selectedCircles.each(function() {
+    selectedShapes.each(function() {
       d3.select(this)
       .attr('r', null)
     });
-    selectedCircles.each(function() {
+    selectedShapes.each(function() {
       d3.select(this)
-        .attr("r", 5);
+        .attr("r", 4);
     })
   };
 }
 
-const cityCircles = map.append("g")
-  .attr("fill-opacity", 0.3);
+function getBoundingBoxCenter (selection) {
+  // get the DOM element from a D3 selection
+  // you could also use "this" inside .each()
+  var element = selection.node();
+  // use the native SVG interface to get the bounding box
+  var bbox = element.getBBox();
+  // return the center of the bounding box
+  return [bbox.x + bbox.width/2, bbox.y + bbox.height/2];
+}
 
-const selectedCircles = cityCircles.selectAll("circles")
+const cityCircles = map.append("g");
+  // .attr("fill-opacity", 0.3);
+
+var cityMask = map.insert('mask', ':first-child')
+   .attr('id', 'image_mask');
+
+const selectedShapes = cityCircles.selectAll("circles")
   .attr("id", "cityCircles")
   .data(data)
   .join("circle")
     .attr("transform", (d) => `translate(${projection(d.coords)})`)
-    .attr("fill", (d) => genreColors(d.mostpopular))
+    .attr("fill", "black")
+    // .attr("fill", (d) => genreColors(d.mostpopular))
     //NOTE: mouseover behavior determined here
     .on('mouseenter', function(d) {
       // show tooltip on mouse enter
       tip.show(d, this);
-      d3.select(this).attr('fill-opacity', 0.7);
+      d3.select(this).attr('fill', "red");
     })
 
     // d3.select(button)
@@ -345,7 +354,7 @@ const selectedCircles = cityCircles.selectAll("circles")
     .on('mouseout', function(d) {
       // hide tooltip on mouse out
       tip.hide();
-      d3.select(this).attr('fill-opacity', 0.3)
+      d3.select(this).attr('fill', "black")
     });
 
 // SECTION: Load circle toggle
@@ -372,7 +381,7 @@ let zoomed = svg.call(d3.zoom()
       map.attr('transform', transform);
       map.selectAll("circle")
         .attr('r', d => {
-          buttonvalue != 1 ? radiusval=d.radius:radiusval=5;
+          buttonvalue != 1 ? radiusval=d.radius:radiusval=4;
           return radiusval / transform.k;
         });
     })
