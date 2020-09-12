@@ -3,6 +3,7 @@
   padding: 6px;
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
+  font-family: "cinetype";
   border-radius: 4px;
   font-size: 12px;
 }
@@ -25,6 +26,23 @@
   margin: -2px 0 0 0;
   top: 100%;
   left: 0;
+}
+
+@font-face {
+    font-family: "orion";
+    src: url("fonts/MGDOrion-Regular.woff2") format('woff2');
+}
+
+@font-face {
+    font-family: "orion";
+    src: url("fonts/MGDOrion-black.woff2") format('woff2');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "orion";
+    src: url("fonts/MGDOrion-italic.woff2") format('woff2');
+    font-style: italic;
 }
 
 @font-face {
