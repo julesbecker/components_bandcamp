@@ -28,15 +28,6 @@ svg.sizeopts {
 
 <script type="text/javascript">
 
-// SECTION: import data, add related functions
-
-function scenedata(city) {
-  var scene = city.artist_cats.slice(0,24)
-  // takes in city's scene array and spits out the data needed for the bar chart
-  var scene_obj = Object.assign({}, ...scene.map(value => ({[value.genre]: value.relative})));
-  return scene_obj;
-};
-
 //SECTION: Set up Assets and styles
 
 const margin = ({top: 20, right: 20, bottom: 30, left: 40})
@@ -165,16 +156,17 @@ chart.append("g")
     .append("rect")
       .attr("x", (data, i) => xScale(i))
       .attr("y", data => yScale(data))
-      .attr("fill", "blue")
       .attr("rx", 1)
       .attr("fill-opacity", 0.6);
 
 
 function updateBars(data) {
-    let scene = scenedata(data);
-    let scenemax = data.artist_cats[0].relative
-    let selection = chart
-
+    var sceneslice = data.artist_cats.slice(0,24);
+    // let scene = Object.assign({}, ...sceneslice.map(value => ({[value.genre]: value.relative})));
+    let scene = new Map();
+    sceneslice.map(value => {scene.set(value.genre, value.relative)});
+    let scenemax = data.artist_cats[0].relative;
+    console.log("myscenekeys", ...scene.keys());
     var t = d3.transition()
         .duration(600)
         .ease(d3.easePolyInOut.exponent(4));
@@ -189,7 +181,7 @@ function updateBars(data) {
         .call(d3.axisLeft(yScale));
 
     let xScale = d3.scaleBand()
-      .domain(Object.keys(scene))
+      .domain([...scene.keys()])
       .range([bMargin, width - bMargin])
       .padding(0.1);
 
@@ -199,7 +191,7 @@ function updateBars(data) {
           .tickSizeOuter(0));
     }
 
-    selection
+    chart
         .select("g#x_axis")
         .attr("transform", `translate(0,${specs["c_h"] - bMargin})`)
         .transition(t).duration(500)
@@ -208,20 +200,20 @@ function updateBars(data) {
             .style("text-anchor", "end")
             .attr("transform", `rotate(-40)`);
 
-    selection
+    chart
         .select("g#y_axis")
         .call(yAxis);
 
-    selection
+    chart
         .select("g#chartlabel")
         .select("text")
         .text(data.place);
 
 
     let scenearray = [];
-    Object.keys(scene).map(key => scenearray.push({x:[key], y:scene[key]}));
-
-    selection
+    scene.forEach((v, k) => scenearray.push({x:[k], y:v}));
+    
+    chart
         .selectAll("rect")
         .data(scenearray)
         .transition() // <---- Here is the transition
@@ -230,8 +222,7 @@ function updateBars(data) {
         .attr("x", data => xScale(data.x))
         .attr("y", data => yScale(data.y)) //specs["m_h"] here turns them upside-down
         .attr("width", xScale.bandwidth())
-        .attr("height", data => yScale(0) - yScale(data.y))
-        ;
+        .attr("height", data => yScale(0) - yScale(data.y));
 }
 
 map.call(tip);
