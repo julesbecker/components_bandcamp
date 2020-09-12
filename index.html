@@ -99,17 +99,49 @@ svg.append("path")
 
 svg.append('text')
     .text("Equal Size")
+    .attr("id", "es")
     .style("font-family", "cinetype")
+    .attr("transform", `rotate(-30)`)
     .attr('class', '.sizeopts')
     .attr('x', 20)
-    .attr('y', 20);
+    .attr('y', 180)
+    .on('mouseover', function(d, i) {
+        d3.select(this)
+          .style('font-weight', 'bold');
+      })
+    .on('click', function(d, i) {
+        d3.select("#cs")
+          .attr("fill", "black");
+        d3.select(this)
+          .attr('fill', 'red');
+      })
+    .on('mouseout', function(d, i) {
+        d3.select(this)
+          .style('font-weight', '');
+      });
 
 svg.append('text')
     .text("Comparative Size")
+    .attr("id", "cs")
     .style("font-family", "cinetype")
     .attr('class', '.sizeopts')
-    .attr('x', 20)
-    .attr('y', 40);
+    .attr("transform", `rotate(30)`)
+    .attr('x', 300)
+    .attr('y', -55)
+    .on('mouseover', function(d, i) {
+        d3.select(this)
+          .style('font-weight', 'bold');
+      })
+    .on('click', function(d, i) {
+        d3.select("#es")
+          .attr("fill", "black");
+        d3.select(this)
+          .attr('fill', 'red');
+      })
+    .on('mouseout', function(d, i) {
+        d3.select(this)
+          .style('font-weight', '');
+      });
 
 const bMargin = 50
 
@@ -163,7 +195,6 @@ chart.append("g")
 
 function updateBars(data) {
     var sceneslice = data.artist_cats.slice(0,24);
-    // let scene = Object.assign({}, ...sceneslice.map(value => ({[value.genre]: value.relative})));
     let scene = new Map();
     sceneslice.map(value => {scene.set(value.genre, value.relative)});
     let scenemax = data.artist_cats[0].relative;

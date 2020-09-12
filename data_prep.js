@@ -16,7 +16,6 @@ function LoadJson(url) {
 
 const data = LoadJson("locations-and-their-genres.json").map((d) => {
     d.total_no = 0;
-    d.coords = [d.long, d.lat];
     for (var i = 0; i < d.artist_cats.length; i++) {
       // "relative" is what will be on the bar chart, so sorting artists accordingly.
       d.artist_cats.sort((a, b) => (a.relative < b.relative) ? 1 : -1)
