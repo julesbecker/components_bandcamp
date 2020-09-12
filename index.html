@@ -11,10 +11,9 @@
 <script src="d3_tip.js"></script>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <style>
-svg.sizeopts {
-  color: pink;
-  font-family: "sans-serif";
-  font-size: 16px;
+@font-face {
+  font-family:"cinetype";
+  src: url(fonts/GT-Cinetype-Regular.woff2);
 }
 </style>
 </head>
@@ -100,12 +99,14 @@ svg.append("path")
 
 svg.append('text')
     .text("Equal Size")
+    .style("font-family", "cinetype")
     .attr('class', '.sizeopts')
     .attr('x', 20)
     .attr('y', 20);
 
 svg.append('text')
     .text("Comparative Size")
+    .style("font-family", "cinetype")
     .attr('class', '.sizeopts')
     .attr('x', 20)
     .attr('y', 40);
@@ -123,7 +124,7 @@ chart.append("g")
     .attr("id", "chartlabel")
     .append('text')
       .text('')
-      .attr("font-family", "Open Sans")
+      .style("font-family", "cinetype")
       .attr('class', 'title')
       .attr("font-size", "30px")
       .attr('x', width / 2 )
@@ -166,7 +167,6 @@ function updateBars(data) {
     let scene = new Map();
     sceneslice.map(value => {scene.set(value.genre, value.relative)});
     let scenemax = data.artist_cats[0].relative;
-    console.log("myscenekeys", ...scene.keys());
     var t = d3.transition()
         .duration(600)
         .ease(d3.easePolyInOut.exponent(4));
@@ -197,6 +197,7 @@ function updateBars(data) {
         .transition(t).duration(500)
         .call(xAxis)
         .selectAll("text")
+            .style("font-family", "cinetype")
             .style("text-anchor", "end")
             .attr("transform", `rotate(-40)`);
 
@@ -212,7 +213,7 @@ function updateBars(data) {
 
     let scenearray = [];
     scene.forEach((v, k) => scenearray.push({x:[k], y:v}));
-    
+
     chart
         .selectAll("rect")
         .data(scenearray)
@@ -258,9 +259,11 @@ const cityCircles = map.append("g");
 const selectedShapes = cityCircles.selectAll("circles")
   .attr("id", "cityCircles")
   .data(data)
+  //ANDREW: Circle characteristics are set here
   .join("circle")
     .attr("transform", (d) => `translate(${projection(d.coords)})`)
     .attr("fill", "green")
+    .attr('opacity', ".6")
     //NOTE: mouseover behavior determined here
     .on('mouseenter', function(d) {
       // show tooltip on mouse enter

@@ -27,11 +27,32 @@
   left: 0;
 }
 
-.sizeopts {
-  fill: white;
-  font-family: "sans-serif";
-  font-size: 16px;
+svg {
+  background-color: beige;
+}
 
+@font-face {
+    font-family: "cinetype";
+    src: url("fonts/GT-Cinetype-Regular.woff2") format('woff2');
+}
+
+@font-face {
+    font-family: "cinetype";
+    src: url("fonts/GT-Cinetype-Bold.woff2") format('woff2');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "cinetype";
+    src: url("fonts/GT-Cinetype-Bold-Italic.woff2") format('woff2');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "cinetype";
+    src: url("fonts/GT-Cinetype-Regular-Italic.woff2") format('woff2');
+    font-style: italic;
 }
 
 .outline {
