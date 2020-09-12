@@ -27,10 +27,6 @@
   left: 0;
 }
 
-svg {
-  background-color: beige;
-}
-
 @font-face {
     font-family: "cinetype";
     src: url("fonts/GT-Cinetype-Regular.woff2") format('woff2');
