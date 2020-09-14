@@ -86,52 +86,32 @@ svg.append("path")
 svg.append('text')
     .text("Relative")
     .attr("id", "es")
-    .style("font-family", "cinetype")
-    .style("text-anchor", "middle")
     .attr("transform", `rotate(-30)`)
-    .attr('class', '.sizeopts')
+    .attr('class', 'displayopt')
     .attr('fill', 'red')
     .attr('x', 20)
     .attr('y', 180)
-    .on('mouseover', function(d, i) {
-        d3.select(this)
-          .style('font-weight', 'bold');
-      })
     .on('click', function(d, i) {
         d3.select("#cs")
           .attr("fill", "black");
           cityCircles.call(drawCircles, 1);
         d3.select(this)
           .attr('fill', 'red');
-      })
-    .on('mouseout', function(d, i) {
-        d3.select(this)
-          .style('font-weight', '');
       });
 
 svg.append('text')
     .text("Absolute")
     .attr("id", "cs")
-    .style("font-family", "cinetype")
-    .style("text-anchor", "middle")
-    .attr('class', '.sizeopts')
+    .attr('class', 'displayopt')
     .attr("transform", `rotate(30)`)
     .attr('x', 350)
     .attr('y', -55)
-    .on('mouseover', function(d, i) {
-        d3.select(this)
-          .style('font-weight', 'bold');
-      })
     .on('click', function(d, i) {
         d3.select("#es")
           .attr("fill", "black");
         d3.select(this)
           .attr('fill', 'red');
         cityCircles.call(drawCircles, 2);
-      })
-    .on('mouseout', function(d, i) {
-        d3.select(this)
-          .style('font-weight', '');
       });
 
 // SECTION: setting up chart...
@@ -147,6 +127,7 @@ chart.append("g")
       .text('')
       .style("font-family", "orion")
       .attr('class', 'title')
+      .classed("axis", true)
       .attr("font-size", "30px")
       .attr('x', width / 2 )
       .attr('y', -185)
@@ -212,16 +193,18 @@ function updateBars(data) {
 
     chart
         .select("g#x_axis")
+        .attr("class", "axis")
         .attr("transform", `translate(0,${specs["c_h"] - bMargin})`)
         .transition(t).duration(500)
         .call(xAxis)
         .selectAll("text")
-            .style("font-family", "orion")
+            .style("font-family", "cinetype")
             .style("text-anchor", "end")
             .attr("transform", `rotate(-40)`);
 
     chart
         .select("g#y_axis")
+        .attr("class", "axis")
         .call(yAxis);
 
     chart
@@ -249,6 +232,8 @@ map.call(tip);
 
 let buttonvalue = 1;
 
+let zoomscale = 1;
+
 function drawCircles(selection, n) {
   if (n != "1") {
     buttonvalue = 2;
@@ -258,8 +243,7 @@ function drawCircles(selection, n) {
     });
     circleR = selectedShapes.each(function() {
       d3.select(this)
-          .attr("r", d => radius(d.total_no));
-    // console.log("this.r", this.r.animVal.valueInSpecifiedUnits)
+          .attr("r", d => radius(d.total_no) / zoomscale);
     });
   }
   else {
@@ -271,7 +255,7 @@ function drawCircles(selection, n) {
     });
     selectedShapes.each(function() {
       d3.select(this)
-        .attr("r", 4);
+        .attr("r", 4 / zoomscale);
     })
   };
 }
@@ -308,17 +292,33 @@ d3.select(window).on("load", function() {
     cityCircles.call(drawCircles, buttonvalue);
 });
 
+// SECTION: Styling for the svg
+d3.selectAll(".displayopt")
+    .style("font-family", "orion")
+    .style("text-anchor", "middle")
+    .on('mouseover', function(d, i) {
+        d3.select(this)
+          .style('font-weight', 'bold');
+      })
+
+    .on('mouseout', function(d, i) {
+        d3.select(this)
+          .style('font-weight', '');
+      });
+
 let zoomed = svg.call(d3.zoom()
     .translateExtent([[17, 100], [883, 580]])
     .extent([[17, 100], [883, 580]])
     .scaleExtent([1, 8])
     .on("zoom", function() {
       const { transform } = d3.event;
+      console.log(transform);
       map.attr('transform', transform);
       map.selectAll("circle")
         .attr('r', d => {
           buttonvalue != 1 ? radiusval=d.radius:radiusval=4;
-          return radiusval / transform.k;
+          zoomscale = transform.k**.7;
+          return radiusval / zoomscale;
         });
     })
 );

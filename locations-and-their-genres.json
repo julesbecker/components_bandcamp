@@ -1196,7 +1196,7 @@
     "genre": " doom",
     "count": 2,
     "prop": 0.004348,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "acoustic",
@@ -1226,7 +1226,7 @@
     "genre": "alt-americana",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "altcountry",
@@ -1244,7 +1244,7 @@
     "genre": "alternative electronic rock",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "alternative rock",
@@ -1322,7 +1322,7 @@
     "genre": "blues funeral recordings",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "blues rock",
@@ -1334,19 +1334,19 @@
     "genre": "bulgaria",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "cardwell",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "chakra",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "classic rock",
@@ -1388,7 +1388,7 @@
     "genre": "crystal",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "dark",
@@ -1454,13 +1454,13 @@
     "genre": "desert music",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "desert records",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "desert rock",
@@ -1508,7 +1508,7 @@
     "genre": "douglas",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "downtempo",
@@ -1520,7 +1520,7 @@
     "genre": "drag city",
     "count": 3,
     "prop": 0.006522,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "dreamy",
@@ -1550,13 +1550,13 @@
     "genre": "dust pop",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "dust wave",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "e.b.m",
@@ -1568,7 +1568,7 @@
     "genre": "eastern european folk",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "ebm",
@@ -1604,7 +1604,7 @@
     "genre": "electronic hip hop",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "emo",
@@ -1622,13 +1622,13 @@
     "genre": "experimental soul",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "fiction",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "field recordings",
@@ -1646,13 +1646,13 @@
     "genre": "frayle",
     "count": 1,
     "prop": 0.002174,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "garagehouse",
     "count": 2,
     "prop": 0.004348,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "gothic",
@@ -1706,7 +1706,7 @@
     "genre": "harsh ebm",
     "count": 3,
     "prop": 0.006522,
-    "relative": 1.0
+    "relative": 1
    },
    {
     "genre": "harsh electro",
