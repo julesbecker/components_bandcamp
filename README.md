@@ -4,7 +4,7 @@ Goal is to create a version of Andrew's Tableau viz (https://public.tableau.com/
 
 Code overview:
 - Assets and Data:
-  - **world10.json** provides the data that renders the geomap. **world50.json** is the same, but with slightly less resolution.
+  - **world10.json** provides the data that renders the geomap. **world50.json** and **world110.json** are the same, but with slightly less resolution.
   - **test.svg** is an svg cut-out matching the size and position of the butterfly map outline.
   - **locations-and-their-genres.json** contains the raw data that the program uses to populate the map with city circles and generate the bar charts.
 - Calculation and rendering:
@@ -30,5 +30,5 @@ The plan involves:
 
 In order to achieve this without sacrificing performance, performance needs to improve significantly. Some possibilities:
 - preprocess the data as much as possible to minimize runtime calculations
-- Switch to world110 when panning or zooming (json thereof coming shortly)
+- Switch to world110 when panning or zooming (e.g., https://observablehq.com/@d3/versor-zooming)
 - stop using D3's native transition library and switch it to PixiJS, at least for circle rendering (http://pixijs.download/release/docs/index.html)

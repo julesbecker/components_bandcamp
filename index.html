@@ -64,7 +64,7 @@ const mapbg = map.append("rect")
     .attr("fill", "black");
 
 map.append("path")
-    .datum(topojson.feature(theworld, theworld.objects.land))
+    .datum(topojson.feature(world10, world10.objects.land))
     .attr("fill", "white")
     .attr("d", path);
 
@@ -163,10 +163,10 @@ chart.append("g")
 
 
 function updateBars(data) {
-    var sceneslice = data.artist_cats.slice(0,24);
+    // console.log(data)
     let scene = new Map();
-    sceneslice.map(value => {scene.set(value.genre, value.relative)});
-    let scenemax = data.artist_cats[0].relative;
+    data.rel_bars.slice(0,24).map(value => {scene.set(value.genre, value.relative)});
+    let scenemax = data.rel_bars[0].relative;
     var t = d3.transition()
         .duration(600)
         .ease(d3.easePolyInOut.exponent(4));
@@ -215,6 +215,9 @@ function updateBars(data) {
 
     let scenearray = [];
     scene.forEach((v, k) => scenearray.push({x:[k], y:v}));
+
+    // function ggg(scenearray) {return yScale(0) - yScale(scenearray.y)}
+    // console.log("data => yScale(0) - yScale(data.y)", ggg(scenearray))
 
     chart
         .selectAll("rect")
@@ -306,13 +309,13 @@ d3.selectAll(".displayopt")
           .style('font-weight', '');
       });
 
-let zoomed = svg.call(d3.zoom()
+
+const zoom = d3.zoom()
     .translateExtent([[17, 100], [883, 580]])
     .extent([[17, 100], [883, 580]])
     .scaleExtent([1, 8])
     .on("zoom", function() {
       const { transform } = d3.event;
-      console.log(transform);
       map.attr('transform', transform);
       map.selectAll("circle")
         .attr('r', d => {
@@ -320,8 +323,10 @@ let zoomed = svg.call(d3.zoom()
           zoomscale = transform.k**.7;
           return radiusval / zoomscale;
         });
-    })
-);
+      }
+    );
+
+let zoomed = svg.call(zoom)
 
 </script>
 </body>
