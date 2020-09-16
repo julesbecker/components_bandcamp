@@ -14,5 +14,6 @@ function LoadJson(url) {
 
 const data = LoadJson("locations-and-their-genres.json")
 
-const world10 = LoadJson("world10.json");
-const world110 = LoadJson("world110.json");
+// const world10 = LoadJson("world10.json");
+// const world50 = LoadJson("world50.json");
+// const world110 = LoadJson("world110.json");
