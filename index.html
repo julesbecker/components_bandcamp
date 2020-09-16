@@ -34,6 +34,9 @@ var specs = {
   "c_h": height*.6
 };
 
+let rendSwitch = 0;
+
+
 const geooutline = ({type: "Sphere"});
 const projection = d3.geoPolyhedralButterfly()
     .translate([width / 2, (height / 2)-20])
@@ -56,24 +59,24 @@ const svg = d3.select("body")
 const map = svg.append("g")
     .attr("id", "map");
 
-map.append('image')
-    .attr('xlink:href', 'map-2000-edit.png')
-    .attr("x", 15)
-    .attr("y", -4)
-    .attr('width', width-31)
-    .attr('height', height-38.5)
+// map.append('image')
+//     .attr('xlink:href', 'map-2000-edit_reduced.png')
+//     .attr("x", 16.5)
+//     .attr("y", .45)
+//     .attr('width', width-33.5)
+//     .attr('height', height-45.8)
 
-// const mapbg = map.append("rect")
-//     .attr("x", 0)
-//     .attr("y", 0)
-//     .attr("width", width)
-//     .attr("height", height)
-//     .attr("fill", "black");
-//
-// map.append("path")
-//     .datum(topojson.feature(world50, world50.objects.land))
-//     .attr("fill", "white")
-//     .attr("d", path);
+const mapbg = map.append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", width)
+    .attr("height", height)
+    .attr("fill", "black");
+
+map.append("path")
+    .datum(topojson.feature(world50, world50.objects.land))
+    .attr("fill", "white")
+    .attr("d", path);
 
 var customshape = `M0,700L233.92640648593908,329.99974719027483L170.64010748464213,293.46137520222373L125.88990164843437,267.6248420400352L81.1396984054818,241.78830015142614L17.853396810929667,205.2499368897957L81.13969840548174,168.71157362816518L125.88990164843432,142.87503173955602L170.64010748464204,117.03849857736752L233.92640648593894,80.50012658931637L233.92669840546478,80.50012658931635L297.21299740676176,117.03849857736746L341.9632032429694,142.87503173955594L386.71340648592206,168.71157362816504L449.9997080804742,205.2499368897955L450.0002919195258,205.2499368897955L513.2865935140779,168.71157362816507L558.0367967570305,142.875031739556L602.7870025932383,117.03849857736748L666.0733015945352,80.50012658931644L666.073593514061,80.50012658931638L729.359892515358,117.03849857736753L774.1100983515656,142.87503173955605L818.8603015945182,168.71157362816524L882.1466031890702,205.24993688979578L818.8603015945182,241.78830015142626L774.1100983515655,267.62484204003533L729.3598925153578,293.46137520222385L666.0735935140608,329.9997471902749L666.0733015945351,330.0002528097252L666.0732927406057,403.0769814503717L666.0733015945351,454.75006311020445L666.073301594535,506.4231468874228L666.073301594535,579.4998734106837L602.786999999983,542.9615101490532L558.0367967570304,517.1249682604441L513.2865997747522,491.2884197627998L450.00029191952575,454.7500631102044L449.9997080804742,454.75006311020445L386.7134002252477,491.2884197627998L341.9632032429695,517.1249682604441L297.2130000000169,542.9615101490532L233.92669840546483,579.4998734106837L233.92669840546483,506.4231468874227L233.9266984054648,454.75006311020445L233.92670725939428,403.0769814503717L233.92669840546478,330.00025280972517L233.9264064859390,329.9997471902748L0.000001,700L900,700L900,0L0,0L0,700Z`
 
@@ -89,7 +92,6 @@ svg.append("path")
     .attr("stroke-width", 1)
     .attr("stroke", "black");
 
-
 svg.append('text')
     .text("Relative")
     .attr("id", "es")
@@ -98,10 +100,12 @@ svg.append('text')
     .attr('fill', 'red')
     .attr('x', 20)
     .attr('y', 180)
-    .on('click', function(d, i) {
+    .on('click', function() {
+        buttonvalue = 1;
         d3.select("#cs")
           .attr("fill", "black");
-          cityCircles.call(drawCircles, 1);
+        cityCircles.call(drawCircles, 1);
+        if(rendSwitch == 1) {updateBars(placeHold, relHold)};
         d3.select(this)
           .attr('fill', 'red');
       });
@@ -113,7 +117,9 @@ svg.append('text')
     .attr("transform", `rotate(30)`)
     .attr('x', 350)
     .attr('y', -55)
-    .on('click', function(d, i) {
+    .on('click', function() {
+        buttonvalue = 2;
+        if(rendSwitch == 1) {updateBars(placeHold, absHold)};
         d3.select("#es")
           .attr("fill", "black");
         d3.select(this)
@@ -122,8 +128,6 @@ svg.append('text')
       });
 
 // SECTION: setting up chart...
-
-
 const chart = svg.append("g")
     .attr("transform", `translate(0, ${specs["c_h"]-160}) `);
 
@@ -144,6 +148,10 @@ chart.append("g")
     .attr("id", "y_axis");
 
 let nullset = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+let absHold = nullset;
+let relHold = nullset;
+let placeHold = "";
 
 let xScale = d3.scaleBand()
     .domain(d3.range(nullset.length))
@@ -168,13 +176,12 @@ chart.append("g")
       .attr("rx", 1)
       .attr("fill-opacity", 0.6);
 
-
-function updateBars(bars) {
+function updateBars(place, bars) {
     let searchval = "relative";
     if(buttonvalue != 1) {searchval = "count"};
 
     let scene = new Map();
-    bars.slice(0,24).map(value => {scene.set(value.genre, value[searchval])});
+    bars.map(value => {scene.set(value.genre, value[searchval]); console.log("searchval, value[searchval]", searchval, value[searchval])});
     let scenemax = bars[0][searchval];
     var t = d3.transition()
         .duration(600)
@@ -195,8 +202,7 @@ function updateBars(bars) {
       .padding(0.1);
 
     let xAxis = function(g) {
-      g.attr("transform", `translate(0,${specs["c_h"] - bMargin})`)
-          .call(d3.axisBottom(xScale)
+      g.call(d3.axisBottom(xScale)
           .tickSizeOuter(0));
     }
 
@@ -219,8 +225,7 @@ function updateBars(bars) {
     chart
         .select("g#chartlabel")
         .select("text")
-        .text(data.place);
-
+        .text(place);
 
     let scenearray = [];
     scene.forEach((v, k) => scenearray.push({x:[k], y:v}));
@@ -290,9 +295,16 @@ const selectedShapes = cityCircles.selectAll("circles")
     })
 
     .on('click', function(d) {
-      let bars = d.rel_bars;
-      if(buttonvalue != 1) {bars = d.abs_bars;};
-      updateBars(bars); //Updates the bar chart
+      if(rendSwitch == 0) {rendSwitch = 1};
+      console.log("rendSwitch", rendSwitch)
+
+      bars = d.rel_bars.slice(0,24);
+      absHold = d.abs_bars.slice(0,24);
+      relHold = d.rel_bars.slice(0,24);
+      placeHold = d.place
+      console.log("click-bars", bars)
+      if(buttonvalue != 1) {bars = d.abs_bars.slice(0,24)};
+      updateBars(placeHold, bars); //Updates the bar chart
     })
     .on('mouseout', function(d) {
       // hide tooltip on mouse out
