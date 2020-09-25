@@ -17,7 +17,6 @@
 
 //SECTION: Set up Assets and styles
 
-const margin = ({top: 20, right: 20, bottom: 30, left: 40})
 const bMargin = 50
 
 const tip = d3.tip()
@@ -36,7 +35,6 @@ var specs = {
 
 let rendSwitch = 0;
 
-
 const geooutline = ({type: "Sphere"});
 const projection = d3.geoPolyhedralButterfly()
     .translate([width / 2, (height / 2)-20])
@@ -51,11 +49,15 @@ const radius = d3.scaleSqrt()
 
 data.map((d) => { d.radius = radius(d.total_no); });
 
+const svg2 = d3.select("body")
+    .append("svg")
+    .style("width", "900px") //need "px" after the number for Firefox
+    .style("height", "700px");
+
 const svg = d3.select("body")
     .append("svg")
       .style("width", "900px") //need "px" after the number for Firefox
       .style("height", "700px");
-
 
 // map.append('image')
 //     .attr('xlink:href', 'map-2000-edit_reduced.png')
@@ -64,46 +66,22 @@ const svg = d3.select("body")
 //     .attr('width', width-33.5)
 //     .attr('height', height-45.8)
 
-svg.append('image')
-    .attr('xlink:href', 'static-opt.gif')
-    .attr("x", 0)
-    .attr("y", 0)
-    .attr('width', width-20)
-    .attr('height', height-40);
-
 const map = svg.append("g")
     .attr("id", "map");
 
 
-map.append("mask")
-    .attr("id", "myMask")
-  // Everything under a white pixel will be visible
-    .append("rect")
-    .attr("x", 0)
-    .attr("y", 0)
-    .attr("width", width)
-    .attr("height", height)
-    .attr("fill", "white");
-
-map.select("#myMask")
-// Everything under a black pixel will be invisible
-    .append("path")
-    .datum(topojson.feature(world50, world50.objects.land))
-    .attr("d", path)
-    .attr("fill", "black");
-
 map.append("rect")
     .attr("x", 0)
     .attr("y", 0)
-    .attr("mask", "url(#myMask)")
     .attr("width", width)
     .attr("height", height)
-    .attr("fill", "black")
+    .attr("fill", "black");
 
-// map.append("path")
-//     .datum(topojson.feature(world50, world50.objects.land))
-//     .attr("fill", "white")
-//     .attr("d", path);
+
+map.append("path")
+    .datum(topojson.feature(world50, world50.objects.land))
+    .attr("fill", "white")
+    .attr("d", path);
 
 
 
@@ -139,6 +117,16 @@ svg.append('text')
           .attr('fill', 'red');
       });
 
+  svg.append('text')
+      .text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and")
+      .attr("id", "li")
+      .attr('fill', 'red')
+      .attr('x', 400)
+      .attr('y', 380);
+      // .select(".li text")
+      //     .call(wrap);
+
+
 svg.append('text')
     .text("Absolute")
     .attr("id", "cs")
@@ -157,7 +145,7 @@ svg.append('text')
       });
 
 // SECTION: setting up chart...
-const chart = svg.append("g")
+const chart = svg2.append("g")
     .attr("transform", `translate(0, ${specs["c_h"]-160}) `);
 
 chart.append("g")
@@ -210,7 +198,7 @@ function updateBars(place, bars) {
     if(buttonvalue != 1) {searchval = "count"};
 
     let scene = new Map();
-    bars.map(value => {scene.set(value.genre, value[searchval]); console.log("searchval, value[searchval]", searchval, value[searchval])});
+    bars.map(value => {scene.set(value.genre, value[searchval])});
     let scenemax = bars[0][searchval];
     var t = d3.transition()
         .duration(600)
@@ -242,6 +230,7 @@ function updateBars(place, bars) {
         .transition(t).duration(500)
         .call(xAxis)
         .selectAll("text")
+            // .call(wrap, xScale.rangeBand())
             .style("font-family", "cinetype")
             .style("text-anchor", "end")
             .attr("transform", `rotate(-40)`);
@@ -338,7 +327,6 @@ const selectedShapes = cityCircles.selectAll("circles")
       updateBars(placeHold, bars); //Updates the bar chart
     })
     .on('mouseout', function(d) {
-      console.log("this, d", this, d)
       // hide tooltip on mouse out
       tip.hide();
       if($(this).attr("class") != "circSelect") {d3.select(this).attr('fill', "green")}
@@ -383,5 +371,6 @@ const zoom = d3.zoom()
 let zoomed = svg.call(zoom)
 
 </script>
+<script src="main.js"></script>
 </body>
 </html>

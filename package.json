@@ -1,0 +1,26 @@
+{
+  "name": "bandcamp_viz",
+  "version": "1.0.0",
+  "description": "Goal is to create a version of Andrew's Tableau viz (https://public.tableau.com/profile/andrew.thompson#!/vizhome/bandcamptest/Sheet1?publish=yes) suitable for the Components site.",
+  "main": "main.js",
+  "dependencies": {
+    "caching-coffeeify": "^0.5.1",
+    "coffeeify": "^3.0.1",
+    "d3": "^6.2.0",
+    "d3-textwrap": "^3.0.0",
+    "d3-tip": "^0.9.1",
+    "minifyify": "^7.3.5",
+    "ramda": "^0.27.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@45.79.214.82:bandcamp_viz"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
