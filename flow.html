@@ -221,6 +221,8 @@ const selectedShapes = cityCircles.selectAll("circles")
     .on('mouseenter', function(d) {
       // show tooltip on mouse enter
       tip.show(d, this);
+      console.log(" d", d);
+      console.log("this", this);
       d3.select(this).attr('fill', "red");
     })
 
@@ -269,6 +271,7 @@ const zoom = d3.zoom()
     .scaleExtent([1, 8])
     .on("zoom", function() {
       const { transform } = d3.event;
+      console.log("transform", transform)
       map.attr('transform', transform);
       map.selectAll("circle")
         .attr('r', d => {

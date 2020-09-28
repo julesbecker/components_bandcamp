@@ -5,8 +5,10 @@
   "main": "main.js",
   "dependencies": {
     "d3": "^6.2.0",
+    "d3-geo-polygon": "^1.12.1",
     "d3-textwrap": "^3.0.0",
     "d3-tip": "^0.9.1",
+    "jquery": "^3.5.1",
     "minifyify": "^7.3.5",
     "serve": "^11.3.2"
   },
