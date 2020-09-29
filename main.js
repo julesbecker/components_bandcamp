@@ -9,13 +9,7 @@ d3.textwrap = textwrap;
 d3.tip = d3tip;
 d3.geoPolyhedralButterfly = geoPolyhedralButterfly;
 
-console.log("data", data)
-
 var wrap = d3.textwrap().bounds({height: 175, width: 175});
-
-const bMargin = 50
-
-const cMargin = ({top: 150, right: 50, bottom: 30, left: 50})
 
 const tip = d3.tip()
   .attr('class', "d3-tip")
@@ -56,9 +50,7 @@ var width = 900;
 
 var cHeight = 500;
 var cWidth = 800;
-var specs = {
-  "c_h": cHeight*.6
-};
+const cMargin = ({top: 150, right: 50, bottom: 30, left: 50})
 
 let rendSwitch = 0;
 
@@ -168,14 +160,13 @@ svg.append('text')
       });
 
 // SECTION: setting up chart...
-const chart = svg2.append("g")
-    // .attr("transform", `translate(0, ${specs["c_h"]-160}) `);
+const chart = svg2.append("g");
 
 chart.append("g")
     .attr("stroke-opacity", .9)
     .attr("id", "chartlabel")
     .append('text')
-      .text('CITIES AND THEIR VALUES')
+      .text('Cities and Their Genres')
       .style("font-family", "orion")
       .attr('class', 'title')
       .classed("axis", true)
