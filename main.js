@@ -3,11 +3,13 @@
 var d3 = require('d3');
 var textwrap = require('d3-textwrap').textwrap;
 var d3tip = require('d3-tip');
-var dataprep = require('./data_prep');
+var colorLegend = require('d3-color-legend').legend;
 var geoPolyhedralButterfly = require('d3-geo-polygon').geoPolyhedralButterfly;
+d3.geoPolyhedralButterfly = geoPolyhedralButterfly;
 d3.textwrap = textwrap;
 d3.tip = d3tip;
-d3.geoPolyhedralButterfly = geoPolyhedralButterfly;
+d3.legend = colorLegend;
+var dataprep = require('./data_prep');
 
 var wrap = d3.textwrap().bounds({height: 175, width: 175});
 
@@ -134,13 +136,13 @@ svg.append('text')
           .attr('fill', 'red');
       });
 
-  svg.append('text')
-      .text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and")
-      .attr("id", "li")
-      .attr('fill', 'red')
-      .attr('x', 670)
-      .attr('y', 345)
-      .call(wrap);
+svg.append('text')
+    .text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and")
+    .attr("id", "li")
+    .attr('fill', 'red')
+    .attr('x', 670)
+    .attr('y', 345)
+    .call(wrap);
 
 svg.append('text')
     .text("Absolute")
@@ -321,25 +323,20 @@ const cityCircles = map.append("g");
 const selectedShapes = cityCircles.selectAll("circles")
   .attr("id", "cityCircles")
   .data(data)
-  //ANDREW: Circle characteristics are set here
+  //NOTE: Circle characteristics are set here
   .join("circle")
     .attr("transform", (d) => `translate(${projection(d.coords)})`)
     .attr("fill", "green")
     .attr('opacity', .7)
     //NOTE: mouseover behavior determined here
     .on('mouseenter', function(event, d) {
-      // show tooltip on mouse enter
-      tip.show(d, this);
-      console.log(" d", d);
-      console.log("this", this);
-      d3.select(this).attr('fill', "red");
+        // show tooltip on mouse enter
+        tip.show(d, this);
+        d3.select(this).attr('fill', "red");
     })
-
     .on('click', function(event, d) {
         let bars = null;
         if(rendSwitch == 0) {rendSwitch = 1};
-            console.log(" d", d);
-
             bars = d.rel_bars.slice(0,24);
             absHold = d.abs_bars.slice(0,24);
             relHold = d.rel_bars.slice(0,24);
@@ -395,3 +392,229 @@ const zoom = d3.zoom()
     );
 
 let zoomed = svg.call(zoom)
+
+
+
+
+
+
+
+
+
+let countryflowobjs = new Map();
+cfos.map(country => {countryflowobjs.set(country.country, country.total_no)});
+
+const countryCapCoords = new Array();
+d3.csv("countrycapitals.csv", function(data){
+      countryCapCoords.push([data.Country, [data.Long, data.Lat]]);
+
+      console.log("data.Country, [data.Long, data.Lat]", data.Country, data.Long, data.Lat)
+});
+
+const tip2 = d3.tip()
+    .attr('class', "d3-tip")
+    .style("color", "white")
+    .style("padding", "6px")
+    // .offset([-10, 0])
+    .html(d => `<span class='details'>${d.properties.name}<br></span>`);
+
+const svg3 = d3.select("body")
+    .append("svg")
+    .style("width", `${width}px`) //need "px" after the number for Firefox
+    .style("height", `${height}px`)
+    .call(responsivefy);
+
+var color = d3.scaleSequentialLog()
+    .domain(d3.extent(Array.from(countryflowobjs.values())))
+    .interpolator(d3.interpolateYlGnBu)
+    .unknown("#ccc")
+
+const flowmap = svg3.append("g")
+    .attr("id", "flowmap");
+
+flowmap.append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", width)
+    .attr("height", height)
+    .attr("fill", "black");
+
+flowmap.append("path")
+    .datum(topojson.feature(countries50, countries50.objects.land))
+    .attr("fill", "white")
+    .attr("d", path);
+
+svg3.append("path")
+    .attr("d", customshape)
+    .attr("fill", "white");
+
+svg3.append("path")
+    .attr("id", "butterflyborder")
+    .datum(geooutline)
+    .attr("d", path)
+    .attr("fill", "none")
+    .attr("stroke-width", 1)
+    .attr("stroke", "black");
+
+const defs = svg3.append("defs");
+
+defs.append("path")
+    .attr("id", "outline")
+    .attr("d", path(outline));
+
+// defs.append("clipPath")
+//     .attr("id", "clip")
+//   .append("use")
+//     .attr("xlink:href", new URL("#outline", location));
+
+const g = flowmap.append("g")
+    .attr("clip-path", `url(${new URL("#clip", location)})`);
+
+g.append("use")
+    .attr("xlink:href", new URL("#outline", location))
+    .attr("fill", "white");
+
+var countriesGroup = g.append("g")
+    .selectAll("path")
+    .data(countries.features)
+    .join("path")
+        .attr("fill", d => color(countryflowobjs.get(d.properties.name)))
+        .attr("d", path)
+        .attr("class", "countrypath")
+        .on('mouseenter', function(event, d) {
+            var target = d3.select(`#${d.properties.name}`)
+                .node();
+            // show tooltip on mouse enter; use coords from countryCapCoords.get(d.properties.name)
+            // to
+            //    .attr("transform", (d) => `translate(${projection(d.coords)})`)
+            tip2.show(d, this);
+            d3.select(this).attr("stroke-width", .25).attr('stroke', "white");
+        })
+        .on('click', function(event, d) {
+
+            let cfosSelect = cfos.find((element) => element.country === d.properties.name)
+            console.log("cfosSelect", cfosSelect)
+            let toCountries = new Map();
+            cfosSelect.to_countries.map(country => {toCountries.set(country.to_country, country.count)});
+
+            // Show links to other countries, pulled from the "cfos" to_countries section.
+            g.selectAll("path").each(function() {
+                  d3.select(this)
+                  .attr("fill", d => color(toCountries.get(d.properties.name)))
+            });
+
+            // Highlight only the selected country
+            d3.select(this)
+              .attr('fill', 'red');
+
+            // lc = d3.line()
+            //     .curve(d3[curve])
+            //     .x(d => walkX(d.step))
+            //     .y(d => walkY(d.value))
+
+            // svg`<svg width=${width} height=200>
+            //   <path d="${lc(walk)}" stroke="black" fill="none" />
+            //
+            // ${walk.map(
+            //   d =>
+            //     svg`<circle r=2 stroke=black fill=white stroke-width=0.5
+            //       cx="${walkX(d.step)}" cy="${walkY(d.value)}" />`
+            // )}
+            // </svg>`
+
+
+          })
+        .on('mouseout', function(event, d) {
+          // hide tooltip on mouse out
+          d3.select(this).attr('stroke-width', "").attr('stroke', "");
+          tip2.hide();
+        })
+    .append("title")
+      .text(d => `${d.properties.name}
+${countryflowobjs.has(d.properties.name) ? countryflowobjs.get(d.properties.name) : "N/A"}`);
+
+var centerGroup = g.append("g")
+    .selectAll("circle")
+    .attr("id", "countrycenters")
+    .data(countryCapCoords)
+    .join("circle")
+        .attr("fill", "red")
+        .attr("id", data[0])
+        .attr("cx", 100)
+        .attr('cy', 100)
+        // .attr("transform", (data) => `translate(${projection(data[1])})`)
+        .attr("r", "100");
+
+
+
+// const selectedShapes = cityCircles.selectAll("circles")
+//   .attr("id", "cityCircles")
+//   .data(data)
+//   //NOTE: Circle characteristics are set here
+//   .join("circle")
+//     .attr("transform", (d) => `translate(${projection(d.coords)})`)
+//     .attr("fill", "green")
+//     .attr('opacity', .7)
+//     //NOTE: mouseover behavior determined here
+//     .on('mouseenter', function(event, d) {
+//         // show tooltip on mouse enter
+//         tip.show(d, this);
+//         d3.select(this).attr('fill', "red");
+//     })
+//     .on('click', function(event, d) {
+//         let bars = null;
+//         if(rendSwitch == 0) {rendSwitch = 1};
+//             bars = d.rel_bars.slice(0,24);
+//             absHold = d.abs_bars.slice(0,24);
+//             relHold = d.rel_bars.slice(0,24);
+//             placeHold = d.place;
+//             d3.selectAll(".circSelect").attr("fill", "green").attr("opacity", .7);
+//             d3.selectAll("circle").classed('circSelect', false);
+//             d3.select(this).classed("circSelect", true).attr("fill", "red")
+//             .attr("opacity", 1);
+//       if(buttonvalue != 1) {bars = d.abs_bars.slice(0,24)};
+//       updateBars(placeHold, bars); //Updates the bar chart
+//     })
+//     .on('mouseout', function(event, d) {
+//       // hide tooltip on mouse out
+//       tip.hide();
+//       if($(this).attr("class") != "circSelect") {d3.select(this).attr('fill', "green")}
+//     });
+
+
+flowmap.selectAll("rect")
+    .on('click', function() {
+        // Highlight only the selected country
+        g.selectAll("path").each(function() {
+              d3.select(this)
+              .attr("fill", d => color(countryflowobjs.get(d.properties.name)))
+        });
+      })
+
+// g.append("path")
+//     .datum(topojson.mesh(countries50, countries50.objects.countries, (a, b) => a !== b))
+//     .attr("fill", "none")
+//     .attr("stroke", "white")
+//     .attr("stroke-linejoin", "round")
+//     .attr("d", path);
+
+svg3.append("use")
+    .attr("xlink:href", new URL("#outline", location))
+    .attr("fill", "none")
+    .attr("stroke", "black");
+
+svg3.call(tip2);
+
+const zoom2 = d3.zoom()
+    .translateExtent([[17, 100], [883, 580]])
+    .extent([[17, 100], [883, 580]])
+    .scaleExtent([1, 8])
+    .on("zoom", function(event, d) {
+        const { transform } = event;
+        flowmap.attr('transform', transform);
+        }
+    );
+
+let zoomed2 = svg3.call(zoom2)
+
+console.log("countryCapCoords", countryCapCoords)

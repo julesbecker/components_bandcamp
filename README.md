@@ -2,9 +2,13 @@
 
 Goal is to create a version of Andrew's Tableau viz (https://public.tableau.com/profile/andrew.thompson#!/vizhome/bandcamptest/Sheet1?publish=yes) suitable for the Components site.
 
+Stack:
+- node
+- browserify
+
 Code overview:
 - Assets and Data:
-  - **world10.json** provides the data that renders the geomap. **world50.json** and **world110.json** are the same, but with slightly less resolution.
+  - **world50.json** and **countries50.json** provide the data for rendering the geomap.
   - **test.svg** is an svg cut-out matching the size and position of the butterfly map outline.
   - **locations-and-their-genres.json** contains the raw data that the program uses to populate the map with city circles and generate the bar charts.
 - Calculation and rendering:
