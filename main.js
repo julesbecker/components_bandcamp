@@ -1,5 +1,6 @@
 "use strict";
 
+// import required modules
 var d3 = require('d3');
 var textwrap = require('d3-textwrap').textwrap;
 var d3tip = require('d3-tip');
@@ -11,6 +12,7 @@ d3.tip = d3tip;
 d3.legend = colorLegend;
 var dataprep = require('./data_prep');
 
+// SECTION: prepare imported functions
 var wrap = d3.textwrap().bounds({height: 175, width: 175});
 
 const tip = d3.tip()
@@ -20,42 +22,35 @@ const tip = d3.tip()
   .offset([-10, 0])
   .html(function(d) {return `<div style='float: right'>${d.place}</div>`});
 
-function responsivefy(svg) {
-    // get container + svg aspect ratio
-    var container = d3.select(svg.node().parentNode),
-        width = parseInt(svg.style("width")),
-        height = parseInt(svg.style("height")),
-        aspect = width / height;
+const zoom = d3.zoom()
+    .translateExtent([[17, 100], [883, 580]])
+    .extent([[17, 100], [883, 580]])
+    .scaleExtent([1, 8])
+    .on("zoom", function(event, d) {
+        const { transform } = event;
+        map.attr('transform', transform);
+        map.selectAll("circle")
+            .attr('r', d => {
+              let radiusval = 4;
+              buttonvalue != 1 ? radiusval=d.radius: radiusval=4;
+              zoomscale = transform.k**.7;
+              return radiusval / zoomscale;
+            });
+        }
+    );
 
-    // add viewBox and preserveAspectRatio properties,
-    // and call resize so that svg resizes on inital page load
-    svg.attr("viewBox", "0 0 " + width + " " + height)
-        .attr("perserveAspectRatio", "xMinYMid")
-        .call(resize);
-
-    // to register multiple listeners for same event type,
-    // you need to add namespace, i.e., 'click.foo'
-    // necessary if you call invoke this function for multiple svgs
-    // api docs: https://github.com/mbostock/d3/wiki/Selections#on
-    d3.select(window).on("resize." + container.attr("id"), resize);
-
-    // get width of container and resize svg to fit it
-    function resize() {
-        var targetWidth = parseInt(container.style("width"));
-        svg.attr("width", targetWidth);
-        svg.attr("height", Math.round(targetWidth / aspect));
-    }
-}
-
+// set up dimensions for each svg
 var height = 700;
 var width = 900;
 
-var cHeight = 500;
-var cWidth = 800;
-const cMargin = ({top: 150, right: 50, bottom: 30, left: 50})
+var cHeight = 700;
+var cWidth = 600;
+const cMargin = ({top: 150, right: 50, bottom: 200, left: 50})
 
+// set up chart state
 let rendSwitch = 0;
 
+// set up map assets
 const geooutline = ({type: "Sphere"});
 const projection = d3.geoPolyhedralButterfly()
     .translate([width / 2, (height / 2)-20])
@@ -68,27 +63,38 @@ const radius = d3.scaleSqrt()
     .domain([0, d3.max(data, city => city.total_no)])
     .range([1, width / 50]);
 
+// SECTION: prepare imported data
+  // country sales flows
+let countryflowobjs = new Map();
+cfos.map(country => {countryflowobjs.set(country.country, country.total_no)});
+
+const countryCapCoords = new Array();
+d3.csv("countrycapitals.csv", function(data){
+      countryCapCoords.push([data.Country, [data.Long, data.Lat]]);
+});
+
+  // genres
 data.map((d) => { d.radius = radius(d.total_no); });
 
-const svg2 = d3.select("body")
+
+// SECTION: create svgs
+const svg2 = d3.select("div#container")
     .append("svg")
-    .style("width", `${cWidth}px`) //need "px" after the number for Firefox
-    .style("height", `${cHeight}px`)
-    .call(responsivefy);
+    .attr("viewBox", `0 0 ${cWidth} ${cHeight}`)
+    .classed("svg-content", true)
+    .style("width", "40%")
+    .style("height", "100%")
+    .attr("preserveAspectRatio", "xMinYMin meet");
 
-const svg = d3.select("body")
+const svg = d3.select("div#container")
     .append("svg")
-      .style("width", `${width}px`) //need "px" after the number for Firefox
-      .style("height", `${height}px`)
-      .call(responsivefy);
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .classed("svg-content", true)
+      .style("width", "60%")
+      .style("height", "100%")
+      .attr("preserveAspectRatio", "xMinYMin meet");
 
-// map.append('image')
-//     .attr('xlink:href', 'map-2000-edit_reduced.png')
-//     .attr("x", 16.5)
-//     .attr("y", .45)
-//     .attr('width', width-33.5)
-//     .attr('height', height-45.8)
-
+// SECTION: setting up map...
 const map = svg.append("g")
     .attr("id", "map");
 
@@ -137,27 +143,116 @@ svg.append('text')
       });
 
 svg.append('text')
+      .text("Absolute")
+      .attr("id", "cs")
+      .attr('class', 'displayopt')
+      .attr("transform", `rotate(30)`)
+      .attr('x', 350)
+      .attr('y', -55)
+      .on('click', function() {
+        buttonvalue = 2;
+        if(rendSwitch == 1) {updateBars(placeHold, absHold)};
+        d3.select("#es")
+        .attr("fill", "black");
+        d3.select(this)
+        .attr('fill', 'red');
+        cityCircles.call(drawCircles, 2);
+      });
+
+svg.append('text')
+      .text("Sales Flows")
+      .attr("id", "cv")
+      .attr('class', 'displayopt')
+      .attr("transform", `rotate(-30)`)
+      .attr('x', 415)
+      .attr('y', 398)
+      .on('click', function() {
+        buttonvalue = 2;
+        if(rendSwitch == 1) {updateBars(placeHold, absHold)};
+        d3.select("#es, #cs")
+        .attr("fill", "black");
+        d3.select(this)
+        .attr('fill', 'red');
+        cityCircles.call(drawCircles, 2);
+      });
+
+svg.append('text')
     .text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and")
     .attr('x', 670)
     .attr('y', 345)
     .call(wrap);
 
-svg.append('text')
-    .text("Absolute")
-    .attr("id", "cs")
-    .attr('class', 'displayopt')
-    .attr("transform", `rotate(30)`)
-    .attr('x', 350)
-    .attr('y', -55)
-    .on('click', function() {
-        buttonvalue = 2;
-        if(rendSwitch == 1) {updateBars(placeHold, absHold)};
-        d3.select("#es")
-          .attr("fill", "black");
-        d3.select(this)
-          .attr('fill', 'red');
-        cityCircles.call(drawCircles, 2);
-      });
+let buttonvalue = 1;
+
+let zoomscale = 1;
+function drawCircles(selection, n) {
+  let circleR = 5;
+  if (n != "1") {
+    buttonvalue = 2;
+    selectedShapes.each(function() {
+      d3.select(this)
+      .attr('r', null)
+    });
+    circleR = selectedShapes.each(function() {
+      d3.select(this)
+          .attr("r", d => radius(d.total_no) / zoomscale);
+    });
+  }
+  else {
+    buttonvalue = 1;
+    circleR = 5;
+    selectedShapes.each(function() {
+      d3.select(this)
+      .attr('r', null)
+    });
+    selectedShapes.each(function() {
+      d3.select(this)
+        .attr("r", 4 / zoomscale);
+    })
+  };
+}
+
+const cityCircles = map.append("g");
+
+const selectedShapes = cityCircles.selectAll("circles")
+  .attr("id", "cityCircles")
+  .data(data)
+  //NOTE: Circle characteristics are set here
+  .join("circle")
+    .attr("transform", (d) => `translate(${projection(d.coords)})`)
+    .attr("fill", "green")
+    .attr('opacity', .7)
+    //NOTE: mouseover behavior determined here
+    .on('mouseenter', function(event, d) {
+        // show tooltip on mouse enter
+        tip.show(d, this);
+        d3.select(this).attr('fill', "red");
+    })
+    .on('click', function(event, d) {
+        let bars = null;
+        if(rendSwitch == 0) {rendSwitch = 1};
+            bars = d.rel_bars.slice(0,24);
+            absHold = d.abs_bars.slice(0,24);
+            relHold = d.rel_bars.slice(0,24);
+            placeHold = d.place;
+            d3.selectAll(".circSelect").attr("fill", "green").attr("opacity", .7);
+            d3.selectAll("circle").classed('circSelect', false);
+            d3.select(this).classed("circSelect", true).attr("fill", "red")
+            .attr("opacity", 1);
+      if(buttonvalue != 1) {bars = d.abs_bars.slice(0,24)};
+      updateBars(placeHold, bars); //Updates the bar chart
+    })
+    .on('mouseout', function(event, d) {
+      // hide tooltip on mouse out
+      tip.hide();
+      if($(this).attr("class") != "circSelect") {d3.select(this).attr('fill', "green")}
+    });
+
+// SECTION: Load circle toggle
+
+d3.select(window).on("load", function() {
+    cityCircles.call(drawCircles, buttonvalue);
+});
 
 // SECTION: setting up chart...
 const chart = svg2.append("g");
@@ -237,9 +332,6 @@ function updateBars(place, bars) {
           .tickSizeOuter(0));
     }
 
-    var xwrap = d3.textwrap().bounds({height: 25, width: 25});
-
-
     chart
         .select("g#x_axis")
         .attr("class", "axis")
@@ -247,14 +339,9 @@ function updateBars(place, bars) {
         .transition(t).duration(500)
         .call(xAxis)
         .selectAll("text")
-            // .call(xwrap)
             .style("font-family", "cinetype")
             .style("text-anchor", "start")
             .attr("transform", `rotate(-40)`);
-
-    // var xtext = chart.selectAll('text');
-    // xtext.call(xwrap);
-
 
     chart
         .select("g#y_axis")
@@ -270,9 +357,6 @@ function updateBars(place, bars) {
 
     scene.forEach((v, k) => scenearray.push({x:[k], y:v}));
 
-    // function ggg(scenearray) {return yScale(0) - yScale(scenearray.y)}
-    // console.log("data => yScale(0) - yScale(data.y)", ggg(scenearray))
-
     chart.selectAll("rect")
         .data(scenearray)
         .transition() // <---- Here is the transition
@@ -284,81 +368,7 @@ function updateBars(place, bars) {
         .attr("height", data => yScale(data.y) - yScale(0));
 }
 
-map.call(tip);
-
-let buttonvalue = 1;
-
-let zoomscale = 1;
-function drawCircles(selection, n) {
-  let circleR = 5;
-  if (n != "1") {
-    buttonvalue = 2;
-    selectedShapes.each(function() {
-      d3.select(this)
-      .attr('r', null)
-    });
-    circleR = selectedShapes.each(function() {
-      d3.select(this)
-          .attr("r", d => radius(d.total_no) / zoomscale);
-    });
-  }
-  else {
-    buttonvalue = 1;
-    circleR = 5;
-    selectedShapes.each(function() {
-      d3.select(this)
-      .attr('r', null)
-    });
-    selectedShapes.each(function() {
-      d3.select(this)
-        .attr("r", 4 / zoomscale);
-    })
-  };
-}
-
-const cityCircles = map.append("g");
-
-const selectedShapes = cityCircles.selectAll("circles")
-  .attr("id", "cityCircles")
-  .data(data)
-  //NOTE: Circle characteristics are set here
-  .join("circle")
-    .attr("transform", (d) => `translate(${projection(d.coords)})`)
-    .attr("fill", "green")
-    .attr('opacity', .7)
-    //NOTE: mouseover behavior determined here
-    .on('mouseenter', function(event, d) {
-        // show tooltip on mouse enter
-        tip.show(d, this);
-        d3.select(this).attr('fill', "red");
-    })
-    .on('click', function(event, d) {
-        let bars = null;
-        if(rendSwitch == 0) {rendSwitch = 1};
-            bars = d.rel_bars.slice(0,24);
-            absHold = d.abs_bars.slice(0,24);
-            relHold = d.rel_bars.slice(0,24);
-            placeHold = d.place;
-            d3.selectAll(".circSelect").attr("fill", "green").attr("opacity", .7);
-            d3.selectAll("circle").classed('circSelect', false);
-            d3.select(this).classed("circSelect", true).attr("fill", "red")
-            .attr("opacity", 1);
-      if(buttonvalue != 1) {bars = d.abs_bars.slice(0,24)};
-      updateBars(placeHold, bars); //Updates the bar chart
-    })
-    .on('mouseout', function(event, d) {
-      // hide tooltip on mouse out
-      tip.hide();
-      if($(this).attr("class") != "circSelect") {d3.select(this).attr('fill', "green")}
-    });
-
-// SECTION: Load circle toggle
-
-d3.select(window).on("load", function() {
-    cityCircles.call(drawCircles, buttonvalue);
-});
-
-// SECTION: Styling for the svg
+// SECTION: Styling the svg
 d3.selectAll(".displayopt")
     .style("font-family", "orion")
     .style("text-anchor", "middle")
@@ -372,42 +382,15 @@ d3.selectAll(".displayopt")
           .style('font-weight', '');
       });
 
-const zoom = d3.zoom()
-    .translateExtent([[17, 100], [883, 580]])
-    .extent([[17, 100], [883, 580]])
-    .scaleExtent([1, 8])
-    .on("zoom", function(event, d) {
-        const { transform } = event;
-        map.attr('transform', transform);
-        map.selectAll("circle")
-            .attr('r', d => {
-              let radiusval = 4;
-              buttonvalue != 1 ? radiusval=d.radius: radiusval=4;
-              zoomscale = transform.k**.7;
-              return radiusval / zoomscale;
-            });
-        }
-    );
+// SECTION: call additional functions
+let zoomed = svg.call(zoom);
 
-let zoomed = svg.call(zoom)
+map.call(tip);
 
 
 
 
 
-
-
-
-
-let countryflowobjs = new Map();
-cfos.map(country => {countryflowobjs.set(country.country, country.total_no)});
-
-const countryCapCoords = new Array();
-d3.csv("countrycapitals.csv", function(data){
-      countryCapCoords.push([data.Country, [data.Long, data.Lat]]);
-
-      // console.log("data.Country, [data.Long, data.Lat]", data.Country, data.Long, data.Lat)
-});
 
 // const tip2 = d3.tip()
 //     .attr('class', "d3-tip")
@@ -416,11 +399,10 @@ d3.csv("countrycapitals.csv", function(data){
 //     // .offset([-10, 0])
 //     .html(d => `<span class='details'>${d.properties.name}<br></span>`);
 
-const svg3 = d3.select("body")
+const svg3 = d3.select("div#container")
     .append("svg")
     .style("width", `${width}px`) //need "px" after the number for Firefox
-    .style("height", `${height}px`)
-    .call(responsivefy);
+    .style("height", `${height}px`);
 
 var color = d3.scaleSequentialLog()
     .domain(d3.extent(Array.from(countryflowobjs.values())))
@@ -557,7 +539,6 @@ var countriesGroup = g.append("g")
             // )}
             // </svg>`
 
-
           })
         .on('mouseout', function(event, d) {
           // hide tooltip on mouse out
@@ -567,62 +548,6 @@ var countriesGroup = g.append("g")
     .append("title")
       .text(d => `${d.properties.name}
 ${countryflowobjs.has(d.properties.name) ? countryflowobjs.get(d.properties.name) : "N/A"}`);
-
-// var centerGroup = g.append("g")
-//     .selectAll("circle")
-//     .data(countryCapCoords)
-//     .join("circle")
-//         .attr("fill", "red")
-//         .attr("id", data[0])
-//         .attr("class", "countrycenter")
-//         // .attr("cx", `${projection(data[1][0])}`)
-//         // .attr('cy', `${projection(data[1][1])}`)
-//         .attr("transform", (data) => `translate(${projection(data[1])})`)
-//         .attr("r", "100");
-
-// g.append("circle")
-//         .attr("fill", "red")
-//         .attr("id", data[0])
-//         .attr("class", "countrycenter")
-//         .attr("cx", `${projection(countryCapCoords[1][0])}`)
-//         .attr('cy', `${projection(countryCapCoords[1][1])}`)
-//         .attr("transform", (data) => `translate(${projection(data[1])})`)
-//         .attr("r", "100");
-
-// const selectedShapes = cityCircles.selectAll("circles")
-//   .attr("id", "cityCircles")
-//   .data(data)
-//   //NOTE: Circle characteristics are set here
-//   .join("circle")
-//     .attr("transform", (d) => `translate(${projection(d.coords)})`)
-//     .attr("fill", "green")
-//     .attr('opacity', .7)
-//     //NOTE: mouseover behavior determined here
-//     .on('mouseenter', function(event, d) {
-//         // show tooltip on mouse enter
-//         tip.show(d, this);
-//         d3.select(this).attr('fill', "red");
-//     })
-//     .on('click', function(event, d) {
-//         let bars = null;
-//         if(rendSwitch == 0) {rendSwitch = 1};
-//             bars = d.rel_bars.slice(0,24);
-//             absHold = d.abs_bars.slice(0,24);
-//             relHold = d.rel_bars.slice(0,24);
-//             placeHold = d.place;
-//             d3.selectAll(".circSelect").attr("fill", "green").attr("opacity", .7);
-//             d3.selectAll("circle").classed('circSelect', false);
-//             d3.select(this).classed("circSelect", true).attr("fill", "red")
-//             .attr("opacity", 1);
-//       if(buttonvalue != 1) {bars = d.abs_bars.slice(0,24)};
-//       updateBars(placeHold, bars); //Updates the bar chart
-//     })
-//     .on('mouseout', function(event, d) {
-//       // hide tooltip on mouse out
-//       tip.hide();
-//       if($(this).attr("class") != "circSelect") {d3.select(this).attr('fill', "green")}
-//     });
-
 
 flowmap.selectAll("rect")
     .on('click', function() {

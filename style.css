@@ -78,3 +78,17 @@
   fill: #222;
   clip-path: url(#cp);
 }
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    /* padding-bottom: 100%; */
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content {
+    display: inline-block;
+    top: 0;
+    left: 0;
+}
