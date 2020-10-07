@@ -12,6 +12,9 @@ d3.tip = d3tip;
 d3.legend = colorLegend;
 var dataprep = require('./data_prep');
 
+// import { name, draw, reportArea, reportPerimeter } from './data_prep.js';
+
+
 // SECTION: prepare imported functions
 var wrap = d3.textwrap().bounds({height: 175, width: 175});
 
@@ -71,7 +74,7 @@ const radius = d3.scaleSqrt()
 let countryflowobjs = new Map();
 cfos.map(country => {countryflowobjs.set(country.country, country.total_no)});
 
-const countryCapCoords = new Array();
+const countryCapCoords = [];
 d3.csv("countrycapitals.csv", function(data){
       countryCapCoords.push([data.Country, [data.Long, data.Lat]]);
 });
@@ -521,6 +524,6 @@ map.call(tip);
 
 
 
-let thing = countryCapCoords[0];
+let thing = countryCapCoords.slice(0,24);
 console.log("countryCapCoords", countryCapCoords)
-console.log("countryCapCoords[1][0]", thing)
+console.log("countryCapCoords[1][0]", countryCapCoords[0]);
