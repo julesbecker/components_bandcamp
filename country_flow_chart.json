@@ -154,7 +154,11 @@
     "count": 107
    }
   ],
-  "country": "Antarctica",
+  "place": "Antarctica",
+  "capital_coords": [
+   0.0,
+   -90.0
+  ],
   "total_no": 258
  },
  {
@@ -452,11 +456,15 @@
     "count": 13
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 1
    }
   ],
-  "country": "Argentina",
+  "place": "Argentina",
+  "capital_coords": [
+   -58.381558999999996,
+   -34.603684
+  ],
   "total_no": 1540
  },
  {
@@ -510,7 +518,11 @@
     "count": 2
    }
   ],
-  "country": "Armenia",
+  "place": "Armenia",
+  "capital_coords": [
+   44.499103000000005,
+   40.179186
+  ],
   "total_no": 23
  },
  {
@@ -900,11 +912,15 @@
     "count": 1
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 2
    }
   ],
-  "country": "Australia",
+  "place": "Australia",
+  "capital_coords": [
+   149.12868400000002,
+   -35.282
+  ],
   "total_no": 17753
  },
  {
@@ -1162,11 +1178,15 @@
     "count": 478
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 1
    }
   ],
-  "country": "Austria",
+  "place": "Austria",
+  "capital_coords": [
+   16.373819,
+   48.208174
+  ],
   "total_no": 1855
  },
  {
@@ -1244,7 +1264,11 @@
     "count": 13
    }
   ],
-  "country": "Azerbaijan",
+  "place": "Azerbaijan",
+  "capital_coords": [
+   49.867092,
+   40.409262
+  ],
   "total_no": 46
  },
  {
@@ -1438,7 +1462,11 @@
     "count": 317
    }
   ],
-  "country": "Belarus",
+  "place": "Belarus",
+  "capital_coords": [
+   27.561524,
+   53.904540000000004
+  ],
   "total_no": 840
  },
  {
@@ -1736,11 +1764,15 @@
     "count": 1010
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 1
    }
   ],
-  "country": "Belgium",
+  "place": "Belgium",
+  "capital_coords": [
+   4.35171,
+   50.85034
+  ],
   "total_no": 4349
  },
  {
@@ -1774,7 +1806,11 @@
     "count": 5
    }
   ],
-  "country": "Belize",
+  "place": "Belize",
+  "capital_coords": [
+   -88.75901999999999,
+   17.251011
+  ],
   "total_no": 15
  },
  {
@@ -1828,7 +1864,11 @@
     "count": 2
    }
   ],
-  "country": "Bosnia and Herz.",
+  "place": "Bosnia and Herz.",
+  "capital_coords": [
+   18.413076,
+   43.856259
+  ],
   "total_no": 23
  },
  {
@@ -2134,7 +2174,11 @@
     "count": 1
    }
   ],
-  "country": "Brazil",
+  "place": "Brazil",
+  "capital_coords": [
+   -47.882166,
+   -15.794229000000001
+  ],
   "total_no": 2992
  },
  {
@@ -2328,7 +2372,11 @@
     "count": 76
    }
   ],
-  "country": "Bulgaria",
+  "place": "Bulgaria",
+  "capital_coords": [
+   23.321868,
+   42.697708
+  ],
   "total_no": 486
  },
  {
@@ -2398,7 +2446,11 @@
     "count": 13
    }
   ],
-  "country": "Cameroon",
+  "place": "Cameroon",
+  "capital_coords": [
+   11.502075,
+   3.848033
+  ],
   "total_no": 43
  },
  {
@@ -2804,11 +2856,15 @@
     "count": 7493
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 4
    }
   ],
-  "country": "Canada",
+  "place": "Canada",
+  "capital_coords": [
+   -75.697193,
+   45.42153
+  ],
   "total_no": 18983
  },
  {
@@ -3058,7 +3114,11 @@
     "count": 1
    }
   ],
-  "country": "Chile",
+  "place": "Chile",
+  "capital_coords": [
+   -70.669265,
+   -33.448890000000006
+  ],
   "total_no": 836
  },
  {
@@ -3256,7 +3316,11 @@
     "count": 369
    }
   ],
-  "country": "China",
+  "place": "China",
+  "capital_coords": [
+   116.407395,
+   39.904211
+  ],
   "total_no": 911
  },
  {
@@ -3490,7 +3554,11 @@
     "count": 2
    }
   ],
-  "country": "Colombia",
+  "place": "Colombia",
+  "capital_coords": [
+   -74.072092,
+   4.710989
+  ],
   "total_no": 988
  },
  {
@@ -3616,7 +3684,11 @@
     "count": 1
    }
   ],
-  "country": "Costa Rica",
+  "place": "Costa Rica",
+  "capital_coords": [
+   -84.090725,
+   9.928069
+  ],
   "total_no": 162
  },
  {
@@ -3802,7 +3874,11 @@
     "count": 62
    }
   ],
-  "country": "Croatia",
+  "place": "Croatia",
+  "capital_coords": [
+   15.981919,
+   45.815011
+  ],
   "total_no": 374
  },
  {
@@ -3900,7 +3976,11 @@
     "count": 9
    }
   ],
-  "country": "Cuba",
+  "place": "Cuba",
+  "capital_coords": [
+   -82.345189,
+   23.05407
+  ],
   "total_no": 77
  },
  {
@@ -3958,7 +4038,11 @@
     "count": 6
    }
   ],
-  "country": "Cyprus",
+  "place": "Cyprus",
+  "capital_coords": [
+   33.382276,
+   35.185565999999994
+  ],
   "total_no": 33
  },
  {
@@ -4136,7 +4220,11 @@
     "count": 175
    }
   ],
-  "country": "Czechia",
+  "place": "Czechia",
+  "capital_coords": [
+   14.4378,
+   50.075538
+  ],
   "total_no": 693
  },
  {
@@ -4158,7 +4246,11 @@
     "count": 8
    }
   ],
-  "country": "C\u00f4te d'Ivoire",
+  "place": "C\u00f4te d'Ivoire",
+  "capital_coords": [
+   -5.289343,
+   6.827623
+  ],
   "total_no": 12
  },
  {
@@ -4240,7 +4332,7 @@
     "count": 8
    },
    {
-    "to_country": "Faeroe Is.",
+    "to_country": "Faroe Islands",
     "count": 1
    },
    {
@@ -4468,7 +4560,11 @@
     "count": 1
    }
   ],
-  "country": "Denmark",
+  "place": "Denmark",
+  "capital_coords": [
+   12.568337,
+   55.676097
+  ],
   "total_no": 2889
  },
  {
@@ -4546,7 +4642,11 @@
     "count": 26
    }
   ],
-  "country": "Dominican Rep.",
+  "place": "Dominican Rep.",
+  "capital_coords": [
+   -69.931212,
+   18.486058
+  ],
   "total_no": 74
  },
  {
@@ -4644,7 +4744,11 @@
     "count": 56
    }
   ],
-  "country": "Ecuador",
+  "place": "Ecuador",
+  "capital_coords": [
+   -78.467838,
+   -0.180653
+  ],
   "total_no": 147
  },
  {
@@ -4758,7 +4862,11 @@
     "count": 36
    }
   ],
-  "country": "Egypt",
+  "place": "Egypt",
+  "capital_coords": [
+   31.235712,
+   30.044420000000002
+  ],
   "total_no": 141
  },
  {
@@ -4920,7 +5028,11 @@
     "count": 1
    }
   ],
-  "country": "Estonia",
+  "place": "Estonia",
+  "capital_coords": [
+   24.753575,
+   59.436961
+  ],
   "total_no": 326
  },
  {
@@ -4962,7 +5074,11 @@
     "count": 5
    }
   ],
-  "country": "Ethiopia",
+  "place": "Ethiopia",
+  "capital_coords": [
+   38.757761,
+   8.980603
+  ],
   "total_no": 24
  },
  {
@@ -5012,7 +5128,11 @@
     "count": 8
    }
   ],
-  "country": "Faeroe Is.",
+  "place": "Faroe Islands",
+  "capital_coords": [
+   -6.7909820000000005,
+   62.007864
+  ],
   "total_no": 28
  },
  {
@@ -5042,7 +5162,11 @@
     "count": 20
    }
   ],
-  "country": "Fiji",
+  "place": "Fiji",
+  "capital_coords": [
+   178.45007900000002,
+   -18.124809
+  ],
   "total_no": 27
  },
  {
@@ -5332,7 +5456,11 @@
     "count": 2
    }
   ],
-  "country": "Finland",
+  "place": "Finland",
+  "capital_coords": [
+   24.941025,
+   60.173324
+  ],
   "total_no": 3011
  },
  {
@@ -5470,7 +5598,7 @@
     "count": 33
    },
    {
-    "to_country": "Faeroe Is.",
+    "to_country": "Faroe Islands",
     "count": 1
    },
    {
@@ -5786,7 +5914,7 @@
     "count": 12
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 9
    },
    {
@@ -5798,7 +5926,11 @@
     "count": 1
    }
   ],
-  "country": "France",
+  "place": "France",
+  "capital_coords": [
+   2.3522220000000003,
+   48.856614
+  ],
   "total_no": 20105
  },
  {
@@ -6000,7 +6132,11 @@
     "count": 1
    }
   ],
-  "country": "Georgia",
+  "place": "Georgia",
+  "capital_coords": [
+   44.827096000000004,
+   41.715138
+  ],
   "total_no": 342
  },
  {
@@ -6122,7 +6258,7 @@
     "count": 1
    },
    {
-    "to_country": "Faeroe Is.",
+    "to_country": "Faroe Islands",
     "count": 2
    },
    {
@@ -6458,7 +6594,7 @@
     "count": 26
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 13
    },
    {
@@ -6474,7 +6610,11 @@
     "count": 1
    }
   ],
-  "country": "Germany",
+  "place": "Germany",
+  "capital_coords": [
+   13.404954,
+   52.52000699999999
+  ],
   "total_no": 33918
  },
  {
@@ -6568,7 +6708,11 @@
     "count": 35
    }
   ],
-  "country": "Ghana",
+  "place": "Ghana",
+  "capital_coords": [
+   -0.18696400000000002,
+   5.603717
+  ],
   "total_no": 125
  },
  {
@@ -6866,7 +7010,11 @@
     "count": 786
    }
   ],
-  "country": "Greece",
+  "place": "Greece",
+  "capital_coords": [
+   23.72936,
+   37.983917
+  ],
   "total_no": 2655
  },
  {
@@ -6948,7 +7096,11 @@
     "count": 22
    }
   ],
-  "country": "Greenland",
+  "place": "Greenland",
+  "capital_coords": [
+   -51.694138,
+   64.18141
+  ],
   "total_no": 85
  },
  {
@@ -7058,7 +7210,11 @@
     "count": 1
    }
   ],
-  "country": "Guatemala",
+  "place": "Guatemala",
+  "capital_coords": [
+   -90.50688199999999,
+   14.634915
+  ],
   "total_no": 147
  },
  {
@@ -7300,7 +7456,11 @@
     "count": 1
    }
   ],
-  "country": "Hong Kong",
+  "place": "Hong Kong",
+  "capital_coords": [
+   114.10949699999999,
+   22.396428
+  ],
   "total_no": 1177
  },
  {
@@ -7534,11 +7694,15 @@
     "count": 1
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 2
    }
   ],
-  "country": "Hungary",
+  "place": "Hungary",
+  "capital_coords": [
+   19.040235,
+   47.497912
+  ],
   "total_no": 1034
  },
  {
@@ -7740,7 +7904,11 @@
     "count": 310
    }
   ],
-  "country": "Iceland",
+  "place": "Iceland",
+  "capital_coords": [
+   -21.817439,
+   64.126521
+  ],
   "total_no": 968
  },
  {
@@ -7986,7 +8154,11 @@
     "count": 166
    }
   ],
-  "country": "India",
+  "place": "India",
+  "capital_coords": [
+   77.20902099999999,
+   28.613939000000002
+  ],
   "total_no": 873
  },
  {
@@ -8156,7 +8328,11 @@
     "count": 152
    }
   ],
-  "country": "Indonesia",
+  "place": "Indonesia",
+  "capital_coords": [
+   106.84559899999999,
+   -6.208762999999999
+  ],
   "total_no": 474
  },
  {
@@ -8298,7 +8474,11 @@
     "count": 94
    }
   ],
-  "country": "Iran",
+  "place": "Iran",
+  "capital_coords": [
+   51.388974,
+   35.689198
+  ],
   "total_no": 223
  },
  {
@@ -8548,7 +8728,11 @@
     "count": 560
    }
   ],
-  "country": "Ireland",
+  "place": "Ireland",
+  "capital_coords": [
+   -6.26031,
+   53.349805
+  ],
   "total_no": 2617
  },
  {
@@ -8574,7 +8758,11 @@
     "count": 5
    }
   ],
-  "country": "Isle of Man",
+  "place": "Isle of Man",
+  "capital_coords": [
+   -4.486123,
+   54.152337
+  ],
   "total_no": 18
  },
  {
@@ -8800,11 +8988,15 @@
     "count": 266
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 5
    }
   ],
-  "country": "Israel",
+  "place": "Israel",
+  "capital_coords": [
+   34.781768,
+   32.0853
+  ],
   "total_no": 1303
  },
  {
@@ -9194,7 +9386,7 @@
     "count": 1
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 2
    },
    {
@@ -9202,7 +9394,11 @@
     "count": 1
    }
   ],
-  "country": "Italy",
+  "place": "Italy",
+  "capital_coords": [
+   12.496366,
+   41.902784000000004
+  ],
   "total_no": 7194
  },
  {
@@ -9340,7 +9536,11 @@
     "count": 117
    }
   ],
-  "country": "Jamaica",
+  "place": "Jamaica",
+  "capital_coords": [
+   -76.80289300000001,
+   18.042327
+  ],
   "total_no": 387
  },
  {
@@ -9430,7 +9630,7 @@
     "count": 4
    },
    {
-    "to_country": "Faeroe Is.",
+    "to_country": "Faroe Islands",
     "count": 2
    },
    {
@@ -9654,11 +9854,15 @@
     "count": 1
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 5
    }
   ],
-  "country": "Japan",
+  "place": "Japan",
+  "capital_coords": [
+   139.731992,
+   35.709026
+  ],
   "total_no": 10057
  },
  {
@@ -9704,7 +9908,11 @@
     "count": 19
    }
   ],
-  "country": "Jersey",
+  "place": "Jersey",
+  "capital_coords": [
+   -2.106568,
+   49.186823
+  ],
   "total_no": 38
  },
  {
@@ -9826,7 +10034,11 @@
     "count": 1
    }
   ],
-  "country": "Kenya",
+  "place": "Kenya",
+  "capital_coords": [
+   36.821946000000004,
+   -1.292066
+  ],
   "total_no": 289
  },
  {
@@ -9864,7 +10076,11 @@
     "count": 5
    }
   ],
-  "country": "Kuwait",
+  "place": "Kuwait",
+  "capital_coords": [
+   47.977405,
+   29.375859000000002
+  ],
   "total_no": 19
  },
  {
@@ -9938,7 +10154,11 @@
     "count": 4
    }
   ],
-  "country": "Kyrgyzstan",
+  "place": "Kyrgyzstan",
+  "capital_coords": [
+   74.569762,
+   42.874621000000005
+  ],
   "total_no": 48
  },
  {
@@ -10100,7 +10320,11 @@
     "count": 70
    }
   ],
-  "country": "Latvia",
+  "place": "Latvia",
+  "capital_coords": [
+   24.105186,
+   56.949649
+  ],
   "total_no": 292
  },
  {
@@ -10254,7 +10478,11 @@
     "count": 85
    }
   ],
-  "country": "Lebanon",
+  "place": "Lebanon",
+  "capital_coords": [
+   35.495478999999996,
+   33.888628999999995
+  ],
   "total_no": 231
  },
  {
@@ -10444,7 +10672,11 @@
     "count": 66
    }
   ],
-  "country": "Lithuania",
+  "place": "Lithuania",
+  "capital_coords": [
+   25.279651,
+   54.68715600000001
+  ],
   "total_no": 387
  },
  {
@@ -10498,7 +10730,11 @@
     "count": 14
    }
   ],
-  "country": "Luxembourg",
+  "place": "Luxembourg",
+  "capital_coords": [
+   6.1319349999999995,
+   49.611621
+  ],
   "total_no": 38
  },
  {
@@ -10572,7 +10808,11 @@
     "count": 34
    }
   ],
-  "country": "Malaysia",
+  "place": "Malaysia",
+  "capital_coords": [
+   101.68685500000001,
+   3.1390029999999998
+  ],
   "total_no": 77
  },
  {
@@ -10630,7 +10870,11 @@
     "count": 27
    }
   ],
-  "country": "Mali",
+  "place": "Mali",
+  "capital_coords": [
+   -8.002889,
+   12.639232000000002
+  ],
   "total_no": 72
  },
  {
@@ -10688,7 +10932,11 @@
     "count": 17
    }
   ],
-  "country": "Malta",
+  "place": "Malta",
+  "capital_coords": [
+   14.514553,
+   35.898909
+  ],
   "total_no": 52
  },
  {
@@ -10978,7 +11226,11 @@
     "count": 3
    }
   ],
-  "country": "Mexico",
+  "place": "Mexico",
+  "capital_coords": [
+   -99.133208,
+   19.432608
+  ],
   "total_no": 2065
  },
  {
@@ -11064,7 +11316,11 @@
     "count": 11
    }
   ],
-  "country": "Moldova",
+  "place": "Moldova",
+  "capital_coords": [
+   28.863809999999997,
+   47.010453000000005
+  ],
   "total_no": 44
  },
  {
@@ -11246,7 +11502,11 @@
     "count": 35
    }
   ],
-  "country": "Morocco",
+  "place": "Morocco",
+  "capital_coords": [
+   -6.849813,
+   33.97159
+  ],
   "total_no": 252
  },
  {
@@ -11332,7 +11592,11 @@
     "count": 12
    }
   ],
-  "country": "Nepal",
+  "place": "Nepal",
+  "capital_coords": [
+   85.323961,
+   27.717245000000002
+  ],
   "total_no": 59
  },
  {
@@ -11746,7 +12010,7 @@
     "count": 2
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 7
    },
    {
@@ -11754,7 +12018,11 @@
     "count": 2
    }
   ],
-  "country": "Netherlands",
+  "place": "Netherlands",
+  "capital_coords": [
+   4.895168,
+   52.370216
+  ],
   "total_no": 9265
  },
  {
@@ -11968,7 +12236,11 @@
     "count": 726
    }
   ],
-  "country": "New Zealand",
+  "place": "New Zealand",
+  "capital_coords": [
+   174.776236,
+   -41.28646
+  ],
   "total_no": 2243
  },
  {
@@ -12030,7 +12302,11 @@
     "count": 58
    }
   ],
-  "country": "Niger",
+  "place": "Niger",
+  "capital_coords": [
+   2.1253849999999996,
+   13.511595999999999
+  ],
   "total_no": 97
  },
  {
@@ -12104,7 +12380,11 @@
     "count": 1
    }
   ],
-  "country": "Nigeria",
+  "place": "Nigeria",
+  "capital_coords": [
+   7.398574000000001,
+   9.076478999999999
+  ],
   "total_no": 84
  },
  {
@@ -12202,7 +12482,11 @@
     "count": 7
    }
   ],
-  "country": "Niue",
+  "place": "Niue",
+  "capital_coords": [
+   -169.917871,
+   -19.055371
+  ],
   "total_no": 69
  },
  {
@@ -12360,7 +12644,11 @@
     "count": 29
    }
   ],
-  "country": "Macedonia",
+  "place": "Macedonia",
+  "capital_coords": [
+   21.427996,
+   41.997346
+  ],
   "total_no": 145
  },
  {
@@ -12642,11 +12930,15 @@
     "count": 802
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 1
    }
   ],
-  "country": "Norway",
+  "place": "Norway",
+  "capital_coords": [
+   10.752245,
+   59.91386899999999
+  ],
   "total_no": 2639
  },
  {
@@ -12748,7 +13040,11 @@
     "count": 14
    }
   ],
-  "country": "Panama",
+  "place": "Panama",
+  "capital_coords": [
+   -79.40286400000001,
+   9.101179
+  ],
   "total_no": 60
  },
  {
@@ -12950,7 +13246,11 @@
     "count": 1
    }
   ],
-  "country": "Peru",
+  "place": "Peru",
+  "capital_coords": [
+   -77.042793,
+   -12.046374
+  ],
   "total_no": 501
  },
  {
@@ -13044,7 +13344,11 @@
     "count": 68
    }
   ],
-  "country": "Philippines",
+  "place": "Philippines",
+  "capital_coords": [
+   120.98422,
+   14.599511999999999
+  ],
   "total_no": 178
  },
  {
@@ -13322,7 +13626,11 @@
     "count": 713
    }
   ],
-  "country": "Poland",
+  "place": "Poland",
+  "capital_coords": [
+   21.012229,
+   52.229676
+  ],
   "total_no": 2505
  },
  {
@@ -13608,7 +13916,11 @@
     "count": 1
    }
   ],
-  "country": "Portugal",
+  "place": "Portugal",
+  "capital_coords": [
+   -9.139337,
+   38.722252000000005
+  ],
   "total_no": 1837
  },
  {
@@ -13682,7 +13994,11 @@
     "count": 171
    }
   ],
-  "country": "Puerto Rico",
+  "place": "Puerto Rico",
+  "capital_coords": [
+   -66.105722,
+   18.466334
+  ],
   "total_no": 209
  },
  {
@@ -13976,7 +14292,11 @@
     "count": 1
    }
   ],
-  "country": "Romania",
+  "place": "Romania",
+  "capital_coords": [
+   26.102538,
+   44.426767
+  ],
   "total_no": 2387
  },
  {
@@ -14338,11 +14658,15 @@
     "count": 2
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 2
    }
   ],
-  "country": "Russia",
+  "place": "Russia",
+  "capital_coords": [
+   37.6173,
+   55.755826
+  ],
   "total_no": 6318
  },
  {
@@ -14400,7 +14724,11 @@
     "count": 5
    }
   ],
-  "country": "Senegal",
+  "place": "Senegal",
+  "capital_coords": [
+   -17.366029,
+   14.764504
+  ],
   "total_no": 20
  },
  {
@@ -14622,11 +14950,15 @@
     "count": 1
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 1
    }
   ],
-  "country": "Serbia",
+  "place": "Serbia",
+  "capital_coords": [
+   20.448922,
+   44.786568
+  ],
   "total_no": 576
  },
  {
@@ -14776,7 +15108,11 @@
     "count": 1
    }
   ],
-  "country": "Singapore",
+  "place": "Singapore",
+  "capital_coords": [
+   103.850949,
+   1.280095
+  ],
   "total_no": 348
  },
  {
@@ -14906,7 +15242,11 @@
     "count": 43
    }
   ],
-  "country": "Slovakia",
+  "place": "Slovakia",
+  "capital_coords": [
+   17.107136999999998,
+   48.145891999999996
+  ],
   "total_no": 183
  },
  {
@@ -15084,7 +15424,11 @@
     "count": 88
    }
   ],
-  "country": "Slovenia",
+  "place": "Slovenia",
+  "capital_coords": [
+   14.505751,
+   46.056946999999994
+  ],
   "total_no": 377
  },
  {
@@ -15342,11 +15686,15 @@
     "count": 1
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 1
    }
   ],
-  "country": "South Africa",
+  "place": "South Africa",
+  "capital_coords": [
+   28.229271,
+   -25.747868
+  ],
   "total_no": 1128
  },
  {
@@ -15524,7 +15872,11 @@
     "count": 229
    }
   ],
-  "country": "South Korea",
+  "place": "South Korea",
+  "capital_coords": [
+   126.97796899999999,
+   37.566534999999995
+  ],
   "total_no": 589
  },
  {
@@ -15854,7 +16206,7 @@
     "count": 3
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 1
    },
    {
@@ -15866,7 +16218,11 @@
     "count": 3
    }
   ],
-  "country": "Spain",
+  "place": "Spain",
+  "capital_coords": [
+   -3.70379,
+   40.416775
+  ],
   "total_no": 5875
  },
  {
@@ -15908,7 +16264,11 @@
     "count": 4
    }
   ],
-  "country": "Sri Lanka",
+  "place": "Sri Lanka",
+  "capital_coords": [
+   79.902478,
+   6.89407
+  ],
   "total_no": 13
  },
  {
@@ -16226,7 +16586,7 @@
     "count": 2056
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 4
    },
    {
@@ -16234,7 +16594,11 @@
     "count": 2
    }
   ],
-  "country": "Sweden",
+  "place": "Sweden",
+  "capital_coords": [
+   18.068581,
+   59.329322999999995
+  ],
   "total_no": 6531
  },
  {
@@ -16528,7 +16892,11 @@
     "count": 1
    }
   ],
-  "country": "Switzerland",
+  "place": "Switzerland",
+  "capital_coords": [
+   7.447447,
+   46.947974
+  ],
   "total_no": 3056
  },
  {
@@ -16662,7 +17030,11 @@
     "count": 89
    }
   ],
-  "country": "Taiwan",
+  "place": "Taiwan",
+  "capital_coords": [
+   121.565418,
+   25.032969
+  ],
   "total_no": 221
  },
  {
@@ -16784,7 +17156,11 @@
     "count": 44
    }
   ],
-  "country": "Thailand",
+  "place": "Thailand",
+  "capital_coords": [
+   100.501765,
+   13.756331
+  ],
   "total_no": 151
  },
  {
@@ -16850,7 +17226,11 @@
     "count": 12
    }
   ],
-  "country": "Trinidad and Tobago",
+  "place": "Trinidad and Tobago",
+  "capital_coords": [
+   -61.501926,
+   10.654900999999999
+  ],
   "total_no": 36
  },
  {
@@ -16988,7 +17368,11 @@
     "count": 51
    }
   ],
-  "country": "Tunisia",
+  "place": "Tunisia",
+  "capital_coords": [
+   10.181532,
+   36.806495
+  ],
   "total_no": 226
  },
  {
@@ -17206,7 +17590,11 @@
     "count": 1
    }
   ],
-  "country": "Turkey",
+  "place": "Turkey",
+  "capital_coords": [
+   32.859742,
+   39.933364000000005
+  ],
   "total_no": 550
  },
  {
@@ -17360,7 +17748,11 @@
     "count": 165
    }
   ],
-  "country": "Uganda",
+  "place": "Uganda",
+  "capital_coords": [
+   32.58252,
+   0.347596
+  ],
   "total_no": 467
  },
  {
@@ -17622,7 +18014,11 @@
     "count": 1
    }
   ],
-  "country": "Ukraine",
+  "place": "Ukraine",
+  "capital_coords": [
+   30.5234,
+   50.4501
+  ],
   "total_no": 1237
  },
  {
@@ -17728,7 +18124,11 @@
     "count": 23
    }
   ],
-  "country": "United Arab Emirates",
+  "place": "United Arab Emirates",
+  "capital_coords": [
+   54.697277,
+   24.299174
+  ],
   "total_no": 118
  },
  {
@@ -17886,7 +18286,7 @@
     "count": 187
    },
    {
-    "to_country": "Faeroe Is.",
+    "to_country": "Faroe Islands",
     "count": 2
    },
    {
@@ -18274,7 +18674,7 @@
     "count": 2
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 32
    },
    {
@@ -18286,7 +18686,11 @@
     "count": 1
    }
   ],
-  "country": "United Kingdom",
+  "place": "United Kingdom",
+  "capital_coords": [
+   -0.12775799999999998,
+   51.507351
+  ],
   "total_no": 112541
  },
  {
@@ -18460,7 +18864,7 @@
     "count": 114
    },
    {
-    "to_country": "Faeroe Is.",
+    "to_country": "Faroe Islands",
     "count": 4
    },
    {
@@ -18876,7 +19280,7 @@
     "count": 7
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 29
    },
    {
@@ -18884,7 +19288,11 @@
     "count": 4
    }
   ],
-  "country": "United States of America",
+  "place": "United States of America",
+  "capital_coords": [
+   -77.03687099999999,
+   38.907191999999995
+  ],
   "total_no": 180490
  },
  {
@@ -19030,7 +19438,11 @@
     "count": 1
    }
   ],
-  "country": "Uruguay",
+  "place": "Uruguay",
+  "capital_coords": [
+   -56.164531000000004,
+   -34.901113
+  ],
   "total_no": 130
  },
  {
@@ -19152,7 +19564,11 @@
     "count": 4
    }
   ],
-  "country": "Venezuela",
+  "place": "Venezuela",
+  "capital_coords": [
+   -66.90360600000001,
+   10.480594
+  ],
   "total_no": 95
  },
  {
@@ -19246,11 +19662,15 @@
     "count": 29
    },
    {
-    "to_country": "Viet Nam",
+    "to_country": "Vietnam",
     "count": 1
    }
   ],
-  "country": "Vietnam",
+  "place": "Vietnam",
+  "capital_coords": [
+   105.83416000000001,
+   21.027764
+  ],
   "total_no": 88
  },
  {
@@ -19284,7 +19704,1033 @@
     "count": 22
    }
   ],
-  "country": "Zambia",
+  "place": "Zambia",
+  "capital_coords": [
+   28.322816999999997,
+   -15.387526000000001
+  ],
   "total_no": 36
+ },
+ {
+  "place": "Abkhazia",
+  "capital_coords": [
+   41.023415,
+   43.001525
+  ]
+ },
+ {
+  "place": "Afghanistan",
+  "capital_coords": [
+   69.240073,
+   34.575503000000005
+  ]
+ },
+ {
+  "place": "Aland Islands",
+  "capital_coords": [
+   19.933332999999998,
+   60.1
+  ]
+ },
+ {
+  "place": "Albania",
+  "capital_coords": [
+   19.818698,
+   41.327546000000005
+  ]
+ },
+ {
+  "place": "Algeria",
+  "capital_coords": [
+   3.042048,
+   36.752887
+  ]
+ },
+ {
+  "place": "American Samoa",
+  "capital_coords": [
+   -170.70203600000002,
+   -14.275632
+  ]
+ },
+ {
+  "place": "Andorra",
+  "capital_coords": [
+   1.521835,
+   42.506316999999996
+  ]
+ },
+ {
+  "place": "Angola",
+  "capital_coords": [
+   13.289437,
+   -8.839988
+  ]
+ },
+ {
+  "place": "Anguilla",
+  "capital_coords": [
+   -63.057441000000004,
+   18.214813
+  ]
+ },
+ {
+  "place": "Antigua and Barbuda",
+  "capital_coords": [
+   -61.846771999999994,
+   17.12741
+  ]
+ },
+ {
+  "place": "Aruba",
+  "capital_coords": [
+   -70.00863100000001,
+   12.509203999999999
+  ]
+ },
+ {
+  "place": "Bahamas",
+  "capital_coords": [
+   -77.355413,
+   25.047984
+  ]
+ },
+ {
+  "place": "Bahrain",
+  "capital_coords": [
+   50.58605,
+   26.228516
+  ]
+ },
+ {
+  "place": "Bangladesh",
+  "capital_coords": [
+   90.412518,
+   23.810332
+  ]
+ },
+ {
+  "place": "Barbados",
+  "capital_coords": [
+   -59.598808999999996,
+   13.113222
+  ]
+ },
+ {
+  "place": "Benin",
+  "capital_coords": [
+   2.628852,
+   6.496857
+  ]
+ },
+ {
+  "place": "Bermuda",
+  "capital_coords": [
+   -64.781375,
+   32.294816
+  ]
+ },
+ {
+  "place": "Bhutan",
+  "capital_coords": [
+   89.639286,
+   27.472792
+  ]
+ },
+ {
+  "place": "Bolivia",
+  "capital_coords": [
+   -68.119294,
+   -16.489689000000002
+  ]
+ },
+ {
+  "place": "Botswana",
+  "capital_coords": [
+   25.923147,
+   -24.628207999999997
+  ]
+ },
+ {
+  "place": "Bouvet Island",
+  "capital_coords": [
+   3.38,
+   -54.43
+  ]
+ },
+ {
+  "place": "British Indian Ocean Territory",
+  "capital_coords": [
+   55.4778,
+   21.3419
+  ]
+ },
+ {
+  "place": "British Virgin Islands",
+  "capital_coords": [
+   -64.618466,
+   18.428612
+  ]
+ },
+ {
+  "place": "Brunei",
+  "capital_coords": [
+   114.939821,
+   4.903052
+  ]
+ },
+ {
+  "place": "Burkina Faso",
+  "capital_coords": [
+   -1.51966,
+   12.371428
+  ]
+ },
+ {
+  "place": "Burundi",
+  "capital_coords": [
+   29.359878000000002,
+   -3.3613779999999998
+  ]
+ },
+ {
+  "place": "Cambodia",
+  "capital_coords": [
+   104.89216699999999,
+   11.544872999999999
+  ]
+ },
+ {
+  "place": "Cape Verde",
+  "capital_coords": [
+   -23.513327,
+   14.93305
+  ]
+ },
+ {
+  "place": "Cayman Islands",
+  "capital_coords": [
+   -81.367439,
+   19.286932
+  ]
+ },
+ {
+  "place": "Central African Rep.",
+  "capital_coords": [
+   18.55819,
+   4.394674
+  ]
+ },
+ {
+  "place": "Chad",
+  "capital_coords": [
+   15.055742,
+   12.134846000000001
+  ]
+ },
+ {
+  "place": "Christmas Island",
+  "capital_coords": [
+   105.679379,
+   -10.420686
+  ]
+ },
+ {
+  "place": "Cocos (Keeling) Islands",
+  "capital_coords": [
+   96.829316,
+   -12.188834
+  ]
+ },
+ {
+  "place": "Comoros",
+  "capital_coords": [
+   43.247315,
+   -11.717216
+  ]
+ },
+ {
+  "place": "Dem. Rep. Congo",
+  "capital_coords": [
+   15.266293,
+   -4.441930999999999
+  ]
+ },
+ {
+  "place": "Congo (Republic)",
+  "capital_coords": [
+   15.242885000000001,
+   -4.26336
+  ]
+ },
+ {
+  "place": "Cook Islands",
+  "capital_coords": [
+   -159.782306,
+   -21.212901000000002
+  ]
+ },
+ {
+  "place": "Cura\u00e7ao",
+  "capital_coords": [
+   -68.882423,
+   12.122422
+  ]
+ },
+ {
+  "place": "Djibouti",
+  "capital_coords": [
+   43.145647,
+   11.572077
+  ]
+ },
+ {
+  "place": "Dominica",
+  "capital_coords": [
+   -61.379355000000004,
+   15.309168
+  ]
+ },
+ {
+  "place": "El Salvador",
+  "capital_coords": [
+   -89.218191,
+   13.69294
+  ]
+ },
+ {
+  "place": "Equatorial Guinea",
+  "capital_coords": [
+   8.737103999999999,
+   3.7504120000000003
+  ]
+ },
+ {
+  "place": "Eritrea",
+  "capital_coords": [
+   38.925052,
+   15.322876999999998
+  ]
+ },
+ {
+  "place": "Falkland Islands (Islas Malvinas)",
+  "capital_coords": [
+   -57.851663,
+   -51.697713
+  ]
+ },
+ {
+  "place": "French Guiana",
+  "capital_coords": [
+   -52.313453,
+   4.92242
+  ]
+ },
+ {
+  "place": "French Polynesia",
+  "capital_coords": [
+   -149.558476,
+   -17.551625
+  ]
+ },
+ {
+  "place": "French Southern Territories",
+  "capital_coords": [
+   55.4778,
+   -21.3419
+  ]
+ },
+ {
+  "place": "Gabon",
+  "capital_coords": [
+   9.467267999999999,
+   0.41619799999999996
+  ]
+ },
+ {
+  "place": "Gambia",
+  "capital_coords": [
+   -16.579032,
+   13.454876
+  ]
+ },
+ {
+  "place": "Gibraltar",
+  "capital_coords": [
+   -5.353599,
+   36.140772999999996
+  ]
+ },
+ {
+  "place": "Grenada",
+  "capital_coords": [
+   -61.7488,
+   12.056098
+  ]
+ },
+ {
+  "place": "Guadeloupe",
+  "capital_coords": [
+   -61.706410999999996,
+   16.014453
+  ]
+ },
+ {
+  "place": "Guam",
+  "capital_coords": [
+   144.751278,
+   13.470891
+  ]
+ },
+ {
+  "place": "Guernsey",
+  "capital_coords": [
+   -2.536871,
+   49.455443
+  ]
+ },
+ {
+  "place": "Guinea",
+  "capital_coords": [
+   -13.578401000000001,
+   9.641185
+  ]
+ },
+ {
+  "place": "Guinea-Bissau",
+  "capital_coords": [
+   -15.617794,
+   11.881655
+  ]
+ },
+ {
+  "place": "Guyana",
+  "capital_coords": [
+   -58.155125,
+   6.801278999999999
+  ]
+ },
+ {
+  "place": "Haiti",
+  "capital_coords": [
+   -72.30743299999999,
+   18.594395000000002
+  ]
+ },
+ {
+  "place": "Honduras",
+  "capital_coords": [
+   -87.192136,
+   14.072275
+  ]
+ },
+ {
+  "place": "Iraq",
+  "capital_coords": [
+   44.361488,
+   33.312806
+  ]
+ },
+ {
+  "place": "Jordan",
+  "capital_coords": [
+   35.945695,
+   31.956578000000004
+  ]
+ },
+ {
+  "place": "Kazakhstan",
+  "capital_coords": [
+   71.47035600000001,
+   51.160523
+  ]
+ },
+ {
+  "place": "Kiribati",
+  "capital_coords": [
+   172.971662,
+   1.451817
+  ]
+ },
+ {
+  "place": "Kosovo",
+  "capital_coords": [
+   21.165503,
+   42.662914
+  ]
+ },
+ {
+  "place": "Laos",
+  "capital_coords": [
+   102.633104,
+   17.975706
+  ]
+ },
+ {
+  "place": "Lesotho",
+  "capital_coords": [
+   27.514359999999996,
+   -29.363219
+  ]
+ },
+ {
+  "place": "Liberia",
+  "capital_coords": [
+   -10.760524,
+   6.290743
+  ]
+ },
+ {
+  "place": "Libya",
+  "capital_coords": [
+   13.191338,
+   32.887209000000006
+  ]
+ },
+ {
+  "place": "Liechtenstein",
+  "capital_coords": [
+   9.520928,
+   47.14103
+  ]
+ },
+ {
+  "place": "Macau",
+  "capital_coords": [
+   113.55,
+   22.166667
+  ]
+ },
+ {
+  "place": "Madagascar",
+  "capital_coords": [
+   47.507905,
+   -18.879189999999998
+  ]
+ },
+ {
+  "place": "Malawi",
+  "capital_coords": [
+   33.774119,
+   -13.962612
+  ]
+ },
+ {
+  "place": "Maldives",
+  "capital_coords": [
+   73.50934699999999,
+   4.175496
+  ]
+ },
+ {
+  "place": "Marshall Islands",
+  "capital_coords": [
+   171.185774,
+   7.116421000000001
+  ]
+ },
+ {
+  "place": "Martinique",
+  "capital_coords": [
+   -61.058780000000006,
+   14.616064999999999
+  ]
+ },
+ {
+  "place": "Mauritania",
+  "capital_coords": [
+   -15.958236999999999,
+   18.073529999999998
+  ]
+ },
+ {
+  "place": "Mauritius",
+  "capital_coords": [
+   57.502331999999996,
+   -20.166895999999998
+  ]
+ },
+ {
+  "place": "Mayotte",
+  "capital_coords": [
+   45.227872,
+   -12.780949
+  ]
+ },
+ {
+  "place": "Micronesia",
+  "capital_coords": [
+   158.161027,
+   6.914712
+  ]
+ },
+ {
+  "place": "Monaco",
+  "capital_coords": [
+   7.420816,
+   43.737411
+  ]
+ },
+ {
+  "place": "Mongolia",
+  "capital_coords": [
+   106.905744,
+   47.886399
+  ]
+ },
+ {
+  "place": "Montenegro",
+  "capital_coords": [
+   19.259364,
+   42.43042
+  ]
+ },
+ {
+  "place": "Montserrat",
+  "capital_coords": [
+   -62.215738,
+   16.706523
+  ]
+ },
+ {
+  "place": "Mozambique",
+  "capital_coords": [
+   32.605135,
+   -25.891968
+  ]
+ },
+ {
+  "place": "Myanmar (Burma)",
+  "capital_coords": [
+   96.07851,
+   19.763306
+  ]
+ },
+ {
+  "place": "Nagorno-Karabakh Republic",
+  "capital_coords": [
+   46.763595,
+   39.826384999999995
+  ]
+ },
+ {
+  "place": "Namibia",
+  "capital_coords": [
+   17.065755,
+   -22.560881
+  ]
+ },
+ {
+  "place": "Nauru",
+  "capital_coords": [
+   166.921091,
+   -0.546686
+  ]
+ },
+ {
+  "place": "Netherlands Antilles",
+  "capital_coords": [
+   -68.9316546,
+   12.1091242
+  ]
+ },
+ {
+  "place": "New Caledonia",
+  "capital_coords": [
+   166.450524,
+   -22.255823
+  ]
+ },
+ {
+  "place": "Nicaragua",
+  "capital_coords": [
+   -86.236174,
+   12.114993
+  ]
+ },
+ {
+  "place": "Norfolk Island",
+  "capital_coords": [
+   167.959588,
+   -29.056394
+  ]
+ },
+ {
+  "place": "North Korea",
+  "capital_coords": [
+   125.762524,
+   39.039219
+  ]
+ },
+ {
+  "place": "Northern Cyprus",
+  "capital_coords": [
+   33.382276,
+   35.185565999999994
+  ]
+ },
+ {
+  "place": "Northern Mariana Islands",
+  "capital_coords": [
+   145.750967,
+   15.177801
+  ]
+ },
+ {
+  "place": "Oman",
+  "capital_coords": [
+   58.405923,
+   23.58589
+  ]
+ },
+ {
+  "place": "Pakistan",
+  "capital_coords": [
+   73.09314599999999,
+   33.729388
+  ]
+ },
+ {
+  "place": "Palau",
+  "capital_coords": [
+   134.62428899999998,
+   7.5003839999999995
+  ]
+ },
+ {
+  "place": "Palestine",
+  "capital_coords": [
+   35.5354719,
+   31.907350899999997
+  ]
+ },
+ {
+  "place": "Papua New Guinea",
+  "capital_coords": [
+   147.180267,
+   -9.4438
+  ]
+ },
+ {
+  "place": "Paraguay",
+  "capital_coords": [
+   -57.575926,
+   -25.26374
+  ]
+ },
+ {
+  "place": "Pitcairn Islands",
+  "capital_coords": [
+   -130.100464,
+   -25.06629
+  ]
+ },
+ {
+  "place": "Qatar",
+  "capital_coords": [
+   51.531040000000004,
+   25.285447
+  ]
+ },
+ {
+  "place": "R\u00e9union",
+  "capital_coords": [
+   55.450675,
+   -20.882057
+  ]
+ },
+ {
+  "place": "Rwanda",
+  "capital_coords": [
+   30.112734999999997,
+   -1.957875
+  ]
+ },
+ {
+  "place": "Saint Pierre and Miquelon",
+  "capital_coords": [
+   -56.180636,
+   46.775846
+  ]
+ },
+ {
+  "place": "Saint Vincent and the Grenadines",
+  "capital_coords": [
+   -61.224816000000004,
+   13.160025
+  ]
+ },
+ {
+  "place": "Samoa",
+  "capital_coords": [
+   -171.75135500000002,
+   -13.850696
+  ]
+ },
+ {
+  "place": "San Marino",
+  "capital_coords": [
+   12.447281,
+   43.935590999999995
+  ]
+ },
+ {
+  "place": "S\u00e3o Tom\u00e9 and Pr\u00edncipe",
+  "capital_coords": [
+   6.733343,
+   0.330192
+  ]
+ },
+ {
+  "place": "Saudi Arabia",
+  "capital_coords": [
+   46.902838,
+   24.749403
+  ]
+ },
+ {
+  "place": "Seychelles",
+  "capital_coords": [
+   55.451315,
+   -4.619143
+  ]
+ },
+ {
+  "place": "Sierra Leone",
+  "capital_coords": [
+   -13.231722,
+   8.465677000000001
+  ]
+ },
+ {
+  "place": "Solomon Islands",
+  "capital_coords": [
+   159.9729,
+   -9.445638
+  ]
+ },
+ {
+  "place": "Somalia",
+  "capital_coords": [
+   45.318162,
+   2.046934
+  ]
+ },
+ {
+  "place": "South Georgia and the South Sandwich Islands",
+  "capital_coords": [
+   -36.493735,
+   -54.28325
+  ]
+ },
+ {
+  "place": "South Ossetia",
+  "capital_coords": [
+   43.964405,
+   42.22146
+  ]
+ },
+ {
+  "place": "S. Sudan",
+  "capital_coords": [
+   31.57125,
+   4.859363
+  ]
+ },
+ {
+  "place": "St. Barthélemy",
+  "capital_coords": [
+   -62.852201,
+   17.896435
+  ]
+ },
+ {
+  "place": "St. Kitts and Nevis",
+  "capital_coords": [
+   -62.71769200000001,
+   17.302606
+  ]
+ },
+ {
+  "place": "St. Lucia",
+  "capital_coords": [
+   -60.987469,
+   14.010109
+  ]
+ },
+ {
+  "place": "St. Martin",
+  "capital_coords": [
+   -63.082466000000004,
+   18.067519
+  ]
+ },
+ {
+  "place": "Sudan",
+  "capital_coords": [
+   32.559899,
+   15.500654
+  ]
+ },
+ {
+  "place": "Suriname",
+  "capital_coords": [
+   -55.203828,
+   5.852036
+  ]
+ },
+ {
+  "place": "Svalbard and Jan Mayen",
+  "capital_coords": [
+   22.055,
+   78.062
+  ]
+ },
+ {
+  "place": "Swaziland",
+  "capital_coords": [
+   31.136671999999997,
+   -26.305448
+  ]
+ },
+ {
+  "place": "Syria",
+  "capital_coords": [
+   36.276528000000006,
+   33.513807
+  ]
+ },
+ {
+  "place": "Tajikistan",
+  "capital_coords": [
+   68.787038,
+   38.559771999999995
+  ]
+ },
+ {
+  "place": "Tanzania",
+  "capital_coords": [
+   35.751607,
+   -6.162959
+  ]
+ },
+ {
+  "place": "Timor-Leste",
+  "capital_coords": [
+   125.56031399999999,
+   -8.556856
+  ]
+ },
+ {
+  "place": "Togo",
+  "capital_coords": [
+   1.231362,
+   6.172497
+  ]
+ },
+ {
+  "place": "Tokelau",
+  "capital_coords": [
+   -171.84799999999998,
+   -9.2005
+  ]
+ },
+ {
+  "place": "Tonga",
+  "capital_coords": [
+   -175.204947,
+   -21.139342000000003
+  ]
+ },
+ {
+  "place": "Transnistria",
+  "capital_coords": [
+   29.596805,
+   46.848185
+  ]
+ },
+ {
+  "place": "Tristan da Cunha",
+  "capital_coords": [
+   -12.311314999999999,
+   -37.068042
+  ]
+ },
+ {
+  "place": "Turkmenistan",
+  "capital_coords": [
+   58.326063,
+   37.960077000000005
+  ]
+ },
+ {
+  "place": "Turks and Caicos Islands",
+  "capital_coords": [
+   -71.13891,
+   21.467457999999997
+  ]
+ },
+ {
+  "place": "Tuvalu",
+  "capital_coords": [
+   179.198128,
+   -8.520066
+  ]
+ },
+ {
+  "place": "U.S. Virgin Islands",
+  "capital_coords": [
+   -64.930701,
+   18.3419
+  ]
+ },
+ {
+  "place": "Uzbekistan",
+  "capital_coords": [
+   69.240073,
+   41.299496000000005
+  ]
+ },
+ {
+  "place": "Vanuatu",
+  "capital_coords": [
+   168.327325,
+   -17.733251
+  ]
+ },
+ {
+  "place": "Vatican City",
+  "capital_coords": [
+   12.453600999999999,
+   41.902179
+  ]
+ },
+ {
+  "place": "Wallis and Futuna",
+  "capital_coords": [
+   -176.176447,
+   -13.282509
+  ]
+ },
+ {
+  "place": "Western Sahara",
+  "capital_coords": [
+   -13.1625,
+   27.125287
+  ]
+ },
+ {
+  "place": "Yemen",
+  "capital_coords": [
+   44.191007,
+   15.369445
+  ]
+ },
+ {
+  "place": "Zimbabwe",
+  "capital_coords": [
+   31.033509999999996,
+   -17.825166
+  ]
  }
 ]

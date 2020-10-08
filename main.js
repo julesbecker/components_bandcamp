@@ -10,20 +10,21 @@ d3.geoPolyhedralButterfly = geoPolyhedralButterfly;
 d3.textwrap = textwrap;
 d3.tip = d3tip;
 d3.legend = colorLegend;
-var dataprep = require('./data_prep');
 
-// import { name, draw, reportArea, reportPerimeter } from './data_prep.js';
-
+const data = require("./locations-and-their-genres.json")
+const countries50 = require("./countries50.json");
+const countries = topojson.feature(countries50, countries50.objects.countries);
+const cfos = require("./country_flow_chart.json");
 
 // SECTION: prepare imported functions
 var wrap = d3.textwrap().bounds({height: 175, width: 175});
 
 const tip = d3.tip()
-    .attr('class', "d3-tip")
-    .style("color", "white")
-    .style("padding", "6px")
-    .offset([-10, 0])
-    .html(function(d) {return `<div style='float: right'>${d.place}</div>`});
+      .attr('class', "d3-tip")
+      .style("color", "white")
+      .style("padding", "6px")
+      .offset([-10, 0])
+      .html(function(d) {return `<div style='float: right'>${d}</div>`});
 
 const zoom = d3.zoom()
     .translateExtent([[17, 100], [883, 580]])
@@ -44,6 +45,8 @@ const zoom = d3.zoom()
         };
         }
     );
+
+console.log(cfos)
 
 // set up dimensions for each svg
 var height = 700;
@@ -70,14 +73,9 @@ const radius = d3.scaleSqrt()
     .range([1, width / 50]);
 
 // SECTION: prepare imported data
-  // country sales flows
+  // country sales flows,
 let countryflowobjs = new Map();
-cfos.map(country => {countryflowobjs.set(country.country, country.total_no)});
-
-const countryCapCoords = [];
-d3.csv("countrycapitals.csv", function(data){
-      countryCapCoords.push([data.Country, [data.Long, data.Lat]]);
-});
+cfos.map(country => {  countryflowobjs.set(country.place, country.total_no) });
 
   // genres
 data.map((d) => { d.radius = radius(d.total_no); });
@@ -127,6 +125,13 @@ let lp_path = landpaths.append("path")
     .attr("fill", "white")
     .attr("d", path);
 
+borders.selectAll("rect")
+    .data(cfos)
+    .join("rect")
+        .attr("class", "capmarker")
+        .attr("id", (d) => d.place.replace(".", "").split(" ").join(""))
+        .attr("transform", (d) => `translate(${projection(d.capital_coords)})`);
+
 borders.selectAll("path")
     .data(countries.features)
     .join("path")
@@ -134,15 +139,15 @@ borders.selectAll("path")
         .attr("d", path)
         .attr("class", "countrypath")
         .on('mouseenter', function(event, d) {
-            var target = d3.select(`#${d.properties.name}`)
-                .node();
-            // show tooltip on mouse enter; use coords from countryCapCoords.get(d.properties.name)
-            //    .attr("transform", (d) => `translate(${projection(d.coords)})`)
-            // tip2.show(d, this);
+            // show tooltip on mouse enter, using capital marker
+            var countryID = d.properties.name.split(".").join("").split(" ").join("");
+            var capLL = borders.select(`rect#${countryID}`).node();
+            tip.show(d.properties.name, capLL);
             d3.select(this).attr("stroke-width", .25).attr('stroke', "white");
         })
         .on('click', function(event, d) {
-            let cfosSelect = cfos.find((element) => element.country === d.properties.name)
+            let cfosSelect = cfos.find((element) => element.place === d.properties.name)
+            console.log("cfosSelect", cfosSelect)
             let toCountries = new Map();
             cfosSelect.to_countries.sort(function (a, b) {
                 return b.count - a.count;
@@ -330,7 +335,7 @@ const selectedShapes = cityCircles.selectAll("circles")
     //NOTE: mouseover behavior determined here
     .on('mouseenter', function(event, d) {
         // show tooltip on mouse enter
-        tip.show(d, this);
+        tip.show(d.place, this);
         d3.select(this).attr('fill', "red");
     })
     .on('click', function(event, d) {
@@ -521,9 +526,3 @@ d3.selectAll(".displayopt")
 let zoomed = svg.call(zoom);
 
 map.call(tip);
-
-
-
-let thing = countryCapCoords.slice(0,24);
-console.log("countryCapCoords", countryCapCoords)
-console.log("countryCapCoords[1][0]", countryCapCoords[0]);
