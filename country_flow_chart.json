@@ -102,7 +102,7 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 2
    },
    {
@@ -110,7 +110,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 12
    },
    {
@@ -203,10 +203,7 @@
     "to_country": "Bulgaria",
     "count": 1
    },
-   {
-    "to_country": "C2",
-    "count": 6
-   },
+
    {
     "to_country": "Canada",
     "count": 57
@@ -384,7 +381,7 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 4
    },
    {
@@ -392,7 +389,7 @@
     "count": 18
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 18
    },
    {
@@ -572,17 +569,14 @@
     "count": 28
    },
    {
-    "to_country": "Brunei Darussalam",
+    "to_country": "Brunei",
     "count": 2
    },
    {
     "to_country": "Bulgaria",
     "count": 11
    },
-   {
-    "to_country": "C2",
-    "count": 26
-   },
+
    {
     "to_country": "Cambodia",
     "count": 3
@@ -592,7 +586,7 @@
     "count": 554
    },
    {
-    "to_country": "Cayman Islands",
+    "to_country": "Cayman Is.",
     "count": 1
    },
    {
@@ -732,7 +726,7 @@
     "count": 3
    },
    {
-    "to_country": "Lao People's Democratic Republic",
+    "to_country": "Laos",
     "count": 1
    },
    {
@@ -751,10 +745,7 @@
     "to_country": "Luxembourg",
     "count": 5
    },
-   {
-    "to_country": "ME",
-    "count": 2
-   },
+
    {
     "to_country": "Macao",
     "count": 4
@@ -824,7 +815,7 @@
     "count": 2
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 44
    },
    {
@@ -832,7 +823,7 @@
     "count": 19
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 142
    },
    {
@@ -961,10 +952,7 @@
     "to_country": "Bulgaria",
     "count": 1
    },
-   {
-    "to_country": "C2",
-    "count": 1
-   },
+
    {
     "to_country": "Canada",
     "count": 48
@@ -1073,10 +1061,7 @@
     "to_country": "Luxembourg",
     "count": 3
    },
-   {
-    "to_country": "ME",
-    "count": 1
-   },
+
    {
     "to_country": "Mexico",
     "count": 7
@@ -1106,7 +1091,7 @@
     "count": 5
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 9
    },
    {
@@ -1114,7 +1099,7 @@
     "count": 4
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 31
    },
    {
@@ -1236,7 +1221,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 2
    },
    {
@@ -1410,11 +1395,11 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 59
    },
    {
@@ -1511,10 +1496,7 @@
     "to_country": "Bulgaria",
     "count": 1
    },
-   {
-    "to_country": "C2",
-    "count": 17
-   },
+
    {
     "to_country": "Canada",
     "count": 132
@@ -1700,7 +1682,7 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 20
    },
    {
@@ -1708,7 +1690,7 @@
     "count": 9
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 84
    },
    {
@@ -1852,7 +1834,7 @@
     "count": 4
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 1
    },
    {
@@ -1897,10 +1879,7 @@
     "to_country": "Bulgaria",
     "count": 3
    },
-   {
-    "to_country": "C2",
-    "count": 7
-   },
+
    {
     "to_country": "Canada",
     "count": 99
@@ -1918,7 +1897,7 @@
     "count": 8
    },
    {
-    "to_country": "Cook Islands",
+    "to_country": "Cook Is.",
     "count": 1
    },
    {
@@ -2033,10 +2012,7 @@
     "to_country": "Luxembourg",
     "count": 1
    },
-   {
-    "to_country": "ME",
-    "count": 1
-   },
+
    {
     "to_country": "Macao",
     "count": 1
@@ -2086,7 +2062,7 @@
     "count": 3
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 7
    },
    {
@@ -2094,7 +2070,7 @@
     "count": 9
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 53
    },
    {
@@ -2332,7 +2308,7 @@
     "count": 2
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 24
    },
    {
@@ -2426,7 +2402,7 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 1
    },
    {
@@ -2511,10 +2487,7 @@
     "to_country": "Bulgaria",
     "count": 8
    },
-   {
-    "to_country": "C2",
-    "count": 24
-   },
+
    {
     "to_country": "Canada",
     "count": 4914
@@ -2656,7 +2629,7 @@
     "count": 1
    },
    {
-    "to_country": "Lao People's Democratic Republic",
+    "to_country": "Laos",
     "count": 1
    },
    {
@@ -2675,10 +2648,7 @@
     "to_country": "Luxembourg",
     "count": 6
    },
-   {
-    "to_country": "ME",
-    "count": 2
-   },
+
    {
     "to_country": "Macao",
     "count": 3
@@ -2736,7 +2706,7 @@
     "count": 2
    },
    {
-    "to_country": "Palestinian Territory",
+    "to_country": "Palestine",
     "count": 1
    },
    {
@@ -2768,7 +2738,7 @@
     "count": 7
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 45
    },
    {
@@ -2776,7 +2746,7 @@
     "count": 24
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 128
    },
    {
@@ -3046,7 +3016,7 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 4
    },
    {
@@ -3054,7 +3024,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 15
    },
    {
@@ -3139,10 +3109,7 @@
     "to_country": "Brazil",
     "count": 1
    },
-   {
-    "to_country": "C2",
-    "count": 34
-   },
+
    {
     "to_country": "Canada",
     "count": 42
@@ -3252,7 +3219,7 @@
     "count": 2
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 9
    },
    {
@@ -3260,7 +3227,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 11
    },
    {
@@ -3345,16 +3312,13 @@
     "to_country": "Brazil",
     "count": 6
    },
-   {
-    "to_country": "C2",
-    "count": 1
-   },
+
    {
     "to_country": "Canada",
     "count": 24
    },
    {
-    "to_country": "Cayman Islands",
+    "to_country": "Cayman Is.",
     "count": 1
    },
    {
@@ -3482,7 +3446,7 @@
     "count": 4
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 2
    },
    {
@@ -3490,7 +3454,7 @@
     "count": 5
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 11
    },
    {
@@ -3579,10 +3543,7 @@
     "to_country": "Bulgaria",
     "count": 1
    },
-   {
-    "to_country": "C2",
-    "count": 1
-   },
+
    {
     "to_country": "Canada",
     "count": 8
@@ -3660,7 +3621,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 4
    },
    {
@@ -3830,11 +3791,11 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 2
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 10
    },
    {
@@ -4071,10 +4032,7 @@
     "to_country": "Bulgaria",
     "count": 1
    },
-   {
-    "to_country": "C2",
-    "count": 1
-   },
+
    {
     "to_country": "Canada",
     "count": 18
@@ -4164,7 +4122,7 @@
     "count": 2
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 6
    },
    {
@@ -4172,7 +4130,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 34
    },
    {
@@ -4220,7 +4178,7 @@
     "count": 175
    }
   ],
-  "place": "Czechia",
+  "place": "Czech Republic",
   "capital_coords": [
    14.4378,
    50.075538
@@ -4284,10 +4242,6 @@
     "count": 1
    },
    {
-    "to_country": "C2",
-    "count": 7
-   },
-   {
     "to_country": "Canada",
     "count": 89
    },
@@ -4332,7 +4286,7 @@
     "count": 8
    },
    {
-    "to_country": "Faroe Islands",
+    "to_country": "Faeroe Is.",
     "count": 1
    },
    {
@@ -4403,10 +4357,7 @@
     "to_country": "Luxembourg",
     "count": 2
    },
-   {
-    "to_country": "ME",
-    "count": 1
-   },
+
    {
     "to_country": "Macao",
     "count": 2
@@ -4468,11 +4419,11 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 12
    },
    {
-    "to_country": "Reunion",
+    "to_country": "Réunion",
     "count": 1
    },
    {
@@ -4480,7 +4431,7 @@
     "count": 3
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 52
    },
    {
@@ -4720,7 +4671,7 @@
     "count": 2
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 2
    },
    {
@@ -4838,7 +4789,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 3
    },
    {
@@ -4988,7 +4939,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 5
    },
    {
@@ -5128,7 +5079,7 @@
     "count": 8
    }
   ],
-  "place": "Faroe Islands",
+  "place": "Faeroe Is.",
   "capital_coords": [
    -6.7909820000000005,
    62.007864
@@ -5202,10 +5153,6 @@
    {
     "to_country": "Bulgaria",
     "count": 1
-   },
-   {
-    "to_country": "C2",
-    "count": 9
    },
    {
     "to_country": "Canada",
@@ -5376,7 +5323,7 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 14
    },
    {
@@ -5384,7 +5331,7 @@
     "count": 10
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 53
    },
    {
@@ -5526,16 +5473,12 @@
     "count": 82
    },
    {
-    "to_country": "Brunei Darussalam",
+    "to_country": "Brunei",
     "count": 1
    },
    {
     "to_country": "Bulgaria",
     "count": 21
-   },
-   {
-    "to_country": "C2",
-    "count": 29
    },
    {
     "to_country": "Cambodia",
@@ -5598,7 +5541,7 @@
     "count": 33
    },
    {
-    "to_country": "Faroe Islands",
+    "to_country": "Faeroe Is.",
     "count": 1
    },
    {
@@ -5721,10 +5664,7 @@
     "to_country": "Luxembourg",
     "count": 35
    },
-   {
-    "to_country": "ME",
-    "count": 3
-   },
+
    {
     "to_country": "Macao",
     "count": 1
@@ -5818,11 +5758,11 @@
     "count": 2
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 92
    },
    {
-    "to_country": "Reunion",
+    "to_country": "Réunion",
     "count": 7
    },
    {
@@ -5830,7 +5770,7 @@
     "count": 42
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 247
    },
    {
@@ -5917,10 +5857,7 @@
     "to_country": "Vietnam",
     "count": 9
    },
-   {
-    "to_country": "XK",
-    "count": 3
-   },
+
    {
     "to_country": "Zambia",
     "count": 1
@@ -6080,7 +6017,7 @@
     "count": 2
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 9
    },
    {
@@ -6190,16 +6127,12 @@
     "count": 137
    },
    {
-    "to_country": "Brunei Darussalam",
+    "to_country": "Brunei",
     "count": 1
    },
    {
     "to_country": "Bulgaria",
     "count": 26
-   },
-   {
-    "to_country": "C2",
-    "count": 83
    },
    {
     "to_country": "Cambodia",
@@ -6254,11 +6187,11 @@
     "count": 81
    },
    {
-    "to_country": "Falkland Islands (Malvinas)",
+    "to_country": "Falkland Is.",
     "count": 1
    },
    {
-    "to_country": "Faroe Islands",
+    "to_country": "Faeroe Is.",
     "count": 2
    },
    {
@@ -6358,7 +6291,7 @@
     "count": 2
    },
    {
-    "to_country": "Lao People's Democratic Republic",
+    "to_country": "Laos",
     "count": 1
    },
    {
@@ -6381,10 +6314,7 @@
     "to_country": "Luxembourg",
     "count": 29
    },
-   {
-    "to_country": "ME",
-    "count": 1
-   },
+
    {
     "to_country": "Macao",
     "count": 6
@@ -6458,7 +6388,7 @@
     "count": 1
    },
    {
-    "to_country": "Palestinian Territory",
+    "to_country": "Palestine",
     "count": 1
    },
    {
@@ -6494,11 +6424,11 @@
     "count": 6
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 154
    },
    {
-    "to_country": "Reunion",
+    "to_country": "Réunion",
     "count": 5
    },
    {
@@ -6506,7 +6436,7 @@
     "count": 74
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 502
    },
    {
@@ -6601,12 +6531,9 @@
     "to_country": "Wallis and Futuna",
     "count": 1
    },
+
    {
-    "to_country": "XK",
-    "count": 5
-   },
-   {
-    "to_country": "\u00c5land Islands",
+    "to_country": "Aland Islands",
     "count": 1
    }
   ],
@@ -6626,10 +6553,6 @@
    {
     "to_country": "Austria",
     "count": 2
-   },
-   {
-    "to_country": "C2",
-    "count": 1
    },
    {
     "to_country": "Canada",
@@ -6756,10 +6679,6 @@
    {
     "to_country": "Bulgaria",
     "count": 3
-   },
-   {
-    "to_country": "C2",
-    "count": 4
    },
    {
     "to_country": "Canada",
@@ -6938,7 +6857,7 @@
     "count": 2
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 7
    },
    {
@@ -6946,7 +6865,7 @@
     "count": 17
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 50
    },
    {
@@ -7170,7 +7089,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 7
    },
    {
@@ -7242,10 +7161,6 @@
    {
     "to_country": "Brazil",
     "count": 5
-   },
-   {
-    "to_country": "C2",
-    "count": 11
    },
    {
     "to_country": "Cambodia",
@@ -7339,10 +7254,7 @@
     "to_country": "Lithuania",
     "count": 3
    },
-   {
-    "to_country": "ME",
-    "count": 1
-   },
+
    {
     "to_country": "Malaysia",
     "count": 1
@@ -7364,7 +7276,7 @@
     "count": 2
    },
    {
-    "to_country": "Palestinian Territory",
+    "to_country": "Palestine",
     "count": 1
    },
    {
@@ -7380,11 +7292,11 @@
     "count": 4
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 7
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 14
    },
    {
@@ -7487,10 +7399,6 @@
    },
    {
     "to_country": "Bulgaria",
-    "count": 2
-   },
-   {
-    "to_country": "C2",
     "count": 2
    },
    {
@@ -7622,7 +7530,7 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 3
    },
    {
@@ -7630,7 +7538,7 @@
     "count": 9
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 18
    },
    {
@@ -7722,10 +7630,6 @@
    {
     "to_country": "Brazil",
     "count": 4
-   },
-   {
-    "to_country": "C2",
-    "count": 3
    },
    {
     "to_country": "Canada",
@@ -7852,11 +7756,11 @@
     "count": 6
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 2
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 8
    },
    {
@@ -8098,7 +8002,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 17
    },
    {
@@ -8182,10 +8086,6 @@
    {
     "to_country": "Bulgaria",
     "count": 1
-   },
-   {
-    "to_country": "C2",
-    "count": 2
    },
    {
     "to_country": "Canada",
@@ -8284,11 +8184,11 @@
     "count": 3
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 4
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 2
    },
    {
@@ -8434,7 +8334,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 3
    },
    {
@@ -8510,10 +8410,6 @@
    {
     "to_country": "Bulgaria",
     "count": 2
-   },
-   {
-    "to_country": "C2",
-    "count": 4
    },
    {
     "to_country": "Canada",
@@ -8660,7 +8556,7 @@
     "count": 4
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 9
    },
    {
@@ -8668,7 +8564,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 15
    },
    {
@@ -8800,10 +8696,6 @@
     "count": 1
    },
    {
-    "to_country": "C2",
-    "count": 1
-   },
-   {
     "to_country": "Canada",
     "count": 35
    },
@@ -8916,11 +8808,11 @@
     "count": 6
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 3
    },
    {
-    "to_country": "Reunion",
+    "to_country": "Réunion",
     "count": 1
    },
    {
@@ -8928,7 +8820,7 @@
     "count": 3
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 17
    },
    {
@@ -9048,10 +8940,6 @@
    {
     "to_country": "Bulgaria",
     "count": 11
-   },
-   {
-    "to_country": "C2",
-    "count": 21
    },
    {
     "to_country": "Canada",
@@ -9201,10 +9089,7 @@
     "to_country": "Luxembourg",
     "count": 6
    },
-   {
-    "to_country": "ME",
-    "count": 1
-   },
+
    {
     "to_country": "Macao",
     "count": 3
@@ -9282,11 +9167,11 @@
     "count": 2
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 37
    },
    {
-    "to_country": "Reunion",
+    "to_country": "Réunion",
     "count": 2
    },
    {
@@ -9294,7 +9179,7 @@
     "count": 32
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 122
    },
    {
@@ -9496,7 +9381,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 1
    },
    {
@@ -9574,16 +9459,12 @@
     "count": 19
    },
    {
-    "to_country": "Brunei Darussalam",
+    "to_country": "Brunei",
     "count": 3
    },
    {
     "to_country": "Bulgaria",
     "count": 3
-   },
-   {
-    "to_country": "C2",
-    "count": 90
    },
    {
     "to_country": "Canada",
@@ -9630,7 +9511,7 @@
     "count": 4
    },
    {
-    "to_country": "Faroe Islands",
+    "to_country": "Faeroe Is.",
     "count": 2
    },
    {
@@ -9742,7 +9623,7 @@
     "count": 37
    },
    {
-    "to_country": "Palestinian Territory",
+    "to_country": "Palestine",
     "count": 2
    },
    {
@@ -9770,11 +9651,11 @@
     "count": 2
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 168
    },
    {
-    "to_country": "Reunion",
+    "to_country": "Réunion",
     "count": 1
    },
    {
@@ -9782,7 +9663,7 @@
     "count": 5
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 54
    },
    {
@@ -9926,10 +9807,6 @@
     "count": 1
    },
    {
-    "to_country": "C2",
-    "count": 1
-   },
-   {
     "to_country": "Canada",
     "count": 5
    },
@@ -10002,7 +9879,7 @@
     "count": 2
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 2
    },
    {
@@ -10094,10 +9971,6 @@
     "count": 2
    },
    {
-    "to_country": "C2",
-    "count": 3
-   },
-   {
     "to_country": "China",
     "count": 2
    },
@@ -10118,19 +9991,19 @@
     "count": 9
    },
    {
-    "to_country": "Lao People's Democratic Republic",
+    "to_country": "Laos",
     "count": 2
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 1
    },
    {
-    "to_country": "Reunion",
+    "to_country": "Réunion",
     "count": 4
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 5
    },
    {
@@ -10177,10 +10050,6 @@
    },
    {
     "to_country": "Brazil",
-    "count": 1
-   },
-   {
-    "to_country": "C2",
     "count": 1
    },
    {
@@ -10272,7 +10141,7 @@
     "count": 2
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 1
    },
    {
@@ -10280,7 +10149,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 23
    },
    {
@@ -10442,7 +10311,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 1
    },
    {
@@ -10514,10 +10383,6 @@
    {
     "to_country": "Brazil",
     "count": 1
-   },
-   {
-    "to_country": "C2",
-    "count": 2
    },
    {
     "to_country": "Canada",
@@ -10616,7 +10481,7 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 2
    },
    {
@@ -10624,7 +10489,7 @@
     "count": 2
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 14
    },
    {
@@ -10965,10 +10830,7 @@
     "to_country": "Bulgaria",
     "count": 3
    },
-   {
-    "to_country": "C2",
-    "count": 3
-   },
+
    {
     "to_country": "Canada",
     "count": 53
@@ -11130,11 +10992,11 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 8
    },
    {
-    "to_country": "Reunion",
+    "to_country": "Réunion",
     "count": 1
    },
    {
@@ -11142,7 +11004,7 @@
     "count": 6
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 33
    },
    {
@@ -11217,12 +11079,9 @@
     "to_country": "Venezuela",
     "count": 1
    },
+
    {
-    "to_country": "XK",
-    "count": 1
-   },
-   {
-    "to_country": "\u00c5land Islands",
+    "to_country": "Aland Islands",
     "count": 3
    }
   ],
@@ -11296,7 +11155,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 1
    },
    {
@@ -11337,10 +11196,7 @@
     "to_country": "Brazil",
     "count": 2
    },
-   {
-    "to_country": "C2",
-    "count": 1
-   },
+
    {
     "to_country": "Cambodia",
     "count": 2
@@ -11466,7 +11322,7 @@
     "count": 2
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 4
    },
    {
@@ -11523,10 +11379,7 @@
     "to_country": "Belgium",
     "count": 1
    },
-   {
-    "to_country": "C2",
-    "count": 1
-   },
+
    {
     "to_country": "Czech Republic",
     "count": 1
@@ -11564,11 +11417,11 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 2
    },
    {
@@ -11657,10 +11510,7 @@
     "to_country": "Bulgaria",
     "count": 10
    },
-   {
-    "to_country": "C2",
-    "count": 9
-   },
+
    {
     "to_country": "Canada",
     "count": 263
@@ -11825,10 +11675,7 @@
     "to_country": "Luxembourg",
     "count": 7
    },
-   {
-    "to_country": "ME",
-    "count": 1
-   },
+
    {
     "to_country": "Macao",
     "count": 1
@@ -11886,7 +11733,7 @@
     "count": 1
    },
    {
-    "to_country": "Palestinian Territory",
+    "to_country": "Palestine",
     "count": 1
    },
    {
@@ -11914,7 +11761,7 @@
     "count": 5
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 47
    },
    {
@@ -11922,7 +11769,7 @@
     "count": 21
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 138
    },
    {
@@ -11970,7 +11817,7 @@
     "count": 7
    },
    {
-    "to_country": "The Democratic Republic of The Congo",
+    "to_country": "Dem. Rep. Congo",
     "count": 1
    },
    {
@@ -12172,7 +12019,7 @@
     "count": 5
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 3
    },
    {
@@ -12180,7 +12027,7 @@
     "count": 5
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 10
    },
    {
@@ -12360,7 +12207,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 2
    },
    {
@@ -12454,7 +12301,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 3
    },
    {
@@ -12604,7 +12451,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 4
    },
    {
@@ -12685,10 +12532,7 @@
     "to_country": "Bulgaria",
     "count": 2
    },
-   {
-    "to_country": "C2",
-    "count": 3
-   },
+
    {
     "to_country": "Canada",
     "count": 101
@@ -12858,7 +12702,7 @@
     "count": 3
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 21
    },
    {
@@ -12866,7 +12710,7 @@
     "count": 4
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 42
    },
    {
@@ -13016,7 +12860,7 @@
     "count": 2
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 1
    },
    {
@@ -13069,10 +12913,7 @@
     "to_country": "Brazil",
     "count": 4
    },
-   {
-    "to_country": "C2",
-    "count": 1
-   },
+
    {
     "to_country": "Canada",
     "count": 17
@@ -13190,7 +13031,7 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 1
    },
    {
@@ -13198,7 +13039,7 @@
     "count": 3
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 5
    },
    {
@@ -13316,7 +13157,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 1
    },
    {
@@ -13377,10 +13218,7 @@
     "to_country": "Brazil",
     "count": 9
    },
-   {
-    "to_country": "C2",
-    "count": 9
-   },
+
    {
     "to_country": "Canada",
     "count": 98
@@ -13558,7 +13396,7 @@
     "count": 8
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 8
    },
    {
@@ -13566,7 +13404,7 @@
     "count": 4
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 52
    },
    {
@@ -13667,10 +13505,7 @@
     "to_country": "Bulgaria",
     "count": 1
    },
-   {
-    "to_country": "C2",
-    "count": 2
-   },
+
    {
     "to_country": "Canada",
     "count": 50
@@ -13836,7 +13671,7 @@
     "count": 2
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 5
    },
    {
@@ -13844,7 +13679,7 @@
     "count": 5
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 20
    },
    {
@@ -13970,7 +13805,7 @@
     "count": 10
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 1
    },
    {
@@ -14031,10 +13866,7 @@
     "to_country": "Bulgaria",
     "count": 21
    },
-   {
-    "to_country": "C2",
-    "count": 11
-   },
+
    {
     "to_country": "Canada",
     "count": 51
@@ -14216,7 +14048,7 @@
     "count": 10
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 1
    },
    {
@@ -14224,7 +14056,7 @@
     "count": 215
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 108
    },
    {
@@ -14338,17 +14170,14 @@
     "count": 24
    },
    {
-    "to_country": "Brunei Darussalam",
+    "to_country": "Brunei",
     "count": 1
    },
    {
     "to_country": "Bulgaria",
     "count": 10
    },
-   {
-    "to_country": "C2",
-    "count": 12
-   },
+
    {
     "to_country": "Canada",
     "count": 250
@@ -14489,10 +14318,7 @@
     "to_country": "Luxembourg",
     "count": 1
    },
-   {
-    "to_country": "ME",
-    "count": 2
-   },
+
    {
     "to_country": "Macao",
     "count": 2
@@ -14566,11 +14392,11 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 35
    },
    {
-    "to_country": "Reunion",
+    "to_country": "Réunion",
     "count": 1
    },
    {
@@ -14578,7 +14404,7 @@
     "count": 25
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 494
    },
    {
@@ -14708,7 +14534,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 1
    },
    {
@@ -14765,10 +14591,7 @@
     "to_country": "Bulgaria",
     "count": 3
    },
-   {
-    "to_country": "C2",
-    "count": 3
-   },
+
    {
     "to_country": "Canada",
     "count": 27
@@ -14894,7 +14717,7 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 1
    },
    {
@@ -14902,7 +14725,7 @@
     "count": 7
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 16
    },
    {
@@ -14979,10 +14802,7 @@
     "to_country": "Bulgaria",
     "count": 4
    },
-   {
-    "to_country": "C2",
-    "count": 4
-   },
+
    {
     "to_country": "Canada",
     "count": 8
@@ -15064,11 +14884,11 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 5
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 5
    },
    {
@@ -15210,7 +15030,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 2
    },
    {
@@ -15368,7 +15188,7 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 2
    },
    {
@@ -15376,7 +15196,7 @@
     "count": 3
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 24
    },
    {
@@ -15461,10 +15281,7 @@
     "to_country": "Brazil",
     "count": 4
    },
-   {
-    "to_country": "C2",
-    "count": 4
-   },
+
    {
     "to_country": "Canada",
     "count": 40
@@ -15561,10 +15378,7 @@
     "to_country": "Lesotho",
     "count": 1
    },
-   {
-    "to_country": "ME",
-    "count": 2
-   },
+
    {
     "to_country": "Malaysia",
     "count": 1
@@ -15606,11 +15420,11 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 2
    },
    {
-    "to_country": "Reunion",
+    "to_country": "Réunion",
     "count": 1
    },
    {
@@ -15618,7 +15432,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 4
    },
    {
@@ -15719,10 +15533,7 @@
     "to_country": "Brazil",
     "count": 2
    },
-   {
-    "to_country": "C2",
-    "count": 5
-   },
+
    {
     "to_country": "Canada",
     "count": 14
@@ -15808,7 +15619,7 @@
     "count": 2
    },
    {
-    "to_country": "Palestinian Territory",
+    "to_country": "Palestine",
     "count": 1
    },
    {
@@ -15824,11 +15635,11 @@
     "count": 2
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 68
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 5
    },
    {
@@ -15913,10 +15724,7 @@
     "to_country": "Bulgaria",
     "count": 3
    },
-   {
-    "to_country": "C2",
-    "count": 13
-   },
+
    {
     "to_country": "Canada",
     "count": 150
@@ -16061,10 +15869,7 @@
     "to_country": "Luxembourg",
     "count": 4
    },
-   {
-    "to_country": "ME",
-    "count": 3
-   },
+
    {
     "to_country": "Malta",
     "count": 3
@@ -16122,7 +15927,7 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 33
    },
    {
@@ -16130,7 +15935,7 @@
     "count": 11
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 73
    },
    {
@@ -16305,10 +16110,7 @@
     "to_country": "Bulgaria",
     "count": 9
    },
-   {
-    "to_country": "C2",
-    "count": 24
-   },
+
    {
     "to_country": "Canada",
     "count": 274
@@ -16474,7 +16276,7 @@
     "count": 3
    },
    {
-    "to_country": "Palestinian Territory",
+    "to_country": "Palestine",
     "count": 1
    },
    {
@@ -16506,7 +16308,7 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 23
    },
    {
@@ -16514,7 +16316,7 @@
     "count": 8
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 107
    },
    {
@@ -16635,10 +16437,7 @@
     "to_country": "Bulgaria",
     "count": 5
    },
-   {
-    "to_country": "C2",
-    "count": 15
-   },
+
    {
     "to_country": "Canada",
     "count": 91
@@ -16759,10 +16558,7 @@
     "to_country": "Luxembourg",
     "count": 3
    },
-   {
-    "to_country": "ME",
-    "count": 1
-   },
+
    {
     "to_country": "Malta",
     "count": 1
@@ -16804,11 +16600,11 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 10
    },
    {
-    "to_country": "Reunion",
+    "to_country": "Réunion",
     "count": 2
    },
    {
@@ -16816,7 +16612,7 @@
     "count": 9
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 36
    },
    {
@@ -16888,7 +16684,7 @@
     "count": 702
    },
    {
-    "to_country": "\u00c5land Islands",
+    "to_country": "Aland Islands",
     "count": 1
    }
   ],
@@ -16913,10 +16709,7 @@
     "to_country": "Brazil",
     "count": 1
    },
-   {
-    "to_country": "C2",
-    "count": 6
-   },
+
    {
     "to_country": "Canada",
     "count": 9
@@ -16982,7 +16775,7 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 8
    },
    {
@@ -16990,7 +16783,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 4
    },
    {
@@ -17051,10 +16844,7 @@
     "to_country": "Brazil",
     "count": 2
    },
-   {
-    "to_country": "C2",
-    "count": 4
-   },
+
    {
     "to_country": "Canada",
     "count": 3
@@ -17116,11 +16906,11 @@
     "count": 4
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 1
    },
    {
@@ -17174,7 +16964,7 @@
     "count": 1
    },
    {
-    "to_country": "British Virgin Islands",
+    "to_country": "British Virgin Is.",
     "count": 2
    },
    {
@@ -17401,10 +17191,7 @@
     "to_country": "Brazil",
     "count": 2
    },
-   {
-    "to_country": "C2",
-    "count": 1
-   },
+
    {
     "to_country": "Canada",
     "count": 15
@@ -17526,7 +17313,7 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 2
    },
    {
@@ -17534,7 +17321,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 7
    },
    {
@@ -17619,10 +17406,7 @@
     "to_country": "Brazil",
     "count": 2
    },
-   {
-    "to_country": "C2",
-    "count": 1
-   },
+
    {
     "to_country": "Canada",
     "count": 22
@@ -17704,7 +17488,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 3
    },
    {
@@ -17785,10 +17569,7 @@
     "to_country": "Bulgaria",
     "count": 12
    },
-   {
-    "to_country": "C2",
-    "count": 6
-   },
+
    {
     "to_country": "Canada",
     "count": 37
@@ -17938,7 +17719,7 @@
     "count": 1
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 3
    },
    {
@@ -17946,7 +17727,7 @@
     "count": 8
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 70
    },
    {
@@ -18198,17 +17979,14 @@
     "count": 270
    },
    {
-    "to_country": "Brunei Darussalam",
+    "to_country": "Brunei",
     "count": 1
    },
    {
     "to_country": "Bulgaria",
     "count": 54
    },
-   {
-    "to_country": "C2",
-    "count": 184
-   },
+
    {
     "to_country": "Cambodia",
     "count": 10
@@ -18222,7 +18000,7 @@
     "count": 1
    },
    {
-    "to_country": "Cayman Islands",
+    "to_country": "Cayman Is.",
     "count": 4
    },
    {
@@ -18238,7 +18016,7 @@
     "count": 62
    },
    {
-    "to_country": "Cook Islands",
+    "to_country": "Cook Is.",
     "count": 2
    },
    {
@@ -18286,7 +18064,7 @@
     "count": 187
    },
    {
-    "to_country": "Faroe Islands",
+    "to_country": "Faeroe Is.",
     "count": 2
    },
    {
@@ -18429,10 +18207,7 @@
     "to_country": "Luxembourg",
     "count": 55
    },
-   {
-    "to_country": "ME",
-    "count": 5
-   },
+
    {
     "to_country": "Macao",
     "count": 25
@@ -18514,7 +18289,7 @@
     "count": 2
    },
    {
-    "to_country": "Palestinian Territory",
+    "to_country": "Palestine",
     "count": 6
    },
    {
@@ -18550,11 +18325,11 @@
     "count": 18
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 365
    },
    {
-    "to_country": "Reunion",
+    "to_country": "Réunion",
     "count": 12
    },
    {
@@ -18562,7 +18337,7 @@
     "count": 221
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 1003
    },
    {
@@ -18677,10 +18452,7 @@
     "to_country": "Vietnam",
     "count": 32
    },
-   {
-    "to_country": "XK",
-    "count": 3
-   },
+
    {
     "to_country": "Zambia",
     "count": 1
@@ -18784,17 +18556,14 @@
     "count": 318
    },
    {
-    "to_country": "Brunei Darussalam",
+    "to_country": "Brunei",
     "count": 13
    },
    {
     "to_country": "Bulgaria",
     "count": 47
    },
-   {
-    "to_country": "C2",
-    "count": 203
-   },
+
    {
     "to_country": "Cambodia",
     "count": 7
@@ -18804,7 +18573,7 @@
     "count": 7271
    },
    {
-    "to_country": "Cayman Islands",
+    "to_country": "Cayman Is.",
     "count": 2
    },
    {
@@ -18820,7 +18589,7 @@
     "count": 73
    },
    {
-    "to_country": "Cook Islands",
+    "to_country": "Cook Is.",
     "count": 8
    },
    {
@@ -18864,7 +18633,7 @@
     "count": 114
    },
    {
-    "to_country": "Faroe Islands",
+    "to_country": "Faeroe Is.",
     "count": 4
    },
    {
@@ -18992,7 +18761,7 @@
     "count": 5
    },
    {
-    "to_country": "Lao People's Democratic Republic",
+    "to_country": "Laos",
     "count": 1
    },
    {
@@ -19019,10 +18788,7 @@
     "to_country": "Luxembourg",
     "count": 58
    },
-   {
-    "to_country": "ME",
-    "count": 6
-   },
+
    {
     "to_country": "Macao",
     "count": 9
@@ -19116,7 +18882,7 @@
     "count": 1
    },
    {
-    "to_country": "Palestinian Territory",
+    "to_country": "Palestine",
     "count": 7
    },
    {
@@ -19152,11 +18918,11 @@
     "count": 15
    },
    {
-    "to_country": "Republic of Korea",
+    "to_country": "South Korea",
     "count": 340
    },
    {
-    "to_country": "Reunion",
+    "to_country": "Réunion",
     "count": 8
    },
    {
@@ -19164,7 +18930,7 @@
     "count": 115
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 835
    },
    {
@@ -19248,7 +19014,7 @@
     "count": 43
    },
    {
-    "to_country": "U.S. Virgin Islands",
+    "to_country": "U.S. Virgin Is.",
     "count": 3
    },
    {
@@ -19313,10 +19079,7 @@
     "to_country": "Brazil",
     "count": 1
    },
-   {
-    "to_country": "C2",
-    "count": 1
-   },
+
    {
     "to_country": "Canada",
     "count": 1
@@ -19459,10 +19222,7 @@
     "to_country": "Austria",
     "count": 1
    },
-   {
-    "to_country": "C2",
-    "count": 1
-   },
+
    {
     "to_country": "Canada",
     "count": 4
@@ -19536,7 +19296,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 1
    },
    {
@@ -19577,10 +19337,7 @@
     "to_country": "Australia",
     "count": 2
    },
-   {
-    "to_country": "C2",
-    "count": 2
-   },
+
    {
     "to_country": "Canada",
     "count": 2
@@ -19630,7 +19387,7 @@
     "count": 1
    },
    {
-    "to_country": "Russian Federation",
+    "to_country": "Russia",
     "count": 4
    },
    {
@@ -19859,14 +19616,14 @@
   ]
  },
  {
-  "place": "British Indian Ocean Territory",
+  "place": "Br. Indian Ocean Ter.",
   "capital_coords": [
    55.4778,
    21.3419
   ]
  },
  {
-  "place": "British Virgin Islands",
+  "place": "British Virgin Is.",
   "capital_coords": [
    -64.618466,
    18.428612
@@ -19908,7 +19665,7 @@
   ]
  },
  {
-  "place": "Cayman Islands",
+  "place": "Cayman Is.",
   "capital_coords": [
    -81.367439,
    19.286932
@@ -19957,14 +19714,14 @@
   ]
  },
  {
-  "place": "Congo (Republic)",
+  "place": "Congo",
   "capital_coords": [
    15.242885000000001,
    -4.26336
   ]
  },
  {
-  "place": "Cook Islands",
+  "place": "Cook Is.",
   "capital_coords": [
    -159.782306,
    -21.212901000000002
@@ -19999,7 +19756,7 @@
   ]
  },
  {
-  "place": "Equatorial Guinea",
+  "place": "Eq. Guinea",
   "capital_coords": [
    8.737103999999999,
    3.7504120000000003
@@ -20013,7 +19770,7 @@
   ]
  },
  {
-  "place": "Falkland Islands (Islas Malvinas)",
+  "place": "Falkland Is.",
   "capital_coords": [
    -57.851663,
    -51.697713
@@ -20195,7 +19952,7 @@
   ]
  },
  {
-  "place": "Macau",
+  "place": "Macao",
   "capital_coords": [
    113.55,
    22.166667
@@ -20223,7 +19980,7 @@
   ]
  },
  {
-  "place": "Marshall Islands",
+  "place": "Marshall Is.",
   "capital_coords": [
    171.185774,
    7.116421000000001
@@ -20300,7 +20057,7 @@
   ]
  },
  {
-  "place": "Myanmar (Burma)",
+  "place": "Myanmar",
   "capital_coords": [
    96.07851,
    19.763306
@@ -20370,7 +20127,7 @@
   ]
  },
  {
-  "place": "Northern Mariana Islands",
+  "place": "N. Mariana Is.",
   "capital_coords": [
    145.750967,
    15.177801
@@ -20433,7 +20190,7 @@
   ]
  },
  {
-  "place": "R\u00e9union",
+  "place": "Réunion",
   "capital_coords": [
    55.450675,
    -20.882057
@@ -20503,7 +20260,7 @@
   ]
  },
  {
-  "place": "Solomon Islands",
+  "place": "Solomon Is.",
   "capital_coords": [
    159.9729,
    -9.445638
@@ -20517,7 +20274,7 @@
   ]
  },
  {
-  "place": "South Georgia and the South Sandwich Islands",
+  "place": "S. Geo. and the Is.",
   "capital_coords": [
    -36.493735,
    -54.28325
@@ -20552,7 +20309,7 @@
   ]
  },
  {
-  "place": "St. Lucia",
+  "place": "Saint Lucia",
   "capital_coords": [
    -60.987469,
    14.010109
@@ -20678,7 +20435,7 @@
   ]
  },
  {
-  "place": "U.S. Virgin Islands",
+  "place": "U.S. Virgin Is.",
   "capital_coords": [
    -64.930701,
    18.3419

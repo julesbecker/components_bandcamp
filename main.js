@@ -23,7 +23,7 @@ const tip = d3.tip()
       .attr('class', "d3-tip")
       .style("color", "white")
       .style("padding", "6px")
-      .offset([-10, 0])
+      .offset([-15, 0])
       .html(function(d) {return `<div style='float: right'>${d}</div>`});
 
 const zoom = d3.zoom()
@@ -33,20 +33,23 @@ const zoom = d3.zoom()
     .on("zoom", function(event, d) {
         const { transform } = event;
         map.attr('transform', transform);
-        if(buttonvalue == 0) {return}
+        zoomscale = transform.k**.7;
+        if(buttonvalue == 0) {
+          borders.selectAll(".flowline")
+          .attr("stroke-width", d => {
+            return 2 / zoomscale;
+          });
+        }
         else {
           map.selectAll("circle")
           .attr('r', d => {
             let radiusval = 4;
             buttonvalue != 1 ? radiusval=d.radius: radiusval=4;
-            zoomscale = transform.k**.7;
             return radiusval / zoomscale;
           });
         };
         }
     );
-
-console.log(cfos)
 
 // set up dimensions for each svg
 var height = 700;
@@ -125,12 +128,17 @@ let lp_path = landpaths.append("path")
     .attr("fill", "white")
     .attr("d", path);
 
+let countryFlows = landpaths.append("g");
+
+function giveID(name) { console.log(name.split(".").join("").split(" ").join("")); return name.split(".").join("").split(" ").join("") };
+
 borders.selectAll("rect")
     .data(cfos)
     .join("rect")
         .attr("class", "capmarker")
-        .attr("id", (d) => d.place.replace(".", "").split(" ").join(""))
-        .attr("transform", (d) => `translate(${projection(d.capital_coords)})`);
+        .attr("id", (d) => giveID(d.place))
+        .attr("x", (d) => projection(d.capital_coords)[0])
+        .attr("y", (d) => projection(d.capital_coords)[1]);
 
 borders.selectAll("path")
     .data(countries.features)
@@ -140,62 +148,16 @@ borders.selectAll("path")
         .attr("class", "countrypath")
         .on('mouseenter', function(event, d) {
             // show tooltip on mouse enter, using capital marker
-            var countryID = d.properties.name.split(".").join("").split(" ").join("");
-            var capLL = borders.select(`rect#${countryID}`).node();
+            var capLL = borders.select(`rect#${giveID(d.properties.name)}`).node();
             tip.show(d.properties.name, capLL);
             d3.select(this).attr("stroke-width", .25).attr('stroke', "white");
         })
         .on('click', function(event, d) {
-            let cfosSelect = cfos.find((element) => element.place === d.properties.name)
-            console.log("cfosSelect", cfosSelect)
-            let toCountries = new Map();
-            cfosSelect.to_countries.sort(function (a, b) {
-                return b.count - a.count;
-            }).map(country => {toCountries.set(country.to_country, country.count)});
-
-            // Show links to other countries, pulled from the "cfos" to_countries section.
-            borders.selectAll("path").each(function() {
-                d3.select(this)
-                    .attr("fill", d => color(toCountries.get(d.properties.name)))
-            });
-
-            // Highlight only the selected country
-            d3.select(this)
-                .attr('fill', 'red');
-
-            chart.selectAll('#dTextg').remove();
-
-            country_sales_db.select("#countrytitle")
-                .text(`${d.properties.name}:`);
-
-            let dTextg = country_sales_db.append("g").attr("id", "dTextg");
-            let dtgSpace = 100;
-            toCountries.forEach(function(value, key) {
-                dTextg.append("text")
-                    .attr("x", 170)
-                    .attr("y", dtgSpace)
-                    .text(key + " - " + value);
-                dtgSpace += 20;
-            })
-
-            // lc = d3.line()
-            //     .curve(d3[curve])
-            //     .x(d => walkX(d.step))
-            //     .y(d => walkY(d.value))
-
-            // svg`<svg width=${width} height=200>
-            //   <path d="${lc(walk)}" stroke="black" fill="none" />
-            //
-            // ${walk.map(
-            //   d =>
-            //     svg`<circle r=2 stroke=black fill=white stroke-width=0.5
-            //       cx="${walkX(d.step)}" cy="${walkY(d.value)}" />`
-            // )}
-            // </svg>`
-
-          })
+            borders.call(countrySelected, d)
+        })
         .on('mouseout', function(event, d) {
             d3.select(this).attr('stroke-width', "").attr('stroke', "");
+            tip.hide();
         })
         .append("title")
             .text(d => `${d.properties.name}
@@ -203,6 +165,7 @@ borders.selectAll("path")
 
 map.selectAll("rect")
     .on('click', function() {
+        borders.selectAll(".flowline").remove();
         borders.selectAll("path").each(function() {
               d3.select(this)
               .attr("fill", d => color(countryflowobjs.get(d.properties.name)))
@@ -222,7 +185,6 @@ svg.append("path")
     .attr("fill", "none")
     .attr("stroke-width", 1)
     .attr("stroke", "black");
-
 
 // TO DO: finish this function, remove extraneous code.
 function switchChart(toggle, dataHold, buttonvalue) {
@@ -499,6 +461,7 @@ function toggleCountries(selection, maptoggle) {
         landpaths.selectAll("#lp_path").remove()
     }
     else if (landpaths.selectAll("#lp_path").empty()) {
+        borders.selectAll(".flowline").remove();
         landpaths.append("path")
             .datum(topojson.feature(countries50, countries50.objects.land))
             .attr("id", "lp_path")
@@ -508,21 +471,84 @@ function toggleCountries(selection, maptoggle) {
     else {return}
 }
 
+function countrySelected(selection, d) {
+      let cfosSelect = cfos.find((element) => element.place === d.properties.name)
+      let toCountries = new Map();
+      cfosSelect.to_countries.sort(function (a, b) {
+          return b.count - a.count;
+      }).map(country => {toCountries.set(country.to_country, country.count)});
+
+      borders.selectAll(".flowline").remove();
+      // Show links to other countries, pulled from the "cfos" to_countries section.
+      borders.selectAll("path").each(function() {
+          d3.select(this)
+              .attr("fill", d => color(toCountries.get(d.properties.name)))
+      });
+      cfosSelect.to_countries.forEach(d => {
+          let capBox = borders.select(`rect#${giveID(d.to_country)}`);
+          let capCoords = projection(cfosSelect.capital_coords);
+          // use length to calculate curve coords - take the midpoint
+          let lineCurveX = ((Math.round(capBox.attr("x")) + Math.round(capCoords[0])) / 2.35);
+          let lineCurveY = ((Math.round(capBox.attr("y")) + Math.round(capCoords[1])) / 2.35);
+          borders.append('defs')
+              .append('marker')
+              .attr('id', 'arrow')
+              // .attr('viewBox', [0, 0, 20, 20])
+              .attr('refX', 2.5)
+              .attr('refY', 2.5)
+              .attr("class", "flowline")
+              .attr('markerWidth', 5)
+              .attr('markerHeight', 5)
+              .attr('orient', 'auto-start-reverse')
+              .append('path')
+              .attr('d', d3.line()([[0, 0], [0, 5], [5, 2.5]]))
+              .attr('stroke', 'black');
+          borders.append("path")
+              .attr("class", "flowline")
+              .attr("fill", "transparent")
+              .attr("d", `M ${capCoords[0]} ${capCoords[1]} Q ${lineCurveX} ${lineCurveY} ${capBox.attr("x")} ${capBox.attr("y")}`)
+              .attr('marker-end', 'url(#arrow)')
+              .attr("stroke-width", 2 / zoomscale)
+              .attr("stroke", "purple")
+              .attr('opacity', .7);
+      });
+
+      // Highlight only the selected country
+      d3.select(this)
+          .attr('fill', 'red');
+          // Update the chart
+      chart.selectAll('#dTextg').remove();
+
+      country_sales_db.select("#countrytitle")
+          .text(`${d.properties.name}:`);
+
+      // show chart on the left
+      let dTextg = country_sales_db.append("g").attr("id", "dTextg");
+      let dtgSpace = 100;
+      toCountries.forEach(function(value, key) {
+          dTextg.append("text")
+              .attr("x", 170)
+              .attr("y", dtgSpace)
+              .text(key + " - " + value);
+          dtgSpace += 20;
+      })
+}
+
 // SECTION: Styling the svg
 d3.selectAll(".displayopt")
     .style("font-family", "orion")
     .style("text-anchor", "middle")
     .on('mouseover', function(d, i) {
         d3.select(this)
-          .style('font-weight', 'bold');
-      })
+            .style('font-weight', 'bold');
+    })
 
     .on('mouseout', function(d, i) {
         d3.select(this)
-          .style('font-weight', '');
+            .style('font-weight', '');
       });
 
 // SECTION: call additional functions
-let zoomed = svg.call(zoom);
+svg.call(zoom);
 
 map.call(tip);
