@@ -68,8 +68,7 @@ const projection = d3.geoPolyhedralButterfly()
     .translate([width / 2, (height / 2)-20])
     .precision(.1);
 
-const path = d3.geoPath()
-    .projection(projection);
+const path = d3.geoPath().projection(projection);
 
 const radius = d3.scaleSqrt()
     .domain([0, d3.max(data, city => city.total_no)])
@@ -94,7 +93,7 @@ const chart = d3.select("div#container")
     .attr("viewBox", `0 0 ${cWidth} ${cHeight}`)
     .classed("svg-content", true)
     .style("width", "40%")
-    .style("height", "100%")
+    .style("height", "700")
     .attr("preserveAspectRatio", "xMinYMin meet");
 
 const svg = d3.select("div#container")
@@ -102,7 +101,7 @@ const svg = d3.select("div#container")
     .attr("viewBox", `0 0 ${width} ${height}`)
     .classed("svg-content", true)
       .style("width", "60%")
-      .style("height", "100%")
+      .style("height", "700")
       .attr("preserveAspectRatio", "xMinYMin meet");
 
 // SECTION: setting up map...
@@ -130,7 +129,7 @@ let lp_path = landpaths.append("path")
 
 let countryFlows = landpaths.append("g");
 
-function giveID(name) { console.log(name.split(".").join("").split(" ").join("")); return name.split(".").join("").split(" ").join("") };
+function giveID(name) { return name.split(".").join("").split(" ").join("") };
 
 borders.selectAll("rect")
     .data(cfos)
@@ -406,8 +405,7 @@ function updateBars(place, bars) {
             .tickSizeOuter(0));
     }
 
-    genre_bar
-        .select("g#x_axis")
+    genre_bar.select("g#x_axis")
         .attr("class", "axis")
         .attr("transform", `translate(0,${cMargin.top})`)
         .transition(t).duration(500)
@@ -417,13 +415,11 @@ function updateBars(place, bars) {
             .style("text-anchor", "start")
             .attr("transform", `rotate(-40)`);
 
-    genre_bar
-        .select("g#y_axis")
+    genre_bar.select("g#y_axis")
         .attr("class", "axis")
         .call(yAxis);
 
-    genre_bar
-        .select("g#chartlabel")
+    genre_bar.select("g#chartlabel")
         .select("text")
         .text(place);
 
@@ -444,14 +440,155 @@ function updateBars(place, bars) {
 
 //SECTION: Setting up the country flow on the chart...
 
-let country_sales_db = chart.append("g");
+let country_sales_db = chart.append("g").attr("id", "countrysalesdb");
 
 country_sales_db.append("text")
     .text("")
     .attr("id", "countrytitle")
     .attr('fill', 'red')
     .attr('x', 20)
-    .attr('y', 180)
+    .attr('y', 180);
+
+
+
+
+
+
+
+
+  // Add title to graph
+  country_sales_db.append("text")
+          .attr("x", 0)
+          .attr("y", -50)
+          .attr("text-anchor", "left")
+          .style("font-size", "22px")
+          .text("A d3.js heatmap");
+
+  // Add subtitle to graph
+  country_sales_db.append("text")
+          .attr("x", 0)
+          .attr("y", -20)
+          .attr("text-anchor", "left")
+          .style("font-size", "14px")
+          .style("fill", "grey")
+          .style("max-width", 800)
+          .text("A short description of the take-away message of this chart.");
+
+let heatmap = d3.select("#container")
+    .append("svg")
+    .style("height", 1600)
+    .style("width", 1600);
+
+//Read the data
+d3.csv("./heatmap.csv").then((data) => {
+    // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
+    var myGroups = d3.map(data, function(d){return d.from_country;}) //group
+    var myVars = d3.map(data, function(d){return d.from_country;}) //variable
+
+    let hmWidth = 1300;
+    let hmHeight = 1300;
+    // Build X scales and axis:
+    var x = d3.scaleBand()
+      .range([ 100, 100+hmWidth ])
+      .domain(myGroups)
+      .padding(0.05);
+    heatmap.append("g")
+      .style("font-size", 10)
+      .attr("id", "xlabels")
+      .attr("transform", "translate(0," + (hmHeight) + ")")
+      .call(d3.axisBottom(x))
+      .select(".domain").remove();
+
+    heatmap.select("#xlabels").selectAll("text")
+        .style("font-family", "cinetype")
+        .style("text-anchor", "end")
+        .attr("transform", "rotate(-40) translate(-5, -5)");
+
+    // Build Y scales and axis:
+    var y = d3.scaleBand()
+      .range([ hmHeight, 0 ])
+      .domain(myVars)
+      .padding(0.05);
+    heatmap.append("g")
+      .style("font-size", 10)
+      .attr("id", "ylabels")
+      .attr("transform", "translate( 100 , 0 )")
+      .call(d3.axisLeft(y))
+      .select(".domain").remove();
+
+    // Build color scale
+    var myColor = d3.scaleSequential()
+      .interpolator(d3.interpolateViridis)
+      .domain([1,100]);
+
+    // create a tooltip
+    var tooltip = d3.select("#my_dataviz")
+      .append("div")
+      .style("opacity", 0)
+      .attr("class", "tooltip")
+      .style("background-color", "white")
+      .style("border", "solid")
+      .style("border-width", "2px")
+      .style("border-radius", "5px")
+      .style("padding", "5px")
+
+    // add the squares
+    heatmap.selectAll()
+      .data(data, function(d) {return d.from_country+':'+d.to_country;})
+      .enter()
+      .append("rect")
+        .attr("x", function(d) { return x(d.from_country) })
+        .attr("y", function(d) { return y(d.to_country) })
+        .attr("rx", 4)
+        .attr("ry", 4)
+        .attr("width", x.bandwidth() )
+        .attr("height", y.bandwidth() )
+        .style("fill", function(d) { return myColor(d.count)} )
+        .style("stroke-width", 4)
+        .style("stroke", "none")
+        .style("opacity", 0.8)
+        .on('mouseenter', function(event, d) {
+            // show tooltip on mouse enter, using capital marker
+            tip.show(d.count, this);
+            d3.select(this)
+              .style("stroke", "black")
+              .style("opacity", 1);
+        })
+        .on('mouseout', function(event, d) {
+            // hide tooltip on mouse out
+            tip.hide();
+            d3.select(this)
+              .style("stroke", "none")
+              .style("opacity", 0.8);
+        });
+})
+
+
+
+
+
+heatmap.selectAll('text')
+                  .style("font-family", "cinetype")
+                  .style("text-anchor", "start")
+                  .attr("transform", `rotate(-40)`);
+
+// Add title to graph
+heatmap.append("text")
+      .attr("x", 0)
+      .attr("y", -50)
+      .attr("text-anchor", "left")
+      .style("font-size", "22px")
+      .text("A d3.js heatmap");
+
+// Add subtitle to graph
+heatmap.append("text")
+      .attr("x", 0)
+      .attr("y", -20)
+      .attr("text-anchor", "left")
+      .style("font-size", "14px")
+      .style("fill", "grey")
+      .style("max-width", 400)
+      .text("A short description of the take-away message of this chart.");
 
 
 // SECTION: Setting up the country_map view...
@@ -469,7 +606,7 @@ function toggleCountries(selection, maptoggle) {
             .attr("d", path);
     }
     else {return}
-}
+};
 
 function countrySelected(selection, d) {
       let cfosSelect = cfos.find((element) => element.place === d.properties.name)
@@ -493,7 +630,6 @@ function countrySelected(selection, d) {
           borders.append('defs')
               .append('marker')
               .attr('id', 'arrow')
-              // .attr('viewBox', [0, 0, 20, 20])
               .attr('refX', 2.5)
               .attr('refY', 2.5)
               .attr("class", "flowline")
@@ -532,7 +668,7 @@ function countrySelected(selection, d) {
               .text(key + " - " + value);
           dtgSpace += 20;
       })
-}
+};
 
 // SECTION: Styling the svg
 d3.selectAll(".displayopt")
