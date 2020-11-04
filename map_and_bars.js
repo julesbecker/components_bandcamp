@@ -450,9 +450,6 @@ country_sales_db.append("text")
     .attr('y', 180);
 
 
-
-
-
   // Add title to graph
   country_sales_db.append("text")
           .attr("x", 0)
@@ -470,7 +467,6 @@ country_sales_db.append("text")
           .style("fill", "grey")
           .style("max-width", 800)
           .text("A short description of the take-away message of this chart.");
-
 
 
 // SECTION: Setting up the country_map view...
