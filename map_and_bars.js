@@ -1,7 +1,6 @@
 "use strict";
 
 // import required modules
-var topojson = require("topojson-client");
 var d3 = require('d3');
 var textwrap = require('d3-textwrap').textwrap;
 var d3tip = require('d3-tip');
@@ -318,11 +317,7 @@ const selectedShapes = cityCircles.selectAll("circles")
     .on('mouseout', function(event, d) {
         // hide tooltip on mouse out
         tip.hide();
-        if (!this.classList.contains("circSelect")) {
-          console.log("we got hte class!");
-          d3.select(this).attr('fill', "green");
-        }
-        // if($(this).attr("class") != "circSelect") {d3.select(this).attr('fill', "green")}
+        if($(this).attr("class") != "circSelect") {d3.select(this).attr('fill', "green")}
     });
 
 // SECTION: Load circle toggle
@@ -455,9 +450,6 @@ country_sales_db.append("text")
     .attr('y', 180);
 
 
-
-
-
   // Add title to graph
   country_sales_db.append("text")
           .attr("x", 0)
@@ -475,7 +467,6 @@ country_sales_db.append("text")
           .style("fill", "grey")
           .style("max-width", 800)
           .text("A short description of the take-away message of this chart.");
-
 
 
 // SECTION: Setting up the country_map view...
