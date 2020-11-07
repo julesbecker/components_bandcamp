@@ -15,7 +15,7 @@ d3.legend = colorLegend;
 const network_data = require("./network_graph.json");
 const countries50 = require("./countries50.json");
 const countries = topojson.feature(countries50, countries50.objects.countries);
-const data = require("./locations-and-their-genres.json")
+// const data = require("./locations-and-their-genres.json")
 
 // SECTION: prepare imported functions
 var wrap = d3.textwrap().bounds({height: 175, width: 175});
@@ -75,12 +75,13 @@ const projection = d3.geoPolyhedralButterfly()
 const path = d3.geoPath().projection(projection);
 
 const radius = d3.scaleSqrt()
-    .domain([0, d3.max(data, city => city.total_no)])
+    .domain([0, d3.max(network_data, city => city.city_count)])
     .range([1, width / 50]);
 
 // SECTION: prepare imported data
 
-data.map((d) => { d.radius = radius(d.total_no); });
+//is this nodes,
+network_data.map((d) => { d.radius = radius(d.c); });
 
 // SECTION: create svgs
 let netviz = d3.select("#container")
@@ -220,7 +221,7 @@ const cityCircles = map.append("g");
 
 const selectedShapes = cityCircles.selectAll("circles")
   .attr("id", "cityCircles")
-  .data(data)
+  .data(network_data)
   //NOTE: Circle characteristics are set here
   .join("circle")
     .attr("transform", (d) => `translate(${projection(d.coords)})`)
@@ -229,12 +230,13 @@ const selectedShapes = cityCircles.selectAll("circles")
     //NOTE: mouseover behavior determined here
     .on('mouseenter', function(event, d) {
         // show tooltip on mouse enter
-        tip.show(d.place, this);
+        tip.show(d.city, this);
         d3.select(this).attr('fill', "red");
     })
     .on('click', function(event, d) {
         if(rendSwitch == 0) {rendSwitch = 1};
-            placeHold = d.place;
+            placeHold = d.city;
+            console.log("d", d)
             d3.selectAll(".circSelect").attr("fill", "green").attr("opacity", .7);
             d3.selectAll("circle").classed('circSelect', false);
             d3.select(this).classed("circSelect", true).attr("fill", "red")
@@ -242,7 +244,7 @@ const selectedShapes = cityCircles.selectAll("circles")
         // WRITE OUT SELECTION OF NETVIZ DATA HERE
         // need to specify the city for both node and edge sheets
         let cityNets = network_data.filter(obj => {
-            return obj.c === d.place
+            return obj.city === d.city
         });
         networkGenres(cityNets);
     })
@@ -330,19 +332,11 @@ function networkGenres(citydata) {
 
     netviz.selectAll("g").remove();
 
-    // let cityNodes = nodes.filter(obj => {
-    //   return obj.city === city
-    // });
-    // let cityLinks = links.filter(obj => {
-    //   return obj.city === city
-    // });;
-    // console.log('cityNodes',cityNodes)
-    // console.log('cityLinks',cityLinks)
     let statusColor = d3.scaleSequential([d3.min(cityNodes, d => d.relative), d3.max(cityNodes, d => d.relative)], d3.interpolateTurbo);
 
     const simulation = d3.forceSimulation(cityNodes)
         .force("link", d3.forceLink(cityLinks).id(d => d.genre))
-        .force("charge", d3.forceManyBody().strength(-150))
+        .force("charge", d3.forceManyBody().strength(-150).distanceMax(height/2))
         .force("center", d3.forceCenter(width/2, cHeight/2));
 
     const link = netviz.append("g")
