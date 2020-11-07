@@ -21,6 +21,7 @@
   "scripts": {
     "watch": "watchify main.js -o bundle.js -v",
     "serve": "serve",
+    "build": "webpack ./main.js --output-filename=bundle.js --mode=development",
     "start": "npm-run-all -p watch serve"
   },
   "repository": {

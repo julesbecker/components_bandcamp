@@ -12,13 +12,16 @@ d3.textwrap = textwrap;
 d3.tip = d3tip;
 d3.legend = colorLegend;
 
-const data = require("./locations-and-their-genres.json")
+const network_data = require("./network_graph.json");
 const countries50 = require("./countries50.json");
 const countries = topojson.feature(countries50, countries50.objects.countries);
-const cfos = require("./country_flow_chart.json");
+// const data = require("./locations-and-their-genres.json")
 
 // SECTION: prepare imported functions
 var wrap = d3.textwrap().bounds({height: 175, width: 175});
+
+let placeHold = "";
+
 
 const tip = d3.tip()
       .attr('class', "d3-tip")
@@ -31,7 +34,7 @@ const zoom = d3.zoom()
     .translateExtent([[17, 100], [883, 580]])
     .extent([[17, 100], [883, 580]])
     .scaleExtent([1, 8])
-    .on("zoom", function(event, d) {
+      .on("zoom", function(event, d) {
         const { transform } = event;
         map.attr('transform', transform);
         zoomscale = transform.k**.7;
@@ -56,8 +59,8 @@ const zoom = d3.zoom()
 var height = 700;
 var width = 900;
 
-var cHeight = 700;
-var cWidth = 600;
+var cHeight = 900;
+// var cWidth = 600;
 const cMargin = ({top: 150, right: 50, bottom: 200, left: 50})
 
 // this toggle keeps track of whether a city or country is currently selected.
@@ -72,37 +75,29 @@ const projection = d3.geoPolyhedralButterfly()
 const path = d3.geoPath().projection(projection);
 
 const radius = d3.scaleSqrt()
-    .domain([0, d3.max(data, city => city.total_no)])
+    .domain([0, d3.max(network_data, city => city.city_count)])
     .range([1, width / 50]);
 
 // SECTION: prepare imported data
-  // country sales flows,
-let countryflowobjs = new Map();
-cfos.map(country => {  countryflowobjs.set(country.place, country.total_no) });
 
-  // genres
-data.map((d) => { d.radius = radius(d.total_no); });
-
-var color = d3.scaleSequentialLog()
-    .domain(d3.extent(Array.from(countryflowobjs.values())))
-    .interpolator(d3.interpolateYlGnBu)
-    .unknown("#ccc")
+//is this nodes,
+network_data.map((d) => { d.radius = radius(d.c); });
 
 // SECTION: create svgs
-const chart = d3.select("div#container")
+let netviz = d3.select("#container")
     .append("svg")
-    .attr("viewBox", `0 0 ${cWidth} ${cHeight}`)
+    .attr("viewBox", `0 0 ${width} ${height+200}`)
     .classed("svg-content", true)
-    .style("width", "40%")
-    .style("height", "700")
-    .attr("preserveAspectRatio", "xMinYMin meet");
+      .style("width", "50%")
+      // .style("height", "100%")
+      .attr("preserveAspectRatio", "xMinYMin meet");
 
 const svg = d3.select("div#container")
     .append("svg")
-    .attr("viewBox", `0 0 ${width} ${height}`)
+    .attr("viewBox", `0 0 ${width-5} ${height-20}`)
     .classed("svg-content", true)
-      .style("width", "60%")
-      .style("height", "700")
+      .style("width", "50%")
+      // .style("height", 497)
       .attr("preserveAspectRatio", "xMinYMin meet");
 
 // SECTION: setting up map...
@@ -128,50 +123,6 @@ let lp_path = landpaths.append("path")
     .attr("fill", "white")
     .attr("d", path);
 
-let countryFlows = landpaths.append("g");
-
-function giveID(name) { return name.split(".").join("").split(" ").join("") };
-
-borders.selectAll("rect")
-    .data(cfos)
-    .join("rect")
-        .attr("class", "capmarker")
-        .attr("id", (d) => giveID(d.place))
-        .attr("x", (d) => projection(d.capital_coords)[0])
-        .attr("y", (d) => projection(d.capital_coords)[1]);
-
-borders.selectAll("path")
-    .data(countries.features)
-    .join("path")
-        .attr("fill", d => color(countryflowobjs.get(d.properties.name)))
-        .attr("d", path)
-        .attr("class", "countrypath")
-        .on('mouseenter', function(event, d) {
-            // show tooltip on mouse enter, using capital marker
-            var capLL = borders.select(`rect#${giveID(d.properties.name)}`).node();
-            tip.show(d.properties.name, capLL);
-            d3.select(this).attr("stroke-width", .25).attr('stroke', "white");
-        })
-        .on('click', function(event, d) {
-            borders.call(countrySelected, d)
-        })
-        .on('mouseout', function(event, d) {
-            d3.select(this).attr('stroke-width', "").attr('stroke', "");
-            tip.hide();
-        })
-        .append("title")
-            .text(d => `${d.properties.name}
-              ${countryflowobjs.has(d.properties.name) ? countryflowobjs.get(d.properties.name) : "N/A"}`);
-
-map.selectAll("rect")
-    .on('click', function() {
-        borders.selectAll(".flowline").remove();
-        borders.selectAll("path").each(function() {
-              d3.select(this)
-              .attr("fill", d => color(countryflowobjs.get(d.properties.name)))
-        });
-      });
-
 var customshape = `M0,700L233.92640648593908,329.99974719027483L170.64010748464213,293.46137520222373L125.88990164843437,267.6248420400352L81.1396984054818,241.78830015142614L17.853396810929667,205.2499368897957L81.13969840548174,168.71157362816518L125.88990164843432,142.87503173955602L170.64010748464204,117.03849857736752L233.92640648593894,80.50012658931637L233.92669840546478,80.50012658931635L297.21299740676176,117.03849857736746L341.9632032429694,142.87503173955594L386.71340648592206,168.71157362816504L449.9997080804742,205.2499368897955L450.0002919195258,205.2499368897955L513.2865935140779,168.71157362816507L558.0367967570305,142.875031739556L602.7870025932383,117.03849857736748L666.0733015945352,80.50012658931644L666.073593514061,80.50012658931638L729.359892515358,117.03849857736753L774.1100983515656,142.87503173955605L818.8603015945182,168.71157362816524L882.1466031890702,205.24993688979578L818.8603015945182,241.78830015142626L774.1100983515655,267.62484204003533L729.3598925153578,293.46137520222385L666.0735935140608,329.9997471902749L666.0733015945351,330.0002528097252L666.0732927406057,403.0769814503717L666.0733015945351,454.75006311020445L666.073301594535,506.4231468874228L666.073301594535,579.4998734106837L602.786999999983,542.9615101490532L558.0367967570304,517.1249682604441L513.2865997747522,491.2884197627998L450.00029191952575,454.7500631102044L449.9997080804742,454.75006311020445L386.7134002252477,491.2884197627998L341.9632032429695,517.1249682604441L297.2130000000169,542.9615101490532L233.92669840546483,579.4998734106837L233.92669840546483,506.4231468874227L233.9266984054648,454.75006311020445L233.92670725939428,403.0769814503717L233.92669840546478,330.00025280972517L233.9264064859390,329.9997471902748L0.000001,700L900,700L900,0L0,0L0,700Z`
 
 svg.append("path")
@@ -188,28 +139,22 @@ svg.append("path")
 
 // TO DO: finish this function, remove extraneous code.
 function switchChart(toggle, dataHold, buttonvalue) {
-    if(buttonvalue > 0) {
-        country_sales_db.attr("opacity", 0);
-        genre_bar.attr("opacity", 1);
+    // if(buttonvalue > 0) {
         d3.selectAll(".displayopt")
             .attr("fill", "black");
         d3.select(`#${toggle}`)
             .attr('fill', 'red');
-        map.call(toggleCountries, 0);
-        if(rendSwitch == 1) {updateBars(placeHold, dataHold)};
+        // if(rendSwitch == 1) {updateBars(placeHold, dataHold)};
         cityCircles.call(drawCircles, buttonvalue);
-    }
-    else {
-        rendSwitch = 0;
-        genre_bar.attr("opacity", 0);
-        country_sales_db.attr("opacity", 1);
-        d3.selectAll(".displayopt")
-            .attr("fill", "black");
-        d3.select(`#${toggle}`)
-            .attr('fill', 'red');
-        map.selectAll("circle").attr("r", 0);
-        map.call(toggleCountries, 1);
-    }
+    // }
+    // else {
+    //     // rendSwitch = 0;
+    //     d3.selectAll(".displayopt")
+    //         .attr("fill", "black");
+    //     d3.select(`#${toggle}`)
+    //         .attr('fill', 'red');
+    //     map.selectAll("circle").attr("r", 0);
+    // }
 }
 
 svg.append('text')
@@ -222,7 +167,7 @@ svg.append('text')
     .attr('y', 180)
     .on('click', function() {
         buttonvalue = 1;
-        switchChart("es", relHold, buttonvalue);
+        switchChart("es", buttonvalue);
     });
 
 svg.append('text')
@@ -234,19 +179,7 @@ svg.append('text')
       .attr('y', -55)
       .on('click', function() {
           buttonvalue = 2;
-          switchChart("cs", absHold, buttonvalue);
-      });
-
-svg.append('text')
-      .text("Sales Flows")
-      .attr("id", "cv")
-      .attr('class', 'displayopt')
-      .attr("transform", `rotate(-30)`)
-      .attr('x', 415)
-      .attr('y', 398)
-      .on('click', function() {
-          buttonvalue = 0;
-          switchChart("cv", null, buttonvalue);
+          switchChart("cs", buttonvalue);
       });
 
 svg.append('text')
@@ -288,7 +221,7 @@ const cityCircles = map.append("g");
 
 const selectedShapes = cityCircles.selectAll("circles")
   .attr("id", "cityCircles")
-  .data(data)
+  .data(network_data)
   //NOTE: Circle characteristics are set here
   .join("circle")
     .attr("transform", (d) => `translate(${projection(d.coords)})`)
@@ -297,30 +230,30 @@ const selectedShapes = cityCircles.selectAll("circles")
     //NOTE: mouseover behavior determined here
     .on('mouseenter', function(event, d) {
         // show tooltip on mouse enter
-        tip.show(d.place, this);
+        tip.show(d.city, this);
         d3.select(this).attr('fill', "red");
     })
     .on('click', function(event, d) {
-        let bars = null;
         if(rendSwitch == 0) {rendSwitch = 1};
-            bars = d.rel_bars.slice(0,24);
-            absHold = d.abs_bars.slice(0,24);
-            relHold = d.rel_bars.slice(0,24);
-            placeHold = d.place;
+            placeHold = d.city;
+            console.log("d", d)
             d3.selectAll(".circSelect").attr("fill", "green").attr("opacity", .7);
             d3.selectAll("circle").classed('circSelect', false);
             d3.select(this).classed("circSelect", true).attr("fill", "red")
             .attr("opacity", 1);
-      if(buttonvalue == 0) {return};
-      if(buttonvalue != 1) {bars = d.abs_bars.slice(0,24)};
-      updateBars(placeHold, bars); //Updates the bar chart
+        // WRITE OUT SELECTION OF NETVIZ DATA HERE
+        // need to specify the city for both node and edge sheets
+        let cityNets = network_data.filter(obj => {
+            return obj.city === d.city
+        });
+        networkGenres(cityNets);
     })
     .on('mouseout', function(event, d) {
         // hide tooltip on mouse out
         tip.hide();
         if (!this.classList.contains("circSelect")) {
-          console.log("we got hte class!");
-          d3.select(this).attr('fill', "green");
+            // console.log("we got class!");
+            d3.select(this).attr('fill', "green");
         }
         // if($(this).attr("class") != "circSelect") {d3.select(this).attr('fill', "green")}
     });
@@ -331,231 +264,278 @@ d3.select(window).on("load", function() {
     cityCircles.call(drawCircles, buttonvalue);
 });
 
-// SECTION: setting up chart...
 
-let genre_bar = chart.append("g");
 
-genre_bar.append("g")
-    .attr("stroke-opacity", .9)
-    .attr("id", "chartlabel")
-    .append('text')
-        .text('Cities and Their Genres')
-        .style("font-family", "orion")
-        .attr('class', 'title')
-        .classed("axis", true)
-        .attr("font-size", "30px")
-        .attr('x', cWidth / 2 )
-        .attr('y', cHeight / 10 )
-        .attr('text-anchor', 'middle');
 
-genre_bar.append("g")
-    .attr("id", "y_axis");
+let drag = simulation => {
 
-let nullset = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  function dragstarted(event, d) {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+  }
 
-let absHold = nullset;
-let relHold = nullset;
-let placeHold = "";
+  function dragged(event, d) {
+      d.fx = event.x;
+      d.fy = event.y;
+  }
 
-let xScale = d3.scaleBand()
-    .domain(d3.range(nullset.length))
-    .rangeRound([cMargin.left, cWidth - cMargin.right])
-    .padding(0.1);
+  function dragended(event, d) {
+      if (!event.active) simulation.alphaTarget(0);
+      d.fx = null;
+      d.fy = null;
+  }
 
-let yScale = d3.scaleLinear()
-    .domain([0, d3.max(nullset)]).nice()
-    .range([1.75 * cMargin.top, cMargin.bottom]);
-
-genre_bar.append("g")
-    .attr("id", "x_axis");
-
-genre_bar.append("g")
-    .attr("id", "bars")
-    .selectAll("rect")
-    .data(nullset)
-    .enter()
-    .append("rect")
-        .attr("x", (data, i) => xScale(i))
-        .attr("y", data => yScale(data))
-        .attr("rx", 1)
-        .attr("fill-opacity", 0.6);
-
-function updateBars(place, bars) {
-    let searchval = "relative";
-    if(buttonvalue != 1) {searchval = "count"};
-
-    let scene = new Map();
-    bars.map(value => {scene.set(value.genre, value[searchval])});
-    let scenemax = bars[0][searchval];
-    var t = d3.transition()
-        .duration(600)
-        .ease(d3.easePolyInOut.exponent(4));
-
-    let yScale = d3.scaleLinear()
-        .domain([scenemax, 0]).nice()
-        .range([cHeight - cMargin.bottom, cMargin.top]);
-
-    let yAxis = g => g
-        .attr("transform", `translate(${cMargin.left},0)`)
-        .transition(t)
-        .call(d3.axisLeft(yScale));
-
-    let xScale = d3.scaleBand()
-        .domain([...scene.keys()])
-        .range([cMargin.left, cWidth - cMargin.right])
-        .padding(0.1);
-
-    let xAxis = function(g) {
-        g.call(d3.axisTop(xScale)
-            .tickSizeOuter(0));
-    }
-
-    genre_bar.select("g#x_axis")
-        .attr("class", "axis")
-        .attr("transform", `translate(0,${cMargin.top})`)
-        .transition(t).duration(500)
-        .call(xAxis)
-        .selectAll("text")
-            .style("font-family", "cinetype")
-            .style("text-anchor", "start")
-            .attr("transform", `rotate(-40)`);
-
-    genre_bar.select("g#y_axis")
-        .attr("class", "axis")
-        .call(yAxis);
-
-    genre_bar.select("g#chartlabel")
-        .select("text")
-        .text(place);
-
-    let scenearray = [];
-
-    scene.forEach((v, k) => scenearray.push({x:[k], y:v}));
-
-    genre_bar.selectAll("rect")
-        .data(scenearray)
-        .transition() // <---- Here is the transition
-        .duration(500) // .5 seconds
-        .attr("fill", "red") //(d) => genreColors(d.x)
-        .attr("x", data => xScale(data.x))
-        .attr("y", cMargin.top)
-        .attr("width", xScale.bandwidth())
-        .attr("height", data => yScale(data.y) - yScale(0));
+  return d3.drag()
+      .on("start", dragstarted)
+      .on("drag", dragged)
+      .on("end", dragended);
 }
 
-//SECTION: Setting up the country flow on the chart...
+function networkGenres(citydata) {
+    // first, take just the entry that corresponds with the city
+    // then, start parsing as appropriate
+    let protonodes = citydata[0].n;
+    let protolinks = citydata[0].l;
 
-let country_sales_db = chart.append("g").attr("id", "countrysalesdb");
+    const dlinks = protolinks.map(function(link) {
+        var formattedLink = {};
+        formattedLink.source = link["g1"];
+        formattedLink.target = link["g2"];
+        formattedLink.relationship = link["c"];
+        formattedLink.value = link["c"];
+        return formattedLink;
+    });
 
-country_sales_db.append("text")
-    .text("")
-    .attr("id", "countrytitle")
-    .attr('fill', 'red')
-    .attr('x', 20)
-    .attr('y', 180);
+    let dnodes = protonodes.map(function(node) {
+      console.log("dnodes node", node)
+      const radius = d3.scaleSqrt()
+          .domain([0, d3.max(protonodes, node => node.c)])
+          .range([1, width / 50]);
+
+        let noderadius = radius(node['c'])
+        var formattedNode = {};
+        formattedNode.genre = node["g"];
+        formattedNode.count = node["c"];
+        formattedNode.relative = node["r"];
+        formattedNode.radius = noderadius;
+        formattedNode.x = Math.max((noderadius), Math.min(width - (noderadius)));
+        formattedNode.y = Math.max((noderadius), Math.min(width - (noderadius)));
+        return formattedNode;
+    });
+    console.log(dnodes)
+
+    let cityLinks = dlinks.map(d => Object.create(d));
+    console.log("edges", cityLinks)
+    let cityNodes = dnodes.map(d => Object.create(d));
 
 
+    netviz.selectAll("g").remove();
 
+    let statusColor = d3.scaleSequential([d3.min(cityNodes, d => d.relative), d3.max(cityNodes, d => d.relative)], d3.interpolateTurbo);
 
+    const simulation = d3.forceSimulation(cityNodes)
+        .force("link", d3.forceLink(cityLinks).id(d => d.genre))
+        .force("charge", d3.forceManyBody().strength(-150).distanceMax(height/2))
+        .force("center", d3.forceCenter(width/2, cHeight/2));
 
-  // Add title to graph
-  country_sales_db.append("text")
-          .attr("x", 0)
-          .attr("y", -50)
-          .attr("text-anchor", "left")
-          .style("font-size", "22px")
-          .text("A d3.js heatmap");
+    const link = netviz.append("g")
+        .attr("stroke", "#aaa")
+        .attr("stroke-opacity", 0.3)
+    .selectAll("line")
+    .data(cityLinks)
+    .join("line")
+        .attr("stroke-width", d => Math.sqrt(d.value) / 2);
 
-  // Add subtitle to graph
-  country_sales_db.append("text")
-          .attr("x", 0)
-          .attr("y", -20)
-          .attr("text-anchor", "left")
-          .style("font-size", "14px")
-          .style("fill", "grey")
-          .style("max-width", 800)
-          .text("A short description of the take-away message of this chart.");
+    const node = netviz.append("g")
+      .attr("stroke", "#000")
+    .selectAll("circle")
+    .data(cityNodes)
+    .join("circle")
+    .attr("r", d => d.radius)
+      .attr("fill", d => statusColor(d.relative))
+      .call(drag(simulation))
+    .on('mouseover.fade', fade(0.1))
+    .on('mouseout.fade', fade(1));
 
+    const textElems = netviz.append('g')
+    .selectAll('text')
+    .data(cityNodes)
+    .join('text')
+        .text(d => d.genre)
+        .attr('font-size',10)
+        .attr('font-size',10);
 
+    simulation.on("tick", () => {
+    link
+      .attr("x1", d => d.source.x)
+      .attr("y1", d => d.source.y)
+      .attr("x2", d => d.target.x)
+      .attr("y2", d => d.target.y);
+    node
+      .attr("cx", d => d.x)
+      .attr("cy", d => d.y);
+    textElems
+      .attr("x", d => d.x + 10)
+      .attr("y", d => d.y);
+    });
 
-// SECTION: Setting up the country_map view...
-function toggleCountries(selection, maptoggle) {
-    const varToString = varObj => Object.keys(varObj)[0];
-    if (maptoggle == 1) {
-        landpaths.selectAll("#lp_path").remove()
+    function fade(opacity) {
+    return (event, d) => {
+        node.style('opacity', function (o) { return isConnected(d, o) ? 1 : opacity });
+        textElems.style('visibility', function (o) { return isConnected(d, o) ? "visible" : "hidden" });
+        link.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
+        if(opacity === 1){
+            node.style('opacity', 1)
+            textElems.style('visibility', 'visible')
+            link.style('stroke-opacity', 0.3)
+        }
+    };
     }
-    else if (landpaths.selectAll("#lp_path").empty()) {
-        borders.selectAll(".flowline").remove();
-        landpaths.append("path")
-            .datum(topojson.feature(countries50, countries50.objects.land))
-            .attr("id", "lp_path")
-            .attr("fill", "white")
-            .attr("d", path);
+
+    const linkedByIndex = {};
+    cityLinks.forEach(d => {
+        linkedByIndex[`${d.source.index},${d.target.index}`] = 1;
+    });
+
+    function isConnected(a, b) {
+        return linkedByIndex[`${a.index},${b.index}`] || linkedByIndex[`${b.index},${a.index}`] || a.index === b.index;
     }
-    else {return}
-};
 
-function countrySelected(selection, d) {
-      let cfosSelect = cfos.find((element) => element.place === d.properties.name)
-      let toCountries = new Map();
-      cfosSelect.to_countries.sort(function (a, b) {
-          return b.count - a.count;
-      }).map(country => {toCountries.set(country.to_country, country.count)});
+}
 
-      borders.selectAll(".flowline").remove();
-      // Show links to other countries, pulled from the "cfos" to_countries section.
-      borders.selectAll("path").each(function() {
-          d3.select(this)
-              .attr("fill", d => color(toCountries.get(d.properties.name)))
-      });
-      cfosSelect.to_countries.forEach(d => {
-          let capBox = borders.select(`rect#${giveID(d.to_country)}`);
-          let capCoords = projection(cfosSelect.capital_coords);
-          // use length to calculate curve coords - take the midpoint
-          let lineCurveX = ((Math.round(capBox.attr("x")) + Math.round(capCoords[0])) / 2.35);
-          let lineCurveY = ((Math.round(capBox.attr("y")) + Math.round(capCoords[1])) / 2.35);
-          borders.append('defs')
-              .append('marker')
-              .attr('id', 'arrow')
-              .attr('refX', 2.5)
-              .attr('refY', 2.5)
-              .attr("class", "flowline")
-              .attr('markerWidth', 5)
-              .attr('markerHeight', 5)
-              .attr('orient', 'auto-start-reverse')
-              .append('path')
-              .attr('d', d3.line()([[0, 0], [0, 5], [5, 2.5]]))
-              .attr('stroke', 'black');
-          borders.append("path")
-              .attr("class", "flowline")
-              .attr("fill", "transparent")
-              .attr("d", `M ${capCoords[0]} ${capCoords[1]} Q ${lineCurveX} ${lineCurveY} ${capBox.attr("x")} ${capBox.attr("y")}`)
-              .attr('marker-end', 'url(#arrow)')
-              .attr("stroke-width", 2 / zoomscale)
-              .attr("stroke", "purple")
-              .attr('opacity', .7);
-      });
 
-      // Highlight only the selected country
-      d3.select(this)
-          .attr('fill', 'red');
-          // Update the chart
-      chart.selectAll('#dTextg').remove();
 
-      country_sales_db.select("#countrytitle")
-          .text(`${d.properties.name}:`);
+// Import csv data, set up basic data interpretation structure
+// d3.csv("./Full_genre_nodes2.csv").then((data) => {
+//     var nodeMetadata = data;
+//     d3.csv("./FINAL_genre_edges.csv").then((data) => {
+//         const dlinks = data.map(function(link) {
+//             var formattedLink = {};
+//             formattedLink.source = link["genre1"];
+//             formattedLink.target = link["genre2"];
+//             formattedLink.relationship = link["count"];
+//             formattedLink.value = link["count"];
+//             formattedLink.city = link["location"];
+//             return formattedLink;
+//         });
+//
+//         let items = dlinks.map(function(link) {return link.source;}).concat(dlinks.map(function(link) {return link.target;}));
+//         let dnodes = Array.from(new Set(items)).map(function(item) {return {name: item};});
+//         dnodes.forEach(function(node) {
+//             const meta = nodeMetadata.find(metadatum => metadatum["genre"] === node.name);
+//
+//             const radius = d3.scaleSqrt()
+//                 .domain([0, d3.max(data, node => node.count)])
+//                 .range([1, width / 50]);
+//             if (meta == null) {
+//                 console.log("pass:", node)
+//             }
+//             else {
+//                 node.relative = meta["relative"];
+//                 node.count = meta["count"];
+//                 node.radius = radius(meta['count']);
+//                 node.city = meta["location"];
+//                 node.x = Math.max((node.radius), Math.min(width - (node.radius), node.x));
+//                 node.y = Math.max((node.radius), Math.min(width - (node.radius), node.y));
+//             }
+//         });
+//         links = dlinks.map(d => Object.create(d));
+//         console.log("edges", dlinks)
+//         nodes = dnodes.map(d => Object.create(d));
+//         console.log("nodes", dnodes)
+//
+//         // invalidation.then(() => simulation.stop());
+//     });
+// });
 
-      // show chart on the left
-      let dTextg = country_sales_db.append("g").attr("id", "dTextg");
-      let dtgSpace = 100;
-      toCountries.forEach(function(value, key) {
-          dTextg.append("text")
-              .attr("x", 170)
-              .attr("y", dtgSpace)
-              .text(key + " - " + value);
-          dtgSpace += 20;
-      })
-};
+// run function on the netviz data
+function graphGenres(city) {
+
+    netviz.selectAll("g").remove();
+
+    let cityNodes = nodes.filter(obj => {
+      return obj.city === city
+    });
+    let cityLinks = links.filter(obj => {
+      return obj.city === city
+    });;
+    console.log('cityNodes',cityNodes)
+    console.log('cityLinks',cityLinks)
+    let statusColor = d3.scaleSequential([d3.min(cityNodes, d => d.relative), d3.max(cityNodes, d => d.relative)], d3.interpolateTurbo);
+
+    const simulation = d3.forceSimulation(cityNodes)
+        .force("link", d3.forceLink(cityLinks).id(d => d.name))
+        .force("charge", d3.forceManyBody().strength(-150))
+        .force("center", d3.forceCenter(width/2, cHeight/2));
+
+    const link = netviz.append("g")
+        .attr("stroke", "#aaa")
+        .attr("stroke-opacity", 0.3)
+    .selectAll("line")
+    .data(cityLinks)
+    .join("line")
+        .attr("stroke-width", d => Math.sqrt(d.value) / 2);
+
+    const node = netviz.append("g")
+      .attr("stroke", "#000")
+    .selectAll("circle")
+    .data(cityNodes)
+    .join("circle")
+    .attr("r", d => d.radius)
+      .attr("fill", d => statusColor(d.relative))
+      .call(drag(simulation))
+    .on('mouseover.fade', fade(0.1))
+    .on('mouseout.fade', fade(1));
+
+    const textElems = netviz.append('g')
+    .selectAll('text')
+    .data(cityNodes)
+    .join('text')
+        .text(d => d.name)
+        .attr('font-size',10)
+        .attr('font-size',10);
+
+    simulation.on("tick", () => {
+    link
+      .attr("x1", d => d.source.x)
+      .attr("y1", d => d.source.y)
+      .attr("x2", d => d.target.x)
+      .attr("y2", d => d.target.y);
+    node
+      .attr("cx", d => d.x)
+      .attr("cy", d => d.y);
+    textElems
+      .attr("x", d => d.x + 10)
+      .attr("y", d => d.y);
+    });
+
+    function fade(opacity) {
+    return (event, d) => {
+        node.style('opacity', function (o) { return isConnected(d, o) ? 1 : opacity });
+        textElems.style('visibility', function (o) { return isConnected(d, o) ? "visible" : "hidden" });
+        link.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
+        if(opacity === 1){
+            node.style('opacity', 1)
+            textElems.style('visibility', 'visible')
+            link.style('stroke-opacity', 0.3)
+        }
+    };
+    }
+
+    const linkedByIndex = {};
+    links.forEach(d => {
+        linkedByIndex[`${d.source.index},${d.target.index}`] = 1;
+    });
+
+    function isConnected(a, b) {
+        return linkedByIndex[`${a.index},${b.index}`] || linkedByIndex[`${b.index},${a.index}`] || a.index === b.index;
+    }
+}
+
+
+
+
 
 // SECTION: Styling the svg
 d3.selectAll(".displayopt")

@@ -452,21 +452,21 @@ country_sales_db.append("text")
 
   // Add title to graph
   country_sales_db.append("text")
-          .attr("x", 0)
-          .attr("y", -50)
-          .attr("text-anchor", "left")
-          .style("font-size", "22px")
-          .text("A d3.js heatmap");
+      .attr("x", 0)
+      .attr("y", -50)
+      .attr("text-anchor", "left")
+      .style("font-size", "22px")
+      .text("A d3.js heatmap");
 
   // Add subtitle to graph
   country_sales_db.append("text")
-          .attr("x", 0)
-          .attr("y", -20)
-          .attr("text-anchor", "left")
-          .style("font-size", "14px")
-          .style("fill", "grey")
-          .style("max-width", 800)
-          .text("A short description of the take-away message of this chart.");
+      .attr("x", 0)
+      .attr("y", -20)
+      .attr("text-anchor", "left")
+      .style("font-size", "14px")
+      .style("fill", "grey")
+      .style("max-width", 800)
+      .text("A short description of the take-away message of this chart.");
 
 
 // SECTION: Setting up the country_map view...
