@@ -12,8 +12,8 @@ d3.textwrap = textwrap;
 d3.tip = d3tip;
 d3.legend = colorLegend;
 
-const network_data = require("./network_graph.json");
-const countries50 = require("./countries50.json");
+const network_data = require("./data/network_graph.json");
+const countries50 = require("./data/countries50.json");
 const countries = topojson.feature(countries50, countries50.objects.countries);
 // const data = require("./locations-and-their-genres.json")
 
