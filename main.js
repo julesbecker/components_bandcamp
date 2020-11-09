@@ -186,11 +186,15 @@ function networkGenres(citydata) {
     let protolinks = citydata.l;
 
     const dlinks = protolinks.map(function(link) {
+        const lw = d3.scaleSqrt()
+            .domain([0, d3.max(protolinks, link => link.c)])
+            .range([.01, 10]);
         var formattedLink = {};
+        let linkwidth = lw(link['c']);
         formattedLink.source = link["g1"];
         formattedLink.target = link["g2"];
-        formattedLink.relationship = link["c"];
-        formattedLink.value = link["c"];
+        // formattedLink.relationship = link["c"];
+        formattedLink.value = linkwidth;
         return formattedLink;
     });
 
@@ -229,7 +233,7 @@ function networkGenres(citydata) {
     .selectAll("line")
     .data(cityLinks)
     .join("line")
-        .attr("stroke-width", d => Math.sqrt(d.value) / 2);
+        .attr("stroke-width", d => d.value);
 
     const node = netviz.append("g")
       .attr("stroke", "#000")
