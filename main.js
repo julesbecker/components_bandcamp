@@ -13,15 +13,11 @@ d3.tip = d3tip;
 d3.legend = colorLegend;
 
 const network_data = require("./data/network_graph.json");
-const countries50 = require("./data/countries50.json");
-const countries = topojson.feature(countries50, countries50.objects.countries);
-// const data = require("./locations-and-their-genres.json")
+const world50 = require("./data/world50.json");
+const countries = topojson.feature(world50, world50.objects.land);
 
 // SECTION: prepare imported functions
 var wrap = d3.textwrap().bounds({height: 175, width: 175});
-
-let placeHold = "";
-
 
 const tip = d3.tip()
       .attr('class', "d3-tip")
@@ -37,21 +33,12 @@ const zoom = d3.zoom()
       .on("zoom", function(event, d) {
         const { transform } = event;
         map.attr('transform', transform);
-        zoomscale = transform.k**.7;
-        if(buttonvalue == 0) {
-          borders.selectAll(".flowline")
-          .attr("stroke-width", d => {
-            return 2 / zoomscale;
-          });
-        }
-        else {
+        let zoomscale = transform.k**.7;
           map.selectAll("circle")
           .attr('r', d => {
             let radiusval = 4;
-            buttonvalue != 1 ? radiusval=d.radius: radiusval=4;
             return radiusval / zoomscale;
           });
-        };
         }
     );
 
@@ -61,10 +48,6 @@ var width = 900;
 
 var cHeight = 900;
 // var cWidth = 600;
-const cMargin = ({top: 150, right: 50, bottom: 200, left: 50})
-
-// this toggle keeps track of whether a city or country is currently selected.
-let rendSwitch = 0;
 
 // set up map assets
 const geooutline = ({type: "Sphere"});
@@ -86,7 +69,7 @@ network_data.map((d) => { d.radius = radius(d.c); });
 // SECTION: create svgs
 let netviz = d3.select("#container")
     .append("svg")
-    .attr("viewBox", `0 0 ${width} ${height+200}`)
+    .attr("viewBox", `0 0 ${width} ${cHeight}`)
     .classed("svg-content", true)
       .style("width", "50%")
       // .style("height", "100%")
@@ -111,14 +94,8 @@ map.append("rect")
     .attr("height", height)
     .attr("fill", "black");
 
-var borders = map.append("g")
-    .attr("id", "borders");
-
-var landpaths = map.append("g")
-    .attr("id", "landpaths");
-
-let lp_path = landpaths.append("path")
-    .datum(topojson.feature(countries50, countries50.objects.land))
+let lp_path = map.append("path")
+    .datum(countries)
     .attr("id", "lp_path")
     .attr("fill", "white")
     .attr("d", path);
@@ -137,51 +114,6 @@ svg.append("path")
     .attr("stroke-width", 1)
     .attr("stroke", "black");
 
-// TO DO: finish this function, remove extraneous code.
-function switchChart(toggle, dataHold, buttonvalue) {
-    // if(buttonvalue > 0) {
-        d3.selectAll(".displayopt")
-            .attr("fill", "black");
-        d3.select(`#${toggle}`)
-            .attr('fill', 'red');
-        // if(rendSwitch == 1) {updateBars(placeHold, dataHold)};
-        cityCircles.call(drawCircles, buttonvalue);
-    // }
-    // else {
-    //     // rendSwitch = 0;
-    //     d3.selectAll(".displayopt")
-    //         .attr("fill", "black");
-    //     d3.select(`#${toggle}`)
-    //         .attr('fill', 'red');
-    //     map.selectAll("circle").attr("r", 0);
-    // }
-}
-
-svg.append('text')
-    .text("Relative")
-    .attr("id", "es")
-    .attr("transform", `rotate(-30)`)
-    .attr('class', 'displayopt')
-    .attr('fill', 'red')
-    .attr('x', 20)
-    .attr('y', 180)
-    .on('click', function() {
-        buttonvalue = 1;
-        switchChart("es", buttonvalue);
-    });
-
-svg.append('text')
-      .text("Absolute")
-      .attr("id", "cs")
-      .attr('class', 'displayopt')
-      .attr("transform", `rotate(30)`)
-      .attr('x', 350)
-      .attr('y', -55)
-      .on('click', function() {
-          buttonvalue = 2;
-          switchChart("cs", buttonvalue);
-      });
-
 svg.append('text')
     .text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and")
     .attr("id", "explainer")
@@ -189,33 +121,13 @@ svg.append('text')
     .attr('y', 345)
     .call(wrap);
 
-let buttonvalue = 1;
-let zoomscale = 1;
-
-function drawCircles(selection, n) {
-    let circleR = 5;
-    if (n != "1") {
-        selectedShapes.each(function() {
-            d3.select(this)
-            .attr('r', null)
-        });
-        circleR = selectedShapes.each(function() {
-            d3.select(this)
-                .attr("r", d => radius(d.total_no) / zoomscale);
-        });
-    }
-    else {
-        circleR = 5;
-        selectedShapes.each(function() {
-            d3.select(this)
-            .attr('r', null)
-        });
-        selectedShapes.each(function() {
-            d3.select(this)
-                .attr("r", 4 / zoomscale);
-        })
-    };
-}
+svg.append('text')
+    .style("font-family", "orion")
+    .attr('class', 'cityname')
+    .attr("font-size", "30px")
+    .attr('x', width / 2 )
+    .attr('y', height / 10 )
+    .attr('text-anchor', 'middle');
 
 const cityCircles = map.append("g");
 
@@ -226,6 +138,7 @@ const selectedShapes = cityCircles.selectAll("circles")
   .join("circle")
     .attr("transform", (d) => `translate(${projection(d.coords)})`)
     .attr("fill", "green")
+    .attr("r", 4)
     .attr('opacity', .7)
     //NOTE: mouseover behavior determined here
     .on('mouseenter', function(event, d) {
@@ -234,15 +147,12 @@ const selectedShapes = cityCircles.selectAll("circles")
         d3.select(this).attr('fill', "red");
     })
     .on('click', function(event, d) {
-        if(rendSwitch == 0) {rendSwitch = 1};
-            placeHold = d.city;
-            console.log("d", d)
-            d3.selectAll(".circSelect").attr("fill", "green").attr("opacity", .7);
-            d3.selectAll("circle").classed('circSelect', false);
-            d3.select(this).classed("circSelect", true).attr("fill", "red")
+        svg.select(".cityname")
+            .text(d.city);
+        d3.selectAll(".circSelect").attr("fill", "green").attr("opacity", .7);
+        d3.selectAll("circle").classed('circSelect', false);
+        d3.select(this).classed("circSelect", true).attr("fill", "red")
             .attr("opacity", 1);
-        // WRITE OUT SELECTION OF NETVIZ DATA HERE
-        // need to specify the city for both node and edge sheets
         let cityNets = network_data.filter(obj => {
             return obj.city === d.city
         });
@@ -255,18 +165,10 @@ const selectedShapes = cityCircles.selectAll("circles")
             // console.log("we got class!");
             d3.select(this).attr('fill', "green");
         }
-        // if($(this).attr("class") != "circSelect") {d3.select(this).attr('fill', "green")}
+
     });
 
-// SECTION: Load circle toggle
-
-d3.select(window).on("load", function() {
-    cityCircles.call(drawCircles, buttonvalue);
-});
-
-
-
-
+// SECTION: netviz code
 let drag = simulation => {
 
   function dragstarted(event, d) {
@@ -308,7 +210,6 @@ function networkGenres(citydata) {
     });
 
     let dnodes = protonodes.map(function(node) {
-      console.log("dnodes node", node)
       const radius = d3.scaleSqrt()
           .domain([0, d3.max(protonodes, node => node.c)])
           .range([1, width / 50]);
@@ -323,10 +224,8 @@ function networkGenres(citydata) {
         formattedNode.y = Math.max((noderadius), Math.min(width - (noderadius)));
         return formattedNode;
     });
-    console.log(dnodes)
 
     let cityLinks = dlinks.map(d => Object.create(d));
-    console.log("edges", cityLinks)
     let cityNodes = dnodes.map(d => Object.create(d));
 
 
@@ -363,6 +262,7 @@ function networkGenres(citydata) {
     .data(cityNodes)
     .join('text')
         .text(d => d.genre)
+        .attr('class', "svgText")
         .attr('font-size',10)
         .attr('font-size',10);
 
@@ -381,16 +281,16 @@ function networkGenres(citydata) {
     });
 
     function fade(opacity) {
-    return (event, d) => {
-        node.style('opacity', function (o) { return isConnected(d, o) ? 1 : opacity });
-        textElems.style('visibility', function (o) { return isConnected(d, o) ? "visible" : "hidden" });
-        link.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
-        if(opacity === 1){
-            node.style('opacity', 1)
-            textElems.style('visibility', 'visible')
-            link.style('stroke-opacity', 0.3)
-        }
-    };
+        return (event, d) => {
+            node.style('opacity', function (o) { return isConnected(d, o) ? 1 : opacity });
+            textElems.style('visibility', function (o) { return isConnected(d, o) ? "visible" : "hidden" });
+            link.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
+            if(opacity === 1){
+                node.style('opacity', 1)
+                textElems.style('visibility', 'visible')
+                link.style('stroke-opacity', 0.3)
+            }
+        };
     }
 
     const linkedByIndex = {};
@@ -401,157 +301,8 @@ function networkGenres(citydata) {
     function isConnected(a, b) {
         return linkedByIndex[`${a.index},${b.index}`] || linkedByIndex[`${b.index},${a.index}`] || a.index === b.index;
     }
-
 }
-
-
-
-// Import csv data, set up basic data interpretation structure
-// d3.csv("./Full_genre_nodes2.csv").then((data) => {
-//     var nodeMetadata = data;
-//     d3.csv("./FINAL_genre_edges.csv").then((data) => {
-//         const dlinks = data.map(function(link) {
-//             var formattedLink = {};
-//             formattedLink.source = link["genre1"];
-//             formattedLink.target = link["genre2"];
-//             formattedLink.relationship = link["count"];
-//             formattedLink.value = link["count"];
-//             formattedLink.city = link["location"];
-//             return formattedLink;
-//         });
-//
-//         let items = dlinks.map(function(link) {return link.source;}).concat(dlinks.map(function(link) {return link.target;}));
-//         let dnodes = Array.from(new Set(items)).map(function(item) {return {name: item};});
-//         dnodes.forEach(function(node) {
-//             const meta = nodeMetadata.find(metadatum => metadatum["genre"] === node.name);
-//
-//             const radius = d3.scaleSqrt()
-//                 .domain([0, d3.max(data, node => node.count)])
-//                 .range([1, width / 50]);
-//             if (meta == null) {
-//                 console.log("pass:", node)
-//             }
-//             else {
-//                 node.relative = meta["relative"];
-//                 node.count = meta["count"];
-//                 node.radius = radius(meta['count']);
-//                 node.city = meta["location"];
-//                 node.x = Math.max((node.radius), Math.min(width - (node.radius), node.x));
-//                 node.y = Math.max((node.radius), Math.min(width - (node.radius), node.y));
-//             }
-//         });
-//         links = dlinks.map(d => Object.create(d));
-//         console.log("edges", dlinks)
-//         nodes = dnodes.map(d => Object.create(d));
-//         console.log("nodes", dnodes)
-//
-//         // invalidation.then(() => simulation.stop());
-//     });
-// });
-
-// run function on the netviz data
-function graphGenres(city) {
-
-    netviz.selectAll("g").remove();
-
-    let cityNodes = nodes.filter(obj => {
-      return obj.city === city
-    });
-    let cityLinks = links.filter(obj => {
-      return obj.city === city
-    });;
-    console.log('cityNodes',cityNodes)
-    console.log('cityLinks',cityLinks)
-    let statusColor = d3.scaleSequential([d3.min(cityNodes, d => d.relative), d3.max(cityNodes, d => d.relative)], d3.interpolateTurbo);
-
-    const simulation = d3.forceSimulation(cityNodes)
-        .force("link", d3.forceLink(cityLinks).id(d => d.name))
-        .force("charge", d3.forceManyBody().strength(-150))
-        .force("center", d3.forceCenter(width/2, cHeight/2));
-
-    const link = netviz.append("g")
-        .attr("stroke", "#aaa")
-        .attr("stroke-opacity", 0.3)
-    .selectAll("line")
-    .data(cityLinks)
-    .join("line")
-        .attr("stroke-width", d => Math.sqrt(d.value) / 2);
-
-    const node = netviz.append("g")
-      .attr("stroke", "#000")
-    .selectAll("circle")
-    .data(cityNodes)
-    .join("circle")
-    .attr("r", d => d.radius)
-      .attr("fill", d => statusColor(d.relative))
-      .call(drag(simulation))
-    .on('mouseover.fade', fade(0.1))
-    .on('mouseout.fade', fade(1));
-
-    const textElems = netviz.append('g')
-    .selectAll('text')
-    .data(cityNodes)
-    .join('text')
-        .text(d => d.name)
-        .attr('font-size',10)
-        .attr('font-size',10);
-
-    simulation.on("tick", () => {
-    link
-      .attr("x1", d => d.source.x)
-      .attr("y1", d => d.source.y)
-      .attr("x2", d => d.target.x)
-      .attr("y2", d => d.target.y);
-    node
-      .attr("cx", d => d.x)
-      .attr("cy", d => d.y);
-    textElems
-      .attr("x", d => d.x + 10)
-      .attr("y", d => d.y);
-    });
-
-    function fade(opacity) {
-    return (event, d) => {
-        node.style('opacity', function (o) { return isConnected(d, o) ? 1 : opacity });
-        textElems.style('visibility', function (o) { return isConnected(d, o) ? "visible" : "hidden" });
-        link.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
-        if(opacity === 1){
-            node.style('opacity', 1)
-            textElems.style('visibility', 'visible')
-            link.style('stroke-opacity', 0.3)
-        }
-    };
-    }
-
-    const linkedByIndex = {};
-    links.forEach(d => {
-        linkedByIndex[`${d.source.index},${d.target.index}`] = 1;
-    });
-
-    function isConnected(a, b) {
-        return linkedByIndex[`${a.index},${b.index}`] || linkedByIndex[`${b.index},${a.index}`] || a.index === b.index;
-    }
-}
-
-
-
-
-
-// SECTION: Styling the svg
-d3.selectAll(".displayopt")
-    .style("font-family", "orion")
-    .style("text-anchor", "middle")
-    .on('mouseover', function(d, i) {
-        d3.select(this)
-            .style('font-weight', 'bold');
-    })
-
-    .on('mouseout', function(d, i) {
-        d3.select(this)
-            .style('font-weight', '');
-      });
 
 // SECTION: call additional functions
 svg.call(zoom);
-
 map.call(tip);
