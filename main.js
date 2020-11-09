@@ -62,7 +62,6 @@ let netviz = d3.select("#container")
     .append("svg")
     .attr("viewBox", `0 0 ${width} ${cHeight}`)
     .classed("svg-content", true)
-      .style("width", "50%")
       // .style("height", "100%")
       .attr("preserveAspectRatio", "xMinYMin meet");
 
@@ -70,7 +69,6 @@ const svg = d3.select("div#container")
     .append("svg")
     .attr("viewBox", `0 0 ${width-5} ${height-20}`)
     .classed("svg-content", true)
-      .style("width", "50%")
       // .style("height", 497)
       .attr("preserveAspectRatio", "xMinYMin meet");
 
@@ -127,19 +125,19 @@ const selectedShapes = cityCircles.selectAll("circles")
   .data(network_data)
   //NOTE: Circle characteristics are set here
   .join("circle")
-    .attr("transform", (d) => `translate(${projection(d.coords)})`)
+    .attr("transform", (d) => `translate(${projection(d.cor)})`)
     .attr("fill", "green")
     .attr("r", 4)
     .attr('opacity', .7)
     //NOTE: mouseover behavior determined here
     .on('mouseenter', function(event, d) {
         // show tooltip on mouse enter
-        tip.show(d.city, this);
+        tip.show(d.ct, this);
         d3.select(this).attr('fill', "red");
     })
     .on('click', function(event, d) {
         svg.select(".cityname")
-            .text(d.city);
+            .text(d.ct);
         d3.selectAll(".circSelect").attr("fill", "green").attr("opacity", .7);
         d3.selectAll("circle").classed('circSelect', false);
         d3.select(this).classed("circSelect", true).attr("fill", "red")
@@ -262,8 +260,8 @@ function networkGenres(citydata) {
       .attr("cx", d => d.x)
       .attr("cy", d => d.y);
     textElems
-      .attr("x", d => d.x + 5)
-      .attr("y", d => d.y);
+      .attr("x", d => d.x + d.radius + 2)
+      .attr("y", d => d.y + 2 );
     });
 
     function fade(opacity) {

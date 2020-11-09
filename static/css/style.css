@@ -95,4 +95,11 @@
     display: inline-block;
     top: 0;
     left: 0;
+    width: 50%;
+}
+
+@media (max-width:800px) {
+  .svg-content {
+    width:100%;
+  }
 }
