@@ -57,15 +57,6 @@ const projection = d3.geoPolyhedralButterfly()
 
 const path = d3.geoPath().projection(projection);
 
-const radius = d3.scaleSqrt()
-    .domain([0, d3.max(network_data, city => city.city_count)])
-    .range([1, width / 50]);
-
-// SECTION: prepare imported data
-
-//is this nodes,
-network_data.map((d) => { d.radius = radius(d.c); });
-
 // SECTION: create svgs
 let netviz = d3.select("#container")
     .append("svg")
@@ -153,16 +144,12 @@ const selectedShapes = cityCircles.selectAll("circles")
         d3.selectAll("circle").classed('circSelect', false);
         d3.select(this).classed("circSelect", true).attr("fill", "red")
             .attr("opacity", 1);
-        let cityNets = network_data.filter(obj => {
-            return obj.city === d.city
-        });
-        networkGenres(cityNets);
+        networkGenres(d);
     })
     .on('mouseout', function(event, d) {
         // hide tooltip on mouse out
         tip.hide();
         if (!this.classList.contains("circSelect")) {
-            // console.log("we got class!");
             d3.select(this).attr('fill', "green");
         }
 
@@ -197,8 +184,8 @@ let drag = simulation => {
 function networkGenres(citydata) {
     // first, take just the entry that corresponds with the city
     // then, start parsing as appropriate
-    let protonodes = citydata[0].n;
-    let protolinks = citydata[0].l;
+    let protonodes = citydata.n;
+    let protolinks = citydata.l;
 
     const dlinks = protolinks.map(function(link) {
         var formattedLink = {};
@@ -263,7 +250,6 @@ function networkGenres(citydata) {
     .join('text')
         .text(d => d.genre)
         .attr('class', "svgText")
-        .attr('font-size',10)
         .attr('font-size',10);
 
     simulation.on("tick", () => {
@@ -276,7 +262,7 @@ function networkGenres(citydata) {
       .attr("cx", d => d.x)
       .attr("cy", d => d.y);
     textElems
-      .attr("x", d => d.x + 10)
+      .attr("x", d => d.x + 5)
       .attr("y", d => d.y);
     });
 
