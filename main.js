@@ -220,7 +220,9 @@ function networkGenres(citydata) {
 
     netviz.selectAll("g").remove();
 
-    let statusColor = d3.scaleSequential([d3.min(cityNodes, d => d.relative), d3.max(cityNodes, d => d.relative)], d3.interpolateTurbo);
+    let custominterpolation = d3.interpolate("rgb(255, 255, 77)", "red")
+    let statusColor = d3.scaleSequential([d3.min(cityNodes, d => d.relative), d3.max(cityNodes, d => d.relative)], custominterpolation);
+    // d3.interpolateTurbo);
 
     const simulation = d3.forceSimulation(cityNodes)
         .force("link", d3.forceLink(cityLinks).id(d => d.genre))
