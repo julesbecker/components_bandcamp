@@ -5,12 +5,12 @@ var topojson = require("topojson-client");
 var d3 = require('d3');
 var textwrap = require('d3-textwrap').textwrap;
 var d3tip = require('d3-tip');
-var colorLegend = require('d3-color-legend').legend;
 var geoPolyhedralButterfly = require('d3-geo-polygon').geoPolyhedralButterfly;
+// var colorLegend = require("./static/js/color_legend.js");
 d3.geoPolyhedralButterfly = geoPolyhedralButterfly;
 d3.textwrap = textwrap;
 d3.tip = d3tip;
-d3.legend = colorLegend;
+// d3.colorlegend = colorLegend;
 
 const network_data = require("./data/network_graph.json");
 const world50 = require("./data/world50.json");
@@ -20,11 +20,11 @@ const countries = topojson.feature(world50, world50.objects.land);
 var wrap = d3.textwrap().bounds({height: 175, width: 175});
 
 const tip = d3.tip()
-      .attr('class', "d3-tip")
-      .style("color", "white")
-      .style("padding", "6px")
-      .offset([-15, 0])
-      .html(function(d) {return `<div style='float: right'>${d}</div>`});
+    .attr('class', "d3-tip")
+    .style("color", "white")
+    .style("padding", "6px")
+    .offset([-15, 0])
+    .html(function(d) {return `<div style='float: right'>${d}</div>`});
 
 const zoom = d3.zoom()
     .translateExtent([[17, 100], [883, 580]])
@@ -58,12 +58,25 @@ const projection = d3.geoPolyhedralButterfly()
 const path = d3.geoPath().projection(projection);
 
 // SECTION: create svgs
-let netviz = d3.select("#container")
+let nv_svg = d3.select("#container")
     .append("svg")
     .attr("viewBox", `0 0 ${width} ${cHeight}`)
     .classed("svg-content", true)
       // .style("height", "100%")
       .attr("preserveAspectRatio", "xMinYMin meet");
+
+let netviz = nv_svg.append('g');
+
+
+var legend = nv_svg.append('g');
+var legendtext = legend.append("text")
+    .attr("x", 45)
+    .attr("y", 25)
+    .style("font-family", "orion")
+    .attr('font-size', 20);
+var legendBar = legend.append('g');
+let legendTicks = legend.append('g')
+    .attr("transform", `translate(0,30)`);
 
 const svg = d3.select("div#container")
     .append("svg")
@@ -96,7 +109,6 @@ svg.append("path")
     .attr("fill", "white");
 
 svg.append("path")
-    .attr("id", "butterflyborder")
     .datum(geooutline)
     .attr("d", path)
     .attr("fill", "none")
@@ -217,12 +229,63 @@ function networkGenres(citydata) {
     let cityLinks = dlinks.map(d => Object.create(d));
     let cityNodes = dnodes.map(d => Object.create(d));
 
-
     netviz.selectAll("g").remove();
 
-    let custominterpolation = d3.interpolate("rgb(255, 255, 77)", "red")
-    let statusColor = d3.scaleSequential([d3.min(cityNodes, d => d.relative), d3.max(cityNodes, d => d.relative)], custominterpolation);
+    let custominterpolation = d3.interpolate("yellow", "red") //rgb(255, 255, 77)
+    let statusColor = d3.scaleSequential(
+      // [d3.min(cityNodes, d => d.relative), d3.max(cityNodes, d => d.relative)], custominterpolation
+      [0, d3.max(cityNodes, d => d.relative)], custominterpolation
+    );
     // d3.interpolateTurbo);
+
+    function drawScale(measure, interpolator) {
+        var barDefs = legendBar.append('defs');
+
+        var mainGradient = barDefs.append('linearGradient')
+            .attr('id', 'mainGradient');
+
+        mainGradient.append('stop')
+            .attr('class', 'stop-left')
+            .attr('offset', '0');
+
+        mainGradient.append('stop')
+            .attr('class', 'stop-right')
+            .attr('offset', '1');
+
+        var barscale = d3.scaleLinear()
+          .domain([0, measure[1]])
+          .range([25, 325]);
+
+        let legendAxis = d3.axisBottom()
+            .scale(barscale)
+            .ticks(width > 500 ? 5:2)
+            .tickSize(30);
+
+        var u = legendBar.append('rect')
+            .classed('filled', true)
+            .attr('x', 25)
+            .attr('y', 30)
+            .attr('height', 25)
+            .attr('width', 300);
+
+        legendTicks.call(legendAxis)
+            .call(g => g.select(".domain").remove());
+
+        legendtext.text("Particularity to city");
+
+        // legend.append("text")
+        //     .attr("x", 35)
+        //     .attr("y", 70)
+        //     .text(measure[0]);
+        //
+        // legend.append("text")
+        //     .attr("x", 315)
+        //     .attr("y", 70)
+        //     .text(measure[1]);
+
+      }
+
+      drawScale([d3.min(cityNodes, d => d.relative).toString(), d3.max(cityNodes, d => d.relative).toString()], custominterpolation);
 
     const simulation = d3.forceSimulation(cityNodes)
         .force("link", d3.forceLink(cityLinks).id(d => d.genre))

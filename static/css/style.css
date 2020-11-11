@@ -69,6 +69,20 @@
     font-style: italic;
 }
 
+.stop-left {
+    stop-color: yellow;
+}
+
+.stop-right {
+    stop-color: red;
+}
+
+.filled {
+    fill: url(#mainGradient);
+}
+
+
+
 .svgText {
     pointer-events: none;
 }
