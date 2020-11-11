@@ -65,25 +65,15 @@ let nv_svg = d3.select("#container")
       // .style("height", "100%")
       .attr("preserveAspectRatio", "xMinYMin meet");
 
-let netviz = nv_svg.append('g');
-
-
-var legend = nv_svg.append('g');
-var legendtext = legend.append("text")
-    .attr("x", 45)
-    .attr("y", 25)
-    .style("font-family", "orion")
-    .attr('font-size', 20);
-var legendBar = legend.append('g');
-let legendTicks = legend.append('g')
-    .attr("transform", `translate(0,30)`);
-
 const svg = d3.select("div#container")
     .append("svg")
     .attr("viewBox", `0 0 ${width-5} ${height-20}`)
     .classed("svg-content", true)
       // .style("height", 497)
       .attr("preserveAspectRatio", "xMinYMin meet");
+
+
+let netviz = nv_svg.append('g');
 
 // SECTION: setting up map...
 const map = svg.append("g")
@@ -108,12 +98,24 @@ svg.append("path")
     .attr("d", customshape)
     .attr("fill", "white");
 
+var legend = svg.append('g')
+    .attr("transform", `translate(-32,170) rotate(-30)`);
+var legendtext = legend.append("text")
+    .attr("x", 45)
+    .attr("y", 25)
+    .style("font-family", "orion")
+    .attr('font-size', 20);
+var legendBar = legend.append('g');
+let legendTicks = legend.append('g')
+    .attr("transform", `translate(0,30)`);
+
 svg.append("path")
     .datum(geooutline)
     .attr("d", path)
     .attr("fill", "none")
     .attr("stroke-width", 1)
     .attr("stroke", "black");
+
 
 svg.append('text')
     .text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and")
@@ -254,7 +256,7 @@ function networkGenres(citydata) {
 
         var barscale = d3.scaleLinear()
           .domain([0, measure[1]])
-          .range([25, 325]);
+          .range([25, 275]);
 
         let legendAxis = d3.axisBottom()
             .scale(barscale)
@@ -266,22 +268,22 @@ function networkGenres(citydata) {
             .attr('x', 25)
             .attr('y', 30)
             .attr('height', 25)
-            .attr('width', 300);
+            .attr('width', 250);
 
-        legendTicks.call(legendAxis)
-            .call(g => g.select(".domain").remove());
+        // legendTicks.call(legendAxis)
+        //     .call(g => g.select(".domain").remove());
 
         legendtext.text("Particularity to city");
 
-        // legend.append("text")
-        //     .attr("x", 35)
-        //     .attr("y", 70)
-        //     .text(measure[0]);
-        //
-        // legend.append("text")
-        //     .attr("x", 315)
-        //     .attr("y", 70)
-        //     .text(measure[1]);
+        legend.append("text")
+            .attr("x", 35)
+            .attr("y", 48)
+            .text("less");
+
+        legend.append("text")
+            .attr("x", 235)
+            .attr("y", 48)
+            .text("more");
 
       }
 
