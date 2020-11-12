@@ -216,18 +216,14 @@ const selectedShapes = cityCircles.selectAll("circles")
     .on('click', function(event, d) {
         svg.select(".cityname")
             .text(d.ct);
-        d3.selectAll(".circSelect").attr("fill", "green").attr("opacity", .7);
-        d3.selectAll("circle").classed('circSelect', false);
-        d3.select(this).classed("circSelect", true).attr("fill", "red")
-            .attr("opacity", 1);
+        cityCircles.selectAll("circle").classed('circSelect', false);
+        d3.select(this).classed("circSelect", true);
         networkGenres(d);
     })
     .on('mouseout', function(event, d) {
         // hide tooltip on mouse out
         tip.hide();
-        if (!this.classList.contains("circSelect")) {
-            d3.select(this).attr('fill', "green");
-        }
+        d3.select(this).attr('fill', "green");
 
     });
 

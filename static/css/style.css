@@ -100,24 +100,34 @@
 #map-container {
     display: inline-block;
     position: relative;
+    direction: rtl;
     width: 100%;
+    flex-direction: row-reverse;
     /* padding-bottom: 100%; */
     vertical-align: top;
     overflow: hidden;
 }
 .svg-viz {
     display: inline-block;
+    direction: ltr;
     top: 0;
     left: 0;
     width: 44%;
 }
 
+.circSelect {  
+  fill: red;
+  opacity: 1;
+}
+
 .svg-map {
     display: inline-block;
+    direction: ltr;
     top: 0;
     left: 0;
     width: 56%;
 }
+
 .mobilenote {
   opacity: 0%
 }
