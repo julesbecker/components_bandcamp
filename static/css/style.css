@@ -97,7 +97,7 @@
   clip-path: url(#cp);
 }
 
-.svg-container {
+#map-container {
     display: inline-block;
     position: relative;
     width: 100%;

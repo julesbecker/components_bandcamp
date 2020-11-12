@@ -67,7 +67,6 @@ const radius = d3.scaleSqrt()
 
 //is this nodes,
 network_data.map((d) => { d.radius = radius(d.c); });
-var container = "#container";
 
 let root = document.querySelector("#map-container");
 let shadow = root.attachShadow({ mode: "open" });
@@ -75,7 +74,22 @@ let sourceDiv = document.createElement("div");
 sourceDiv.setAttribute("id", "bandcamp-map");
 shadow.appendChild(sourceDiv);
 
+const linkElem = document.createElement('link');
+linkElem.setAttribute('rel', 'stylesheet');
+linkElem.setAttribute('href', './static/css/style.css');
+shadow.appendChild(linkElem);
+
+
 // SECTION: create svgs
+
+const svg = d3.select(sourceDiv)
+    .append("svg")
+    .attr("viewBox", `0 0 ${width-5} ${height-20}`)
+    .classed("svg-map", true)
+    .classed("svg-content", true)
+      // .style("height", 497)
+      .attr("preserveAspectRatio", "xMinYMin meet");
+
 let nv_svg = d3.select(sourceDiv)
     .append("svg")
     .attr("viewBox", `0 0 ${width} ${cHeight}`)
@@ -98,15 +112,6 @@ let init_text = nv_svg.append("text")
       .attr('font-size', 20)
       .text("Click on a city to view its scene");
       // .call(wrap);
-
-const svg = d3.select(sourceDiv)
-    .append("svg")
-    .attr("viewBox", `0 0 ${width-5} ${height-20}`)
-    .classed("svg-map", true)
-    .classed("svg-content", true)
-      // .style("height", 497)
-      .attr("preserveAspectRatio", "xMinYMin meet");
-
 
 let netviz = nv_svg.append('g');
 
