@@ -94,8 +94,12 @@ const svg = d3.select("div#container")
 
 let netviz = nv_svg.append('g');
 
+let mapsvg = svg.append("svg")
+    .classed("svg-map", true)
+    .classed("svg-content", true);
+
 // SECTION: setting up map...
-const map = svg.append("g")
+const map = mapsvg.append("g")
     .attr("id", "map");
 
 map.append("rect")
@@ -419,5 +423,5 @@ function networkGenres(citydata) {
 }
 
 // SECTION: call additional functions
-svg.call(zoom);
+mapsvg.call(zoom);
 map.call(tip);
