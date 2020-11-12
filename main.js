@@ -4,9 +4,11 @@
 var topojson = require("topojson-client");
 var d3 = require('d3');
 var textwrap = require('d3-textwrap').textwrap;
+// var forceManyBodyReuse = require('d3-force-reuse').forceManyBodyReuse;
 var d3tip = require('d3-tip');
 var geoPolyhedralButterfly = require('d3-geo-polygon').geoPolyhedralButterfly;
-// var colorLegend = require("./static/js/color_legend.js");
+// var colorLegend = require("./static/js/color_legend.js");=
+// d3.forceManyBodyReuse = forceManyBodyReuse;
 d3.geoPolyhedralButterfly = geoPolyhedralButterfly;
 d3.textwrap = textwrap;
 d3.tip = d3tip;
@@ -33,7 +35,7 @@ const zoom = d3.zoom()
       .on("zoom", function(event, d) {
         const { transform } = event;
         map.attr('transform', transform);
-        let zoomscale = transform.k**.7;
+        let zoomscale = transform.k**.9;
           map.selectAll("circle")
           .attr('r', d => {
             let radiusval = 4;
@@ -64,6 +66,21 @@ let nv_svg = d3.select("#container")
     .classed("svg-content", true)
       // .style("height", "100%")
       .attr("preserveAspectRatio", "xMinYMin meet");
+
+nv_svg.append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", width)
+    .attr("height", cHeight)
+    .attr("fill", "pink");
+
+let init_text = nv_svg.append("text")
+      .attr("x", 50)
+      .attr("y", 50)
+      .style("font-family", "orion")
+      .attr('font-size', 20)
+      .text("Click on a city to view its scene");
+      // .call(wrap);
 
 const svg = d3.select("div#container")
     .append("svg")
@@ -96,7 +113,7 @@ var customshape = `M0,700L233.92640648593908,329.99974719027483L170.640107484642
 
 svg.append("path")
     .attr("d", customshape)
-    .attr("fill", "white");
+    .attr("fill", "grey");
 
 var legend = svg.append('g')
     .attr("transform", `translate(-32,170) rotate(-30)`);
@@ -109,6 +126,17 @@ var legendBar = legend.append('g');
 let legendTicks = legend.append('g')
     .attr("transform", `translate(0,30)`);
 
+
+let less = legend.append("text")
+    .attr("id", "less")
+    .attr("x", 35)
+    .attr("y", 48);
+
+let more = legend.append("text")
+    .attr("id", "more")
+    .attr("x", 235)
+    .attr("y", 48);
+
 svg.append("path")
     .datum(geooutline)
     .attr("d", path)
@@ -118,11 +146,20 @@ svg.append("path")
 
 
 svg.append('text')
-    .text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and")
+    .text("This map marks cities with at least 500 albums or individual tracks sold between August 19 and November 10, 2020 on Bandcamp.")
     .attr("id", "explainer")
     .attr('x', 670)
     .attr('y', 345)
     .call(wrap);
+
+svg.append('text')
+    // .attr("class", "explainer")
+    .attr('x', 15)
+    .attr('y', 15)
+    .attr("class", "mobilenote")
+    .attr('font-size', 20)
+    .text("Note: Viewing on a large screen is recommended")
+    ;
 
 svg.append('text')
     .style("font-family", "orion")
@@ -198,6 +235,7 @@ function networkGenres(citydata) {
     // then, start parsing as appropriate
     let protonodes = citydata.n;
     let protolinks = citydata.l;
+    init_text.text(".");
 
     const dlinks = protolinks.map(function(link) {
         const lw = d3.scaleSqrt()
@@ -274,25 +312,30 @@ function networkGenres(citydata) {
         //     .call(g => g.select(".domain").remove());
 
         legendtext.text("Particularity to city");
-
-        legend.append("text")
-            .attr("x", 35)
-            .attr("y", 48)
-            .text("less");
-
-        legend.append("text")
-            .attr("x", 235)
-            .attr("y", 48)
-            .text("more");
+        less.text("less");
+        more.text("more");
 
       }
 
-      drawScale([d3.min(cityNodes, d => d.relative).toString(), d3.max(cityNodes, d => d.relative).toString()], custominterpolation);
+    drawScale([d3.min(cityNodes, d => d.relative).toString(), d3.max(cityNodes, d => d.relative).toString()], custominterpolation);
+
 
     const simulation = d3.forceSimulation(cityNodes)
-        .force("link", d3.forceLink(cityLinks).id(d => d.genre))
-        .force("charge", d3.forceManyBody().strength(-150).distanceMax(height/2))
-        .force("center", d3.forceCenter(width/2, cHeight/2));
+        .force("link", d3.forceLink(cityLinks)
+            .id(d => d.genre)
+            // .distance()
+            .strength(function(d) { return Math.sqrt(d.value)/100 } )
+        )
+        .force("charge", d3.forceManyBody().strength(-125).distanceMax(220))
+        .force("center", d3.forceCenter(width/2, cHeight/2).strength(1.5))
+        .force("collide", d3.forceCollide().radius(d => d.r + 1).strength(.75))
+        // .force("x", d3.forceX().strength(0.1))
+        // .force("y", d3.forceY().strength(0.1))
+
+
+        // function strength(link) {
+        //   return 1 / Math.min(count(link.source), count(link.target));
+        // }
 
     const link = netviz.append("g")
         .attr("stroke", "#aaa")
@@ -322,17 +365,31 @@ function networkGenres(citydata) {
         .attr('font-size',10);
 
     simulation.on("tick", () => {
-    link
-      .attr("x1", d => d.source.x)
-      .attr("y1", d => d.source.y)
-      .attr("x2", d => d.target.x)
-      .attr("y2", d => d.target.y);
-    node
-      .attr("cx", d => d.x)
-      .attr("cy", d => d.y);
-    textElems
-      .attr("x", d => d.x + d.radius + 2)
-      .attr("y", d => d.y + 2 );
+        // var ticksPerRender = 1;
+        //
+        // requestAnimationFrame(function render() {
+        //
+        //   for (var i = 0; i < ticksPerRender; i++) {
+        //     simulation.tick();
+        //   }
+
+          link
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
+          node
+            .attr("cx", d => { return d.x = Math.max(d.radius+10, Math.min(width - (d.radius+30), d.x)); })
+            .attr("cy", d => { return d.y = Math.max(d.radius+5, Math.min(cHeight - (d.radius+5), d.y)); });
+          textElems
+            .attr("x", d => d.x + d.radius + 2)
+            .attr("y", d => d.y + 2 );
+
+        //   if (simulation.alpha() > 0) {
+        //     requestAnimationFrame(render);
+        //   }
+        // });
+
     });
 
     function fade(opacity) {
@@ -356,6 +413,7 @@ function networkGenres(citydata) {
     function isConnected(a, b) {
         return linkedByIndex[`${a.index},${b.index}`] || linkedByIndex[`${b.index},${a.index}`] || a.index === b.index;
     }
+    // invalidation.then(() => simulation.stop());
 }
 
 // SECTION: call additional functions

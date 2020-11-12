@@ -112,8 +112,18 @@
     width: 50%;
 }
 
+.mobilenote {
+  opacity: 0%
+}
+
 @media (max-width:800px) {
   .svg-content {
     width:100%;
+  }
+}
+
+@media (max-width:500px) {
+  .mobilenote {
+    opacity: 100%
   }
 }
