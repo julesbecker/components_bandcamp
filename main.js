@@ -59,8 +59,24 @@ const projection = d3.geoPolyhedralButterfly()
 
 const path = d3.geoPath().projection(projection);
 
+const radius = d3.scaleSqrt()
+    .domain([0, d3.max(network_data, city => city.city_count)])
+    .range([1, width / 50]);
+
+// SECTION: prepare imported data
+
+//is this nodes,
+network_data.map((d) => { d.radius = radius(d.c); });
+var container = "#container";
+
+let root = document.querySelector("#map-container");
+let shadow = root.attachShadow({ mode: "open" });
+let sourceDiv = document.createElement("div");
+sourceDiv.setAttribute("id", "bandcamp-map");
+shadow.appendChild(sourceDiv);
+
 // SECTION: create svgs
-let nv_svg = d3.select("#container")
+let nv_svg = d3.select(sourceDiv)
     .append("svg")
     .attr("viewBox", `0 0 ${width} ${cHeight}`)
     .classed("svg-viz", true)
@@ -83,7 +99,7 @@ let init_text = nv_svg.append("text")
       .text("Click on a city to view its scene");
       // .call(wrap);
 
-const svg = d3.select("div#container")
+const svg = d3.select(sourceDiv)
     .append("svg")
     .attr("viewBox", `0 0 ${width-5} ${height-20}`)
     .classed("svg-map", true)
