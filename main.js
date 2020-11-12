@@ -4,15 +4,11 @@
 var topojson = require("topojson-client");
 var d3 = require('d3');
 var textwrap = require('d3-textwrap').textwrap;
-// var forceManyBodyReuse = require('d3-force-reuse').forceManyBodyReuse;
 var d3tip = require('d3-tip');
 var geoPolyhedralButterfly = require('d3-geo-polygon').geoPolyhedralButterfly;
-// var colorLegend = require("./static/js/color_legend.js");=
-// d3.forceManyBodyReuse = forceManyBodyReuse;
 d3.geoPolyhedralButterfly = geoPolyhedralButterfly;
 d3.textwrap = textwrap;
 d3.tip = d3tip;
-// d3.colorlegend = colorLegend;
 
 const network_data = require("./data/network_graph.json");
 const world50 = require("./data/world50.json");
@@ -180,13 +176,11 @@ svg.append('text')
     .call(wrap);
 
 svg.append('text')
-    // .attr("class", "explainer")
     .attr('x', 15)
     .attr('y', 15)
     .attr("class", "mobilenote")
     .attr('font-size', 20)
-    .text("Note: Viewing on a large screen is recommended")
-    ;
+    .text("Note: Viewing on a large screen is recommended");
 
 svg.append('text')
     .style("font-family", "orion")
@@ -224,33 +218,31 @@ const selectedShapes = cityCircles.selectAll("circles")
         // hide tooltip on mouse out
         tip.hide();
         d3.select(this).attr('fill', "green");
-
     });
 
 // SECTION: netviz code
 let drag = simulation => {
+    function dragstarted(event, d) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    }
 
-  function dragstarted(event, d) {
-      if (!event.active) simulation.alphaTarget(0.3).restart();
-      d.fx = d.x;
-      d.fy = d.y;
-  }
+    function dragged(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+    }
 
-  function dragged(event, d) {
-      d.fx = event.x;
-      d.fy = event.y;
-  }
+    function dragended(event, d) {
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+    }
 
-  function dragended(event, d) {
-      if (!event.active) simulation.alphaTarget(0);
-      d.fx = null;
-      d.fy = null;
-  }
-
-  return d3.drag()
-      .on("start", dragstarted)
-      .on("drag", dragged)
-      .on("end", dragended);
+    return d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended);
 }
 
 function networkGenres(citydata) {
@@ -268,16 +260,14 @@ function networkGenres(citydata) {
         let linkwidth = lw(link['c']);
         formattedLink.source = link["g1"];
         formattedLink.target = link["g2"];
-        // formattedLink.relationship = link["c"];
         formattedLink.value = linkwidth;
         return formattedLink;
     });
 
     let dnodes = protonodes.map(function(node) {
-      const radius = d3.scaleSqrt()
-          .domain([0, d3.max(protonodes, node => node.c)])
-          .range([1, width / 50]);
-
+        const radius = d3.scaleSqrt()
+            .domain([0, d3.max(protonodes, node => node.c)])
+            .range([1, width / 50]);
         let noderadius = radius(node['c'])
         var formattedNode = {};
         formattedNode.genre = node["g"];
@@ -388,31 +378,17 @@ function networkGenres(citydata) {
         .attr('font-size',11.5);
 
     simulation.on("tick", () => {
-        // var ticksPerRender = 1;
-        //
-        // requestAnimationFrame(function render() {
-        //
-        //   for (var i = 0; i < ticksPerRender; i++) {
-        //     simulation.tick();
-        //   }
-
-          link
+        link
             .attr("x1", d => d.source.x)
             .attr("y1", d => d.source.y)
             .attr("x2", d => d.target.x)
             .attr("y2", d => d.target.y);
-          node
+        node
             .attr("cx", d => { return d.x = Math.max(d.radius+10, Math.min(width - (d.radius+30), d.x)); })
             .attr("cy", d => { return d.y = Math.max(d.radius+5, Math.min(cHeight - (d.radius+5), d.y)); });
-          textElems
+        textElems
             .attr("x", d => d.x + d.radius + 2)
             .attr("y", d => d.y + 2 );
-
-        //   if (simulation.alpha() > 0) {
-        //     requestAnimationFrame(render);
-        //   }
-        // });
-
     });
 
     function fade(opacity) {
