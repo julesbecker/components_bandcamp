@@ -63,6 +63,7 @@ const path = d3.geoPath().projection(projection);
 let nv_svg = d3.select("#container")
     .append("svg")
     .attr("viewBox", `0 0 ${width} ${cHeight}`)
+    .classed("svg-viz", true)
     .classed("svg-content", true)
       // .style("height", "100%")
       .attr("preserveAspectRatio", "xMinYMin meet");
@@ -85,6 +86,7 @@ let init_text = nv_svg.append("text")
 const svg = d3.select("div#container")
     .append("svg")
     .attr("viewBox", `0 0 ${width-5} ${height-20}`)
+    .classed("svg-map", true)
     .classed("svg-content", true)
       // .style("height", 497)
       .attr("preserveAspectRatio", "xMinYMin meet");
@@ -362,7 +364,7 @@ function networkGenres(citydata) {
     .join('text')
         .text(d => d.genre)
         .attr('class', "svgText")
-        .attr('font-size',10);
+        .attr('font-size',11.5);
 
     simulation.on("tick", () => {
         // var ticksPerRender = 1;

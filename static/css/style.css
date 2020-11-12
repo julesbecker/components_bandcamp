@@ -105,13 +105,19 @@
     vertical-align: top;
     overflow: hidden;
 }
-.svg-content {
+.svg-viz {
     display: inline-block;
     top: 0;
     left: 0;
-    width: 50%;
+    width: 44%;
 }
 
+.svg-map {
+    display: inline-block;
+    top: 0;
+    left: 0;
+    width: 56%;
+}
 .mobilenote {
   opacity: 0%
 }
