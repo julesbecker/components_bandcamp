@@ -8,6 +8,10 @@ app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname + '/static/index.html'));
 })
 
+app.get("/ext", function(req, res) {
+  res.sendFile(path.join(__dirname + '/static/json/external.json'));
+})
+
 let server = app.listen(5000, function() {
   console.log("listening on 5000");
 });

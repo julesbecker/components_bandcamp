@@ -83,9 +83,16 @@ const radius = d3.scaleSqrt()
 
 //is this nodes,
 network_data.map((d) => { d.radius = radius(d.c); });
+var container = "#container";
+
+let root = document.querySelector("#map-container");
+let shadow = root.attachShadow({ mode: "open" });
+let sourceDiv = document.createElement("div");
+sourceDiv.setAttribute("id", "bandcamp-map");
+shadow.appendChild(sourceDiv);
 
 // SECTION: create svgs
-let netviz = d3.select("#container")
+let netviz = d3.select(sourceDiv)
     .append("svg")
     .attr("viewBox", `0 0 ${width} ${height+200}`)
     .classed("svg-content", true)
@@ -93,7 +100,7 @@ let netviz = d3.select("#container")
       // .style("height", "100%")
       .attr("preserveAspectRatio", "xMinYMin meet");
 
-const svg = d3.select("div#container")
+const svg = d3.select(sourceDiv)
     .append("svg")
     .attr("viewBox", `0 0 ${width-5} ${height-20}`)
     .classed("svg-content", true)

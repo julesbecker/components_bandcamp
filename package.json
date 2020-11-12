@@ -29,7 +29,7 @@
     "watch": "watchify main.js -o ./static/js/bundle.js -v -t [ babelify --presets [@babel/preset-env] ]",
     "serve": "nodemon server.js",
     "dev": "npm-run-all -p watch serve",
-    "start": "npm-run-all -p build serve"
+    "start": "npm run build && npm run serve"
   },
   "repository": {
     "type": "git",
