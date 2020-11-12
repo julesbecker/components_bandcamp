@@ -250,7 +250,7 @@ function networkGenres(citydata) {
     // then, start parsing as appropriate
     let protonodes = citydata.n;
     let protolinks = citydata.l;
-    init_text.text(".");
+    init_text.text("");
 
     const dlinks = protolinks.map(function(link) {
         const lw = d3.scaleSqrt()
@@ -414,6 +414,13 @@ function networkGenres(citydata) {
     }
     // invalidation.then(() => simulation.stop());
 }
+
+map.selectAll("rect")
+    .on('click', function() {
+        cityCircles.selectAll("circle").classed('circSelect', false);
+        netviz.selectAll("g").remove();
+        init_text.text("Click on a city to view its scene");
+      })
 
 // SECTION: call additional functions
 mapsvg.call(zoom);
