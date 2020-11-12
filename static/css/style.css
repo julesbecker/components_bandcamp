@@ -69,6 +69,24 @@
     font-style: italic;
 }
 
+.stop-left {
+    stop-color: yellow;
+}
+
+.stop-right {
+    stop-color: red;
+}
+
+.filled {
+    fill: url(#mainGradient);
+}
+
+
+
+.svgText {
+    pointer-events: none;
+}
+
 .outline {
   stroke: #000;
   stroke-width: 1px;
@@ -87,8 +105,31 @@
     vertical-align: top;
     overflow: hidden;
 }
-.svg-content {
+.svg-viz {
     display: inline-block;
     top: 0;
     left: 0;
+    width: 44%;
+}
+
+.svg-map {
+    display: inline-block;
+    top: 0;
+    left: 0;
+    width: 56%;
+}
+.mobilenote {
+  opacity: 0%
+}
+
+@media (max-width:800px) {
+  .svg-content {
+    width:100%;
+  }
+}
+
+@media (max-width:500px) {
+  .mobilenote {
+    opacity: 100%
+  }
 }
