@@ -72,7 +72,7 @@ shadow.appendChild(sourceDiv);
 
 const linkElem = document.createElement('link');
 linkElem.setAttribute('rel', 'stylesheet');
-linkElem.setAttribute('href', './static/css/style.css');
+linkElem.setAttribute('href', 'style.scss');
 shadow.appendChild(linkElem);
 
 
