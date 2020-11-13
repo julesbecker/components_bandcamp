@@ -1,28 +1,46 @@
 "use strict";
 
 // import required modules
+var css = require('./static/css/style.css');
 var topojson = require("topojson-client");
 var d3 = require('d3');
 var textwrap = require('d3-textwrap').textwrap;
-var d3tip = require('d3-tip');
+// var d3tip = require('d3-tip');
 var geoPolyhedralButterfly = require('d3-geo-polygon').geoPolyhedralButterfly;
 d3.geoPolyhedralButterfly = geoPolyhedralButterfly;
 d3.textwrap = textwrap;
-d3.tip = d3tip;
+// d3.tip = d3tip;
+const font = "MGD Orion";
 
 const network_data = require("./data/network_graph.json");
 const world50 = require("./data/world50.json");
 const countries = topojson.feature(world50, world50.objects.land);
 
+// SECTION: shadow DOM and CSS imports
+let root = document.querySelector("#map-container");
+let shadow = root.attachShadow({ mode: "open" });
+let sourceDiv = document.createElement("div");
+sourceDiv.setAttribute("id", "bandcamp-map");
+shadow.appendChild(sourceDiv);
+
+// dump CSS as a style tag inside the shadow DOM
+const style = document.createElement("style");
+style.innerHTML = css;
+shadow.appendChild(style);
+
 // SECTION: prepare imported functions
 var wrap = d3.textwrap().bounds({height: 175, width: 175});
 
-const tip = d3.tip()
-    .attr('class', "d3-tip")
-    .style("color", "white")
-    .style("padding", "6px")
-    .offset([-15, 0])
-    .html(function(d) {return `<div style='float: right'>${d}</div>`});
+// const tip = d3.tip()
+//     .attr('class', "d3-tip")
+//     .style("color", "white")
+//     .style("padding", "6px")
+//     .offset([-15, 0])
+//     .html(function(d) {return `<div style='float: right'>${d}</div>`});
+
+let newTip = d3.select(sourceDiv).append("div")
+  .attr("class", "newtips")
+  .style("opacity", 0);
 
 const zoom = d3.zoom()
     .translateExtent([[17, 100], [883, 580]])
@@ -64,21 +82,21 @@ const radius = d3.scaleSqrt()
 //is this nodes,
 network_data.map((d) => { d.radius = radius(d.c); });
 
-let root = document.querySelector("#map-container");
-let shadow = root.attachShadow({ mode: "open" });
-let sourceDiv = document.createElement("div");
-sourceDiv.setAttribute("id", "bandcamp-map");
-shadow.appendChild(sourceDiv);
-
-const linkElem = document.createElement('link');
-linkElem.setAttribute('rel', 'stylesheet');
-linkElem.setAttribute('href', 'static/css/style.css');
-shadow.appendChild(linkElem);
-
-
 // SECTION: create svgs
 
-const svg = d3.select(sourceDiv)
+let mapWrap = document.createElement("div");
+mapWrap.setAttribute("class", "svg-map-wrap active-map");
+let vizWrap = document.createElement("div");
+vizWrap.setAttribute("class", "svg-viz-wrap");
+
+let mapSwitch = document.createElement("div");
+mapSwitch.setAttribute("class", "map-switch");
+
+mapSwitch.append(mapWrap);
+mapSwitch.append(vizWrap);
+sourceDiv.append(mapSwitch);
+
+const svg = d3.select(mapWrap)
     .append("svg")
     .attr("viewBox", `0 0 ${width-5} ${height-20}`)
     .classed("svg-map", true)
@@ -86,7 +104,7 @@ const svg = d3.select(sourceDiv)
       // .style("height", 497)
       .attr("preserveAspectRatio", "xMinYMin meet");
 
-let nv_svg = d3.select(sourceDiv)
+let nv_svg = d3.select(vizWrap)
     .append("svg")
     .attr("viewBox", `0 0 ${width} ${cHeight}`)
     .classed("svg-viz", true)
@@ -104,7 +122,7 @@ nv_svg.append("rect")
 let init_text = nv_svg.append("text")
       .attr("x", 50)
       .attr("y", 50)
-      .style("font-family", "orion")
+      .style("font-family", font)
       .attr('font-size', 20)
       .text("Click on a city to view its scene");
       // .call(wrap);
@@ -143,7 +161,7 @@ var legend = svg.append('g')
 var legendtext = legend.append("text")
     .attr("x", 45)
     .attr("y", 25)
-    .style("font-family", "orion")
+    .style("font-family", font)
     .attr('font-size', 20);
 var legendBar = legend.append('g');
 let legendTicks = legend.append('g')
@@ -183,7 +201,7 @@ svg.append('text')
     .text("Note: Viewing on a large screen is recommended");
 
 svg.append('text')
-    .style("font-family", "orion")
+    .style("font-family", font)
     .attr('class', 'cityname')
     .attr("font-size", "30px")
     .attr('x', width / 2 )
@@ -204,7 +222,12 @@ const selectedShapes = cityCircles.selectAll("circles")
     //NOTE: mouseover behavior determined here
     .on('mouseenter', function(event, d) {
         // show tooltip on mouse enter
-        tip.show(d.ct, this);
+        // tip.show(d.ct, this);
+        let rect = event.target.ownerSVGElement.getBoundingClientRect();
+        newTip.style("opacity", 1);
+        newTip.html(d.ct)
+            .style("left", (event.clientX - rect.left) + "px")
+            .style("top", (event.clientY - rect.top - 10) + "px");
         d3.select(this).attr('fill', "red");
     })
     .on('click', function(event, d) {
@@ -213,10 +236,13 @@ const selectedShapes = cityCircles.selectAll("circles")
         cityCircles.selectAll("circle").classed('circSelect', false);
         d3.select(this).classed("circSelect", true);
         networkGenres(d);
+        vizWrap.classList.add("active-map");
+        mapWrap.classList.remove("active-map");
     })
     .on('mouseout', function(event, d) {
         // hide tooltip on mouse out
-        tip.hide();
+        // tip.hide();
+        newTip.style("opacity", 0);
         d3.select(this).attr('fill', "green");
     });
 
@@ -447,4 +473,33 @@ map.selectAll("rect")
 
 // SECTION: call additional functions
 mapsvg.call(zoom);
-map.call(tip);
+// map.call(tip);
+
+// tabs for switching between sections
+let tabsTemplate = `
+    <div class="single-tab map-tab selected"><div class="inner-tab-text">City Map</div></div>
+    <div class="single-tab graph-tab"><div class="inner-tab-text">Genre Graph</div></div>
+`
+let controls = document.createElement("div");
+controls.setAttribute("class", "map-tabs-parent");
+controls.innerHTML = tabsTemplate;
+sourceDiv.appendChild(controls);
+
+let mapTab = controls.querySelector(".single-tab.map-tab");
+let graphTab = controls.querySelector(".single-tab.graph-tab");
+
+mapTab.addEventListener("click", (e) => {
+  mapTab.classList.add("selected");
+  graphTab.classList.remove("selected");
+
+  mapWrap.classList.add("active-map");
+  vizWrap.classList.remove("active-map");
+});
+
+graphTab.addEventListener("click", (e) => {
+  graphTab.classList.add("selected");
+  mapTab.classList.remove("selected");
+
+  vizWrap.classList.add("active-map");
+  mapWrap.classList.remove("active-map");
+});
