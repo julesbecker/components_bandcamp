@@ -1,3 +1,7 @@
+body {
+  margin: 0;
+}
+
 @font-face {
   font-family: "orion";
   src: url("fonts/MGDOrion-Regular.woff2") format('woff2');

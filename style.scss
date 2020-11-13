@@ -127,28 +127,35 @@ body {
 #bandcamp-map {
   --map-tab-height: 150px;
 
-  display: flex;
+  // display: flex;
   height: 100vh;
 
   .map-switch {
-    flex: 0 1 auto;
+    display: flex;
+    // flex: 0 1 auto;
     height: 100%;
     order: 1;
     position: relative;
-    width: 95%;
+    width: 100%;
   }
 
   .svg-viz-wrap, .svg-map-wrap {
+    display: inline-block;
     height: 100vh;
-    position: absolute;
-    top: 0; left: 0;
+    width: 50%;
+    // position: absolute;
+    // top: 0; left: 0;
     // margin-left: 3em;
   }
+  
+  // .svg-viz-wrap {
+  //   width: 50%;
+  // }
 
   .svg-viz, .svg-map-wrap > .svg-map {
     display: inline-block;
-    top: 0;
-    left: 0;
+    // top: 0;
+    // left: 0;
     max-height: 100%;
   }
 

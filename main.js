@@ -115,9 +115,9 @@ let nv_svg = d3.select(vizWrap)
 nv_svg.append("rect")
     .attr("x", 0)
     .attr("y", 0)
+    .attr("fill", "white")
     .attr("width", width)
-    .attr("height", cHeight)
-    .attr("fill", "pink");
+    .attr("height", cHeight);
 
 let init_text = nv_svg.append("text")
       .attr("x", 50)
@@ -154,7 +154,7 @@ var customshape = `M0,700L233.92640648593908,329.99974719027483L170.640107484642
 
 svg.append("path")
     .attr("d", customshape)
-    .attr("fill", "grey");
+    .attr("fill", "white");
 
 var legend = svg.append('g')
     .attr("transform", `translate(-32,170) rotate(-30)`);
@@ -423,7 +423,7 @@ function networkGenres(citydata) {
     .join('text')
         .text(d => d.genre)
         .attr('class', "svgText")
-        .attr('font-size',11.5);
+        .attr('font-size',12);
         // .call(labels);
 
     simulation.on("tick", () => {
@@ -475,7 +475,7 @@ map.selectAll("rect")
 mapsvg.call(zoom);
 // map.call(tip);
 
-// tabs for switching between sections
+// SECTION: tabs for switching between sections, to potentially get deleted
 // let tabsTemplate = `
 //     <div class="single-tab map-tab selected"><div class="inner-tab-text">City Map</div></div>
 //     <div class="single-tab graph-tab"><div class="inner-tab-text">Genre Graph</div></div>
