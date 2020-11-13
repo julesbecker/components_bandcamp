@@ -4,15 +4,11 @@
 var topojson = require("topojson-client");
 var d3 = require('d3');
 var textwrap = require('d3-textwrap').textwrap;
-// var forceManyBodyReuse = require('d3-force-reuse').forceManyBodyReuse;
 var d3tip = require('d3-tip');
 var geoPolyhedralButterfly = require('d3-geo-polygon').geoPolyhedralButterfly;
-// var colorLegend = require("./static/js/color_legend.js");=
-// d3.forceManyBodyReuse = forceManyBodyReuse;
 d3.geoPolyhedralButterfly = geoPolyhedralButterfly;
 d3.textwrap = textwrap;
 d3.tip = d3tip;
-// d3.colorlegend = colorLegend;
 
 const network_data = require("./data/network_graph.json");
 const world50 = require("./data/world50.json");
@@ -31,11 +27,11 @@ const tip = d3.tip()
 const zoom = d3.zoom()
     .translateExtent([[17, 100], [883, 580]])
     .extent([[17, 100], [883, 580]])
-    .scaleExtent([1, 8])
+    .scaleExtent([1, 35])
       .on("zoom", function(event, d) {
         const { transform } = event;
         map.attr('transform', transform);
-        let zoomscale = transform.k**.9;
+        let zoomscale = transform.k**.7;
           map.selectAll("circle")
           .attr('r', d => {
             let radiusval = 4;
@@ -67,7 +63,6 @@ const radius = d3.scaleSqrt()
 
 //is this nodes,
 network_data.map((d) => { d.radius = radius(d.c); });
-var container = "#container";
 
 let root = document.querySelector("#map-container");
 let shadow = root.attachShadow({ mode: "open" });
@@ -75,7 +70,22 @@ let sourceDiv = document.createElement("div");
 sourceDiv.setAttribute("id", "bandcamp-map");
 shadow.appendChild(sourceDiv);
 
+const linkElem = document.createElement('link');
+linkElem.setAttribute('rel', 'stylesheet');
+linkElem.setAttribute('href', './static/css/style.css');
+shadow.appendChild(linkElem);
+
+
 // SECTION: create svgs
+
+const svg = d3.select(sourceDiv)
+    .append("svg")
+    .attr("viewBox", `0 0 ${width-5} ${height-20}`)
+    .classed("svg-map", true)
+    .classed("svg-content", true)
+      // .style("height", 497)
+      .attr("preserveAspectRatio", "xMinYMin meet");
+
 let nv_svg = d3.select(sourceDiv)
     .append("svg")
     .attr("viewBox", `0 0 ${width} ${cHeight}`)
@@ -99,19 +109,14 @@ let init_text = nv_svg.append("text")
       .text("Click on a city to view its scene");
       // .call(wrap);
 
-const svg = d3.select(sourceDiv)
-    .append("svg")
-    .attr("viewBox", `0 0 ${width-5} ${height-20}`)
-    .classed("svg-map", true)
-    .classed("svg-content", true)
-      // .style("height", 497)
-      .attr("preserveAspectRatio", "xMinYMin meet");
-
-
 let netviz = nv_svg.append('g');
 
+let mapsvg = svg.append("svg")
+    .classed("svg-map", true)
+    .classed("svg-content", true);
+
 // SECTION: setting up map...
-const map = svg.append("g")
+const map = mapsvg.append("g")
     .attr("id", "map");
 
 map.append("rect")
@@ -171,13 +176,11 @@ svg.append('text')
     .call(wrap);
 
 svg.append('text')
-    // .attr("class", "explainer")
     .attr('x', 15)
     .attr('y', 15)
     .attr("class", "mobilenote")
     .attr('font-size', 20)
-    .text("Note: Viewing on a large screen is recommended")
-    ;
+    .text("Note: Viewing on a large screen is recommended");
 
 svg.append('text')
     .style("font-family", "orion")
@@ -207,53 +210,48 @@ const selectedShapes = cityCircles.selectAll("circles")
     .on('click', function(event, d) {
         svg.select(".cityname")
             .text(d.ct);
-        d3.selectAll(".circSelect").attr("fill", "green").attr("opacity", .7);
-        d3.selectAll("circle").classed('circSelect', false);
-        d3.select(this).classed("circSelect", true).attr("fill", "red")
-            .attr("opacity", 1);
+        cityCircles.selectAll("circle").classed('circSelect', false);
+        d3.select(this).classed("circSelect", true);
         networkGenres(d);
     })
     .on('mouseout', function(event, d) {
         // hide tooltip on mouse out
         tip.hide();
-        if (!this.classList.contains("circSelect")) {
-            d3.select(this).attr('fill', "green");
-        }
-
+        d3.select(this).attr('fill', "green");
     });
 
 // SECTION: netviz code
 let drag = simulation => {
+    function dragstarted(event, d) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    }
 
-  function dragstarted(event, d) {
-      if (!event.active) simulation.alphaTarget(0.3).restart();
-      d.fx = d.x;
-      d.fy = d.y;
-  }
+    function dragged(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+    }
 
-  function dragged(event, d) {
-      d.fx = event.x;
-      d.fy = event.y;
-  }
+    function dragended(event, d) {
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+    }
 
-  function dragended(event, d) {
-      if (!event.active) simulation.alphaTarget(0);
-      d.fx = null;
-      d.fy = null;
-  }
-
-  return d3.drag()
-      .on("start", dragstarted)
-      .on("drag", dragged)
-      .on("end", dragended);
+    return d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended);
 }
+
 
 function networkGenres(citydata) {
     // first, take just the entry that corresponds with the city
     // then, start parsing as appropriate
     let protonodes = citydata.n;
     let protolinks = citydata.l;
-    init_text.text(".");
+    init_text.text("");
 
     const dlinks = protolinks.map(function(link) {
         const lw = d3.scaleSqrt()
@@ -263,16 +261,14 @@ function networkGenres(citydata) {
         let linkwidth = lw(link['c']);
         formattedLink.source = link["g1"];
         formattedLink.target = link["g2"];
-        // formattedLink.relationship = link["c"];
         formattedLink.value = linkwidth;
         return formattedLink;
     });
 
     let dnodes = protonodes.map(function(node) {
-      const radius = d3.scaleSqrt()
-          .domain([0, d3.max(protonodes, node => node.c)])
-          .range([1, width / 50]);
-
+        const radius = d3.scaleSqrt()
+            .domain([0, d3.max(protonodes, node => node.c)])
+            .range([1, width / 50]);
         let noderadius = radius(node['c'])
         var formattedNode = {};
         formattedNode.genre = node["g"];
@@ -350,7 +346,6 @@ function networkGenres(citydata) {
         // .force("x", d3.forceX().strength(0.1))
         // .force("y", d3.forceY().strength(0.1))
 
-
         // function strength(link) {
         //   return 1 / Math.min(count(link.source), count(link.target));
         // }
@@ -374,6 +369,27 @@ function networkGenres(citydata) {
     .on('mouseover.fade', fade(0.1))
     .on('mouseout.fade', fade(1));
 
+    // const labelPadding = 2;
+    //
+    // // the component used to render each label
+    // const textLabel = layoutTextLabel()
+    //   .padding(labelPadding)
+    //   .value(d => d.properties.name);
+    //
+    // // a strategy that combines simulated annealing with removal
+    // // of overlapping labels
+    // const strategy = layoutRemoveOverlaps(layoutGreedy());
+    //
+    // // create the layout that positions the labels
+    // const labels = layoutLabel(strategy)
+    //     .size((d, i, g) => {
+    //         // measure the label and add the required padding
+    //         const textSize = g[i].getElementsByTagName('text')[0].getBBox();
+    //         return [textSize.width + labelPadding * 2, textSize.height + labelPadding * 2];
+    //     })
+    //     .position(d => projection(d.geometry.coordinates))
+    //     .component(textLabel);
+
     const textElems = netviz.append('g')
     .selectAll('text')
     .data(cityNodes)
@@ -381,33 +397,20 @@ function networkGenres(citydata) {
         .text(d => d.genre)
         .attr('class', "svgText")
         .attr('font-size',11.5);
+        // .call(labels);
 
     simulation.on("tick", () => {
-        // var ticksPerRender = 1;
-        //
-        // requestAnimationFrame(function render() {
-        //
-        //   for (var i = 0; i < ticksPerRender; i++) {
-        //     simulation.tick();
-        //   }
-
-          link
+        link
             .attr("x1", d => d.source.x)
             .attr("y1", d => d.source.y)
             .attr("x2", d => d.target.x)
             .attr("y2", d => d.target.y);
-          node
+        node
             .attr("cx", d => { return d.x = Math.max(d.radius+10, Math.min(width - (d.radius+30), d.x)); })
             .attr("cy", d => { return d.y = Math.max(d.radius+5, Math.min(cHeight - (d.radius+5), d.y)); });
-          textElems
+        textElems
             .attr("x", d => d.x + d.radius + 2)
             .attr("y", d => d.y + 2 );
-
-        //   if (simulation.alpha() > 0) {
-        //     requestAnimationFrame(render);
-        //   }
-        // });
-
     });
 
     function fade(opacity) {
@@ -434,6 +437,13 @@ function networkGenres(citydata) {
     // invalidation.then(() => simulation.stop());
 }
 
+map.selectAll("rect")
+    .on('click', function() {
+        cityCircles.selectAll("circle").classed('circSelect', false);
+        netviz.selectAll("g").remove();
+        init_text.text("Click on a city to view its scene");
+      })
+
 // SECTION: call additional functions
-svg.call(zoom);
+mapsvg.call(zoom);
 map.call(tip);
