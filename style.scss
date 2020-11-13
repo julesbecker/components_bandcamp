@@ -148,9 +148,10 @@ body {
     // margin-left: 3em;
   }
   
-  // .svg-viz-wrap {
-  //   width: 50%;
-  // }
+  .svg-map-wrap {
+    order: 1;
+    // width: 50%;
+  }
 
   .svg-viz, .svg-map-wrap > .svg-map {
     display: inline-block;
