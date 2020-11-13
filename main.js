@@ -476,30 +476,30 @@ mapsvg.call(zoom);
 // map.call(tip);
 
 // tabs for switching between sections
-let tabsTemplate = `
-    <div class="single-tab map-tab selected"><div class="inner-tab-text">City Map</div></div>
-    <div class="single-tab graph-tab"><div class="inner-tab-text">Genre Graph</div></div>
-`
-let controls = document.createElement("div");
-controls.setAttribute("class", "map-tabs-parent");
-controls.innerHTML = tabsTemplate;
-sourceDiv.appendChild(controls);
+// let tabsTemplate = `
+//     <div class="single-tab map-tab selected"><div class="inner-tab-text">City Map</div></div>
+//     <div class="single-tab graph-tab"><div class="inner-tab-text">Genre Graph</div></div>
+// `
+// let controls = document.createElement("div");
+// controls.setAttribute("class", "map-tabs-parent");
+// controls.innerHTML = tabsTemplate;
+// sourceDiv.appendChild(controls);
 
-let mapTab = controls.querySelector(".single-tab.map-tab");
-let graphTab = controls.querySelector(".single-tab.graph-tab");
+// let mapTab = controls.querySelector(".single-tab.map-tab");
+// let graphTab = controls.querySelector(".single-tab.graph-tab");
 
-mapTab.addEventListener("click", (e) => {
-  mapTab.classList.add("selected");
-  graphTab.classList.remove("selected");
+// mapTab.addEventListener("click", (e) => {
+//   mapTab.classList.add("selected");
+//   graphTab.classList.remove("selected");
   
-  mapWrap.classList.add("active-map");
-  vizWrap.classList.remove("active-map");
-});
+//   mapWrap.classList.add("active-map");
+//   vizWrap.classList.remove("active-map");
+// });
 
-graphTab.addEventListener("click", (e) => {
-  graphTab.classList.add("selected");
-  mapTab.classList.remove("selected");
+// graphTab.addEventListener("click", (e) => {
+//   graphTab.classList.add("selected");
+//   mapTab.classList.remove("selected");
   
-  vizWrap.classList.add("active-map");
-  mapWrap.classList.remove("active-map");
-});
+//   vizWrap.classList.add("active-map");
+//   mapWrap.classList.remove("active-map");
+// });
