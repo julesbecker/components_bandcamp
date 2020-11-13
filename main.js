@@ -1,28 +1,45 @@
 "use strict";
 
 // import required modules
+var css = require('./static/css/style.css');
 var topojson = require("topojson-client");
 var d3 = require('d3');
 var textwrap = require('d3-textwrap').textwrap;
-var d3tip = require('d3-tip');
+// var d3tip = require('d3-tip');
 var geoPolyhedralButterfly = require('d3-geo-polygon').geoPolyhedralButterfly;
 d3.geoPolyhedralButterfly = geoPolyhedralButterfly;
 d3.textwrap = textwrap;
-d3.tip = d3tip;
+// d3.tip = d3tip;
+const font = "MGD Orion";
 
 const network_data = require("./data/network_graph.json");
 const world50 = require("./data/world50.json");
 const countries = topojson.feature(world50, world50.objects.land);
 
+// SECTION: shadow DOM and CSS imports
+let root = document.querySelector("#map-container");
+let shadow = root.attachShadow({ mode: "open" });
+let sourceDiv = document.createElement("div");
+sourceDiv.setAttribute("id", "bandcamp-map");
+shadow.appendChild(sourceDiv);
+
+const style = document.createElement("style");
+style.innerHTML = css;
+shadow.appendChild(style);
+
 // SECTION: prepare imported functions
 var wrap = d3.textwrap().bounds({height: 175, width: 175});
 
-const tip = d3.tip()
-    .attr('class', "d3-tip")
-    .style("color", "white")
-    .style("padding", "6px")
-    .offset([-15, 0])
-    .html(function(d) {return `<div style='float: right'>${d}</div>`});
+// const tip = d3.tip()
+//     .attr('class', "d3-tip")
+//     .style("color", "white")
+//     .style("padding", "6px")
+//     .offset([-15, 0])
+//     .html(function(d) {return `<div style='float: right'>${d}</div>`});
+
+let newTip = d3.select(sourceDiv).append("div")
+  .attr("class", "newtips")
+  .style("opacity", 0);
 
 const zoom = d3.zoom()
     .translateExtent([[17, 100], [883, 580]])
@@ -64,18 +81,6 @@ const radius = d3.scaleSqrt()
 //is this nodes,
 network_data.map((d) => { d.radius = radius(d.c); });
 
-let root = document.querySelector("#map-container");
-let shadow = root.attachShadow({ mode: "open" });
-let sourceDiv = document.createElement("div");
-sourceDiv.setAttribute("id", "bandcamp-map");
-shadow.appendChild(sourceDiv);
-
-const linkElem = document.createElement('link');
-linkElem.setAttribute('rel', 'stylesheet');
-linkElem.setAttribute('href', 'style.scss');
-shadow.appendChild(linkElem);
-
-
 // SECTION: create svgs
 
 const svg = d3.select(sourceDiv)
@@ -104,7 +109,7 @@ nv_svg.append("rect")
 let init_text = nv_svg.append("text")
       .attr("x", 50)
       .attr("y", 50)
-      .style("font-family", "orion")
+      .style("font-family", font)
       .attr('font-size', 20)
       .text("Click on a city to view its scene");
       // .call(wrap);
@@ -143,7 +148,7 @@ var legend = svg.append('g')
 var legendtext = legend.append("text")
     .attr("x", 45)
     .attr("y", 25)
-    .style("font-family", "orion")
+    .style("font-family", font)
     .attr('font-size', 20);
 var legendBar = legend.append('g');
 let legendTicks = legend.append('g')
@@ -183,7 +188,7 @@ svg.append('text')
     .text("Note: Viewing on a large screen is recommended");
 
 svg.append('text')
-    .style("font-family", "orion")
+    .style("font-family", font)
     .attr('class', 'cityname')
     .attr("font-size", "30px")
     .attr('x', width / 2 )
@@ -204,7 +209,11 @@ const selectedShapes = cityCircles.selectAll("circles")
     //NOTE: mouseover behavior determined here
     .on('mouseenter', function(event, d) {
         // show tooltip on mouse enter
-        tip.show(d.ct, this);
+        // tip.show(d.ct, this);
+        newTip.style("opacity", 1);
+        newTip.html(d.ct)
+            .style("left", (event.clientX) + "px")
+            .style("top", (event.clientY) + "px");
         d3.select(this).attr('fill', "red");
     })
     .on('click', function(event, d) {
@@ -216,7 +225,8 @@ const selectedShapes = cityCircles.selectAll("circles")
     })
     .on('mouseout', function(event, d) {
         // hide tooltip on mouse out
-        tip.hide();
+        // tip.hide();
+        newTip.style("opacity", 0);
         d3.select(this).attr('fill', "green");
     });
 
@@ -447,4 +457,4 @@ map.selectAll("rect")
 
 // SECTION: call additional functions
 mapsvg.call(zoom);
-map.call(tip);
+// map.call(tip);
