@@ -10,7 +10,7 @@ d3.geoPolyhedralButterfly = geoPolyhedralButterfly;
 d3.textwrap = textwrap;
 d3.tip = d3tip;
 
-const network_data = require("./data/network_graph.json");
+const network_data = require("./data/network_graph_true.json");
 const world50 = require("./data/world50.json");
 const countries = topojson.feature(world50, world50.objects.land);
 
@@ -27,11 +27,11 @@ const tip = d3.tip()
 const zoom = d3.zoom()
     .translateExtent([[17, 100], [883, 580]])
     .extent([[17, 100], [883, 580]])
-    .scaleExtent([1, 8])
+    .scaleExtent([1, 35])
       .on("zoom", function(event, d) {
         const { transform } = event;
         map.attr('transform', transform);
-        let zoomscale = transform.k**.9;
+        let zoomscale = transform.k**.8;
           map.selectAll("circle")
           .attr('r', d => {
             let radiusval = 4;
@@ -245,6 +245,7 @@ let drag = simulation => {
         .on("end", dragended);
 }
 
+
 function networkGenres(citydata) {
     // first, take just the entry that corresponds with the city
     // then, start parsing as appropriate
@@ -345,7 +346,6 @@ function networkGenres(citydata) {
         // .force("x", d3.forceX().strength(0.1))
         // .force("y", d3.forceY().strength(0.1))
 
-
         // function strength(link) {
         //   return 1 / Math.min(count(link.source), count(link.target));
         // }
@@ -369,6 +369,27 @@ function networkGenres(citydata) {
     .on('mouseover.fade', fade(0.1))
     .on('mouseout.fade', fade(1));
 
+    // const labelPadding = 2;
+    //
+    // // the component used to render each label
+    // const textLabel = layoutTextLabel()
+    //   .padding(labelPadding)
+    //   .value(d => d.properties.name);
+    //
+    // // a strategy that combines simulated annealing with removal
+    // // of overlapping labels
+    // const strategy = layoutRemoveOverlaps(layoutGreedy());
+    //
+    // // create the layout that positions the labels
+    // const labels = layoutLabel(strategy)
+    //     .size((d, i, g) => {
+    //         // measure the label and add the required padding
+    //         const textSize = g[i].getElementsByTagName('text')[0].getBBox();
+    //         return [textSize.width + labelPadding * 2, textSize.height + labelPadding * 2];
+    //     })
+    //     .position(d => projection(d.geometry.coordinates))
+    //     .component(textLabel);
+
     const textElems = netviz.append('g')
     .selectAll('text')
     .data(cityNodes)
@@ -376,6 +397,7 @@ function networkGenres(citydata) {
         .text(d => d.genre)
         .attr('class', "svgText")
         .attr('font-size',11.5);
+        // .call(labels);
 
     simulation.on("tick", () => {
         link
