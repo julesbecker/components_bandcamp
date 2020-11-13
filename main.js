@@ -27,7 +27,7 @@ const tip = d3.tip()
 const zoom = d3.zoom()
     .translateExtent([[17, 100], [883, 580]])
     .extent([[17, 100], [883, 580]])
-    .scaleExtent([1, 35])
+    .scaleExtent([1, 40])
       .on("zoom", function(event, d) {
         const { transform } = event;
         map.attr('transform', transform);
@@ -259,8 +259,8 @@ function networkGenres(citydata) {
             .range([.01, 10]);
         var formattedLink = {};
         let linkwidth = lw(link['c']);
-        formattedLink.source = link["g1"];
-        formattedLink.target = link["g2"];
+        formattedLink.source = link["s"];
+        formattedLink.target = link["t"];
         formattedLink.value = linkwidth;
         return formattedLink;
     });
@@ -272,6 +272,7 @@ function networkGenres(citydata) {
         let noderadius = radius(node['c'])
         var formattedNode = {};
         formattedNode.genre = node["g"];
+        formattedNode.id = node['i'];
         formattedNode.count = node["c"];
         formattedNode.relative = node["r"];
         formattedNode.radius = noderadius;
@@ -336,7 +337,7 @@ function networkGenres(citydata) {
 
     const simulation = d3.forceSimulation(cityNodes)
         .force("link", d3.forceLink(cityLinks)
-            .id(d => d.genre)
+            .id(d => d.id)
             // .distance()
             .strength(function(d) { return Math.sqrt(d.value)/100 } )
         )
