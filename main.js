@@ -10,7 +10,7 @@ d3.geoPolyhedralButterfly = geoPolyhedralButterfly;
 d3.textwrap = textwrap;
 d3.tip = d3tip;
 
-const network_data = require("./data/network_graph_true.json");
+const network_data = require("./data/network_graph.json");
 const world50 = require("./data/world50.json");
 const countries = topojson.feature(world50, world50.objects.land);
 
@@ -31,7 +31,7 @@ const zoom = d3.zoom()
       .on("zoom", function(event, d) {
         const { transform } = event;
         map.attr('transform', transform);
-        let zoomscale = transform.k**.8;
+        let zoomscale = transform.k**.7;
           map.selectAll("circle")
           .attr('r', d => {
             let radiusval = 4;
