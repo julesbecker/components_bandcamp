@@ -35,7 +35,7 @@
     "scss-watch": "node-sass --watch style.scss static/css/style.css",
     "serve": "nodemon server.js",
     "dev": "npm-run-all -p watch scss-watch serve",
-    "start": "npm run build && npm run scss-build && npm run serve"
+    "start": "npm run scss-build && npm run build && npm run serve"
   },
   "repository": {
     "type": "git",
