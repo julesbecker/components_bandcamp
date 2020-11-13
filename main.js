@@ -210,10 +210,11 @@ const selectedShapes = cityCircles.selectAll("circles")
     .on('mouseenter', function(event, d) {
         // show tooltip on mouse enter
         // tip.show(d.ct, this);
+        let rect = event.target.ownerSVGElement.getBoundingClientRect();
         newTip.style("opacity", 1);
         newTip.html(d.ct)
-            .style("left", (event.clientX) + "px")
-            .style("top", (event.clientY) + "px");
+            .style("left", (event.clientX - rect.left) + "px")
+            .style("top", (event.clientY - rect.top - 10) + "px");
         d3.select(this).attr('fill', "red");
     })
     .on('click', function(event, d) {
