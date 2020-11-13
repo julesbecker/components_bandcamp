@@ -72,7 +72,7 @@ shadow.appendChild(sourceDiv);
 
 const linkElem = document.createElement('link');
 linkElem.setAttribute('rel', 'stylesheet');
-linkElem.setAttribute('href', 'style.scss');
+linkElem.setAttribute('href', 'static/css/style.css');
 shadow.appendChild(linkElem);
 
 
@@ -97,9 +97,9 @@ let nv_svg = d3.select(sourceDiv)
 nv_svg.append("rect")
     .attr("x", 0)
     .attr("y", 0)
+    .attr("fill", "white")
     .attr("width", width)
-    .attr("height", cHeight)
-    .attr("fill", "pink");
+    .attr("height", cHeight);
 
 let init_text = nv_svg.append("text")
       .attr("x", 50)
@@ -136,7 +136,7 @@ var customshape = `M0,700L233.92640648593908,329.99974719027483L170.640107484642
 
 svg.append("path")
     .attr("d", customshape)
-    .attr("fill", "grey");
+    .attr("fill", "white");
 
 var legend = svg.append('g')
     .attr("transform", `translate(-32,170) rotate(-30)`);
@@ -397,7 +397,7 @@ function networkGenres(citydata) {
     .join('text')
         .text(d => d.genre)
         .attr('class', "svgText")
-        .attr('font-size',11.5);
+        .attr('font-size',12);
         // .call(labels);
 
     simulation.on("tick", () => {
