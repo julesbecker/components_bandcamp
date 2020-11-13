@@ -129,9 +129,7 @@ let init_text = nv_svg.append("text")
 
 let netviz = nv_svg.append('g');
 
-let mapsvg = svg.append("svg")
-    .classed("svg-map", true)
-    .classed("svg-content", true);
+let mapsvg = svg.append("g");
 
 // SECTION: setting up map...
 const map = mapsvg.append("g")
@@ -475,31 +473,31 @@ map.selectAll("rect")
 mapsvg.call(zoom);
 // map.call(tip);
 
-// SECTION: tabs for switching between sections, to potentially get deleted
-// let tabsTemplate = `
-//     <div class="single-tab map-tab selected"><div class="inner-tab-text">City Map</div></div>
-//     <div class="single-tab graph-tab"><div class="inner-tab-text">Genre Graph</div></div>
-// `
-// let controls = document.createElement("div");
-// controls.setAttribute("class", "map-tabs-parent");
-// controls.innerHTML = tabsTemplate;
-// sourceDiv.appendChild(controls);
+// tabs for switching between sections
+let tabsTemplate = `
+    <div class="single-tab map-tab selected"><div class="inner-tab-text">City Map</div></div>
+    <div class="single-tab graph-tab"><div class="inner-tab-text">Genre Graph</div></div>
+`
+let controls = document.createElement("div");
+controls.setAttribute("class", "map-tabs-parent");
+controls.innerHTML = tabsTemplate;
+sourceDiv.appendChild(controls);
 
-// let mapTab = controls.querySelector(".single-tab.map-tab");
-// let graphTab = controls.querySelector(".single-tab.graph-tab");
+let mapTab = controls.querySelector(".single-tab.map-tab");
+let graphTab = controls.querySelector(".single-tab.graph-tab");
 
-// mapTab.addEventListener("click", (e) => {
-//   mapTab.classList.add("selected");
-//   graphTab.classList.remove("selected");
-  
-//   mapWrap.classList.add("active-map");
-//   vizWrap.classList.remove("active-map");
-// });
+mapTab.addEventListener("click", (e) => {
+  mapTab.classList.add("selected");
+  graphTab.classList.remove("selected");
 
-// graphTab.addEventListener("click", (e) => {
-//   graphTab.classList.add("selected");
-//   mapTab.classList.remove("selected");
-  
-//   vizWrap.classList.add("active-map");
-//   mapWrap.classList.remove("active-map");
-// });
+  mapWrap.classList.add("active-map");
+  vizWrap.classList.remove("active-map");
+});
+
+graphTab.addEventListener("click", (e) => {
+  graphTab.classList.add("selected");
+  mapTab.classList.remove("selected");
+
+  vizWrap.classList.add("active-map");
+  mapWrap.classList.remove("active-map");
+});
