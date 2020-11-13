@@ -85,7 +85,7 @@ network_data.map((d) => { d.radius = radius(d.c); });
 // SECTION: create svgs
 
 let mapWrap = document.createElement("div");
-mapWrap.setAttribute("class", "svg-map-wrap");
+mapWrap.setAttribute("class", "svg-map-wrap active-map");
 let vizWrap = document.createElement("div");
 vizWrap.setAttribute("class", "svg-viz-wrap");
 
@@ -477,7 +477,7 @@ mapsvg.call(zoom);
 
 // tabs for switching between sections
 let tabsTemplate = `
-    <div class="single-tab map-tab active-map"><div class="inner-tab-text">City Map</div></div>
+    <div class="single-tab map-tab selected"><div class="inner-tab-text">City Map</div></div>
     <div class="single-tab graph-tab"><div class="inner-tab-text">Genre Graph</div></div>
 `
 let controls = document.createElement("div");
