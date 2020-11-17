@@ -14,6 +14,7 @@ const font = "MGD Orion";
 
 const network_data = require("./data/network_graph.json");
 const world50 = require("./data/world50.json");
+const genreAliases = require("./data/ng_ids.json")
 const countries = topojson.feature(world50, world50.objects.land);
 
 // SECTION: shadow DOM and CSS imports
@@ -246,21 +247,21 @@ const selectedShapes = cityCircles.selectAll("circles")
 
 // SECTION: netviz code
 let drag = simulation => {
-    function dragstarted(event, d) {
+    function dragstarted(event) {
         if (!event.active) simulation.alphaTarget(0.3).restart();
-        d.fx = d.x;
-        d.fy = d.y;
+        event.subject.fx = event.subject.x;
+        event.subject.fy = event.subject.y;
     }
 
-    function dragged(event, d) {
-        d.fx = event.x;
-        d.fy = event.y;
+    function dragged(event) {
+        event.subject.fx = event.x;
+        event.subject.fy = event.y;
     }
 
-    function dragended(event, d) {
+    function dragended(event) {
         if (!event.active) simulation.alphaTarget(0);
-        d.fx = null;
-        d.fy = null;
+        event.subject.fx = null;
+        event.subject.fy = null;
     }
 
     return d3.drag()
@@ -271,23 +272,32 @@ let drag = simulation => {
 
 
 function networkGenres(citydata) {
-    // first, take just the entry that corresponds with the city
-    // then, start parsing as appropriate
     let protonodes = citydata.n;
     let protolinks = citydata.l;
     init_text.text("");
 
-    const dlinks = protolinks.map(function(link) {
-        const lw = d3.scaleSqrt()
-            .domain([0, d3.max(protolinks, link => link.c)])
-            .range([.01, 10]);
-        var formattedLink = {};
-        let linkwidth = lw(link['c']);
-        formattedLink.source = link["s"];
-        formattedLink.target = link["t"];
-        formattedLink.value = linkwidth;
-        return formattedLink;
+    const dlinks = [];
+    protolinks.map(function(link) {
+        link["ts"].map(function(target) {
+            let source = link["s"];
+            const lw = d3.scaleSqrt()
+                .domain([0, citydata['w']])
+                .range([.01, 10]);
+
+            var formattedLink = {};
+            let linkwidth = lw(target['c']);
+
+            formattedLink.source = source;
+            formattedLink.target = target["t"];
+            formattedLink.value = linkwidth;
+            dlinks.push(formattedLink);
+        })
     });
+
+  // const dlinks = protolinks.forEach((l, i) => {
+  //     var index = {}
+  //     l.forEach(n => {})
+  // })
 
     let dnodes = protonodes.map(function(node) {
         const radius = d3.scaleSqrt()
@@ -295,13 +305,14 @@ function networkGenres(citydata) {
             .range([1, width / 50]);
         let noderadius = radius(node['c'])
         var formattedNode = {};
-        formattedNode.genre = node["g"];
-        formattedNode.id = node['i'];
+        let genre = genreAliases[node["g"]];
+        formattedNode.genre = genre
+        formattedNode.id = node['g'];
         formattedNode.count = node["c"];
         formattedNode.relative = node["r"];
         formattedNode.radius = noderadius;
-        formattedNode.x = Math.max((noderadius), Math.min(width - (noderadius)));
-        formattedNode.y = Math.max((noderadius), Math.min(width - (noderadius)));
+        // formattedNode.x = Math.max((noderadius), Math.min(width - (noderadius)));
+        // formattedNode.y = Math.max((noderadius), Math.min(width - (noderadius)));
         return formattedNode;
     });
 
@@ -358,16 +369,23 @@ function networkGenres(citydata) {
 
     drawScale([d3.min(cityNodes, d => d.relative).toString(), d3.max(cityNodes, d => d.relative).toString()], custominterpolation);
 
+    var n = cityNodes.length;
+    cityNodes.forEach(function(d, i) {
+        // console.log("node i", i)
+      d.x = width / n * i;
+      // d.y = height / n * i;
+    });
 
     const simulation = d3.forceSimulation(cityNodes)
-        .force("link", d3.forceLink(cityLinks)
-            .id(d => d.id)
-            // .distance()
-            .strength(function(d) { return Math.sqrt(d.value)/100 } )
-        )
-        .force("charge", d3.forceManyBody().strength(-125).distanceMax(220))
-        .force("center", d3.forceCenter(width/2, cHeight/2).strength(1.5))
-        .force("collide", d3.forceCollide().radius(d => d.r + 1).strength(.75))
+        .force("link", d3.forceLink(cityLinks).id(d => d.id)
+            .distance([100]))
+        //     .strength(function(d) { return Math.sqrt(d.value)/100 } )
+        // )
+        .force("charge", d3.forceManyBody().strength(-100))//.strength(-100).distanceMax(220))
+        .force("center", d3.forceCenter(width/2, cHeight/2))//.strength(1.5))
+        .force("collide", d3.forceCollide().radius(d => d.r + 1).strength(.75));
+
+
         // .force("x", d3.forceX().strength(0.1))
         // .force("y", d3.forceY().strength(0.1))
 
@@ -377,7 +395,7 @@ function networkGenres(citydata) {
 
     const link = netviz.append("g")
         .attr("stroke", "#aaa")
-        .attr("stroke-opacity", 0.3)
+        .attr("stroke-opacity", 0.6)
     .selectAll("line")
     .data(cityLinks)
     .join("line")
@@ -425,6 +443,7 @@ function networkGenres(citydata) {
         // .call(labels);
 
     simulation.on("tick", () => {
+
         link
             .attr("x1", d => d.source.x)
             .attr("y1", d => d.source.y)
