@@ -113,13 +113,6 @@ let nv_svg = d3.select(vizWrap)
       // .style("height", "100%")
       .attr("preserveAspectRatio", "xMinYMin meet");
 
-nv_svg.append("rect")
-    .attr("x", 0)
-    .attr("y", 0)
-    .attr("fill", "white")
-    .attr("width", width)
-    .attr("height", cHeight);
-
 let init_text = nv_svg.append("text")
       .attr("x", 50)
       .attr("y", 50)
@@ -305,7 +298,7 @@ function networkGenres(citydata) {
     let dnodes = protonodes.map(function(node) {
         const radius = d3.scaleSqrt()
             .domain([0, d3.max(protonodes, node => node.c)])
-            .range([1, width / 50]);
+            .range([1, width / 30]);
         let noderadius = radius(node['c'])
         var formattedNode = {};
         let genre = genreAliases[node["g"]];
@@ -324,7 +317,16 @@ function networkGenres(citydata) {
 
     netviz.selectAll("g").remove();
 
-    let custominterpolation = d3.interpolate("yellow", "red") //rgb(255, 255, 77)
+    netviz.append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("id", "nvbg")
+        .attr("fill", "white")
+        .attr("width", width)
+        .attr("height", cHeight)
+        .on('click', fade(1));
+
+    let custominterpolation = d3.interpolateRgbBasis(["#4d3d95", "#3ab1b2", "#fcff00"]) //rgb(255, 255, 77)
     let statusColor = d3.scaleSequential(
       // [d3.min(cityNodes, d => d.relative), d3.max(cityNodes, d => d.relative)], custominterpolation
       [0, d3.max(cityNodes, d => d.relative)], custominterpolation
@@ -340,6 +342,10 @@ function networkGenres(citydata) {
         mainGradient.append('stop')
             .attr('class', 'stop-left')
             .attr('offset', '0');
+
+        mainGradient.append('stop')
+            .attr('class', 'stop-center')
+            .attr('offset', '.5');
 
         mainGradient.append('stop')
             .attr('class', 'stop-right')
@@ -381,10 +387,10 @@ function networkGenres(citydata) {
 
     const simulation = d3.forceSimulation(cityNodes)
         .force("link", d3.forceLink(cityLinks).id(d => d.id)
-            .distance([100]))
+            .distance([80]))
         //     .strength(function(d) { return Math.sqrt(d.value)/100 } )
         // )
-        .force("charge", d3.forceManyBody().strength(-100))//.strength(-100).distanceMax(220))
+        .force("charge", d3.forceManyBody().strength(-120).distanceMax(320))//.strength(-100).distanceMax(220))
         .force("center", d3.forceCenter(width/2, cHeight/2))//.strength(1.5))
         .force("collide", d3.forceCollide().radius(d => d.r + 1).strength(.75));
 
@@ -481,13 +487,14 @@ function networkGenres(citydata) {
     function isConnected(a, b) {
         return linkedByIndex[`${a.index},${b.index}`] || linkedByIndex[`${b.index},${a.index}`] || a.index === b.index;
     }
-    // invalidation.then(() => simulation.stop());
 }
 
 map.selectAll("rect")
     .on('click', function() {
         cityCircles.selectAll("circle").classed('circSelect', false);
         netviz.selectAll("g").remove();
+        svg.select(".cityname")
+            .text("");
         init_text.text("Click on a city to view its scene");
       })
 

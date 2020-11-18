@@ -41,7 +41,7 @@ body {
 // #map-container {
 /* Style northward tooltips specifically */
 // .d3-tip.n:after {
-  
+
 // }
 
 // @font-face {
@@ -86,11 +86,15 @@ body {
 // }
 
 .stop-left {
-    stop-color: yellow;
+    stop-color: #4d3d95;
+}
+
+.stop-center {
+    stop-color: #3ab1b2;
 }
 
 .stop-right {
-    stop-color: red;
+    stop-color: #fcff00;
 }
 
 .filled {
@@ -147,7 +151,7 @@ body {
     // top: 0; left: 0;
     // margin-left: 3em;
   }
-  
+
   .svg-map-wrap {
     order: 1;
     // width: 50%;
@@ -171,7 +175,7 @@ body {
     // transform: rotate(90deg);
     order: 0;
     width: 2.8%;
-    
+
     .single-tab {
       border: 1px solid grey;
       border-right: 0px solid transparent;
