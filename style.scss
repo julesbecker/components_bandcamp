@@ -101,7 +101,10 @@ body {
     fill: url(#mainGradient);
 }
 
-
+.circSelect {
+  fill: red;
+  opacity: 1;
+}
 
 .svgText {
     pointer-events: none;

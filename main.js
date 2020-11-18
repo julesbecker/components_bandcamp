@@ -113,6 +113,14 @@ let nv_svg = d3.select(vizWrap)
       // .style("height", "100%")
       .attr("preserveAspectRatio", "xMinYMin meet");
 
+nv_svg.append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("id", "nvbg")
+    .attr("fill", "white")
+    .attr("width", width)
+    .attr("height", cHeight)
+
 let init_text = nv_svg.append("text")
       .attr("x", 50)
       .attr("y", 50)
@@ -148,8 +156,9 @@ svg.append("path")
     .attr("d", customshape)
     .attr("fill", "white");
 
-var legend = svg.append('g')
-    .attr("transform", `translate(-32,170) rotate(-30)`);
+var legend = nv_svg.append('g')
+    .attr("id", "legend")
+    .attr("transform", `translate(20,825)`);
 var legendtext = legend.append("text")
     .attr("x", 45)
     .attr("y", 25)
@@ -208,7 +217,7 @@ const selectedShapes = cityCircles.selectAll("circles")
   //NOTE: Circle characteristics are set here
   .join("circle")
     .attr("transform", (d) => `translate(${projection(d.cor)})`)
-    .attr("fill", "green")
+    .attr("fill", d3.rgb(3, 90, 252))
     .attr("r", 4)
     .attr('opacity', .7)
     //NOTE: mouseover behavior determined here
@@ -238,7 +247,7 @@ const selectedShapes = cityCircles.selectAll("circles")
         // hide tooltip on mouse out
         // tip.hide();
         newTip.style("opacity", 0);
-        d3.select(this).attr('fill', "green");
+        d3.select(this).attr('fill', d3.rgb(3, 90, 252));
     });
 
 // SECTION: netviz code
@@ -317,13 +326,7 @@ function networkGenres(citydata) {
 
     netviz.selectAll("g").remove();
 
-    netviz.append("rect")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("id", "nvbg")
-        .attr("fill", "white")
-        .attr("width", width)
-        .attr("height", cHeight)
+    netviz.select("rect#nvbg")
         .on('click', fade(1));
 
     let custominterpolation = d3.interpolateRgbBasis(["#4d3d95", "#3ab1b2", "#fcff00"]) //rgb(255, 255, 77)
