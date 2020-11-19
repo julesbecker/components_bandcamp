@@ -9,8 +9,9 @@ var textwrap = require('d3-textwrap').textwrap;
 var geoPolyhedralButterfly = require('d3-geo-polygon').geoPolyhedralButterfly;
 d3.geoPolyhedralButterfly = geoPolyhedralButterfly;
 d3.textwrap = textwrap;
+
 // d3.tip = d3tip;
-const font = "MGD Orion";
+const font = "cinetype";
 
 const network_data = require("./data/network_graph.json");
 const world50 = require("./data/world50.json");
@@ -30,7 +31,7 @@ style.innerHTML = css;
 shadow.appendChild(style);
 
 // SECTION: prepare imported functions
-var wrap = d3.textwrap().bounds({height: 175, width: 175});
+var wrap = d3.textwrap().bounds({height: 250, width: 175});
 
 // const tip = d3.tip()
 //     .attr('class', "d3-tip")
@@ -61,10 +62,7 @@ const zoom = d3.zoom()
 
 // set up dimensions for each svg
 var height = 700;
-var width = 900;
-
-var cHeight = 900;
-// var cWidth = 600;
+var width = 1400;
 
 // set up map assets
 const geooutline = ({type: "Sphere"});
@@ -99,6 +97,7 @@ sourceDiv.append(mapSwitch);
 
 const svg = d3.select(mapWrap)
     .append("svg")
+    .attr("id", "svg1")
     .attr("viewBox", `0 0 ${width-5} ${height-20}`)
     .classed("svg-map", true)
     .classed("svg-content", true)
@@ -107,7 +106,7 @@ const svg = d3.select(mapWrap)
 
 let nv_svg = d3.select(vizWrap)
     .append("svg")
-    .attr("viewBox", `0 0 ${width} ${cHeight}`)
+    .attr("viewBox", `0 0 ${width} ${height}`)
     .classed("svg-viz", true)
     .classed("svg-content", true)
       // .style("height", "100%")
@@ -117,17 +116,9 @@ nv_svg.append("rect")
     .attr("x", 0)
     .attr("y", 0)
     .attr("id", "nvbg")
-    .attr("fill", "white")
+    .attr("fill", "blue")
     .attr("width", width)
-    .attr("height", cHeight)
-
-let init_text = nv_svg.append("text")
-      .attr("x", 50)
-      .attr("y", 50)
-      .style("font-family", font)
-      .attr('font-size', 20)
-      .text("Click on a city to view its scene");
-      // .call(wrap);
+    .attr("height", height)
 
 let netviz = nv_svg.append('g');
 
@@ -152,9 +143,26 @@ let lp_path = map.append("path")
 
 var customshape = `M0,700L233.92640648593908,329.99974719027483L170.64010748464213,293.46137520222373L125.88990164843437,267.6248420400352L81.1396984054818,241.78830015142614L17.853396810929667,205.2499368897957L81.13969840548174,168.71157362816518L125.88990164843432,142.87503173955602L170.64010748464204,117.03849857736752L233.92640648593894,80.50012658931637L233.92669840546478,80.50012658931635L297.21299740676176,117.03849857736746L341.9632032429694,142.87503173955594L386.71340648592206,168.71157362816504L449.9997080804742,205.2499368897955L450.0002919195258,205.2499368897955L513.2865935140779,168.71157362816507L558.0367967570305,142.875031739556L602.7870025932383,117.03849857736748L666.0733015945352,80.50012658931644L666.073593514061,80.50012658931638L729.359892515358,117.03849857736753L774.1100983515656,142.87503173955605L818.8603015945182,168.71157362816524L882.1466031890702,205.24993688979578L818.8603015945182,241.78830015142626L774.1100983515655,267.62484204003533L729.3598925153578,293.46137520222385L666.0735935140608,329.9997471902749L666.0733015945351,330.0002528097252L666.0732927406057,403.0769814503717L666.0733015945351,454.75006311020445L666.073301594535,506.4231468874228L666.073301594535,579.4998734106837L602.786999999983,542.9615101490532L558.0367967570304,517.1249682604441L513.2865997747522,491.2884197627998L450.00029191952575,454.7500631102044L449.9997080804742,454.75006311020445L386.7134002252477,491.2884197627998L341.9632032429695,517.1249682604441L297.2130000000169,542.9615101490532L233.92669840546483,579.4998734106837L233.92669840546483,506.4231468874227L233.9266984054648,454.75006311020445L233.92670725939428,403.0769814503717L233.92669840546478,330.00025280972517L233.9264064859390,329.9997471902748L0.000001,700L900,700L900,0L0,0L0,700Z`
 
-svg.append("path")
+let pathg = svg.append("g")
+    .attr("transform", `translate(250,0)`);
+
+pathg.append("path")
     .attr("d", customshape)
     .attr("fill", "white");
+
+svg.append("rect")
+    .attr("x", 1145)
+    .attr("y", 0)
+    .attr("height", height)
+    .attr("width", 260)
+    .attr("fill", "pink");
+
+svg.append("rect")
+    .attr("x", -5)
+    .attr("y", 0)
+    .attr("height", height)
+    .attr("width", 260)
+    .attr("fill", "pink");
 
 var legend = nv_svg.append('g')
     .attr("id", "legend")
@@ -186,13 +194,34 @@ svg.append("path")
     .attr("stroke-width", 1)
     .attr("stroke", "black");
 
+var wrap2 = d3.textwrap().bounds({height: 500, width: 300});
 
-svg.append('text')
+let ggg = svg.append("g");
+
+ggg.append("text")
+    .attr("x", 25)
+    .attr("y", 50)
+    .text("Click on a city to view its scene")
+    .call(wrap2);
+
+ggg.select("foreignObject")
+    .attr("color", "blue")
+    .style("font-family", font)
+    .attr('font-size', 80);
+
+let hhh = svg.append("g");
+
+hhh.append('text')
     .text("This map marks cities with at least 500 albums or individual tracks sold between August 19 and November 10, 2020 on Bandcamp.")
     .attr("id", "explainer")
-    .attr('x', 670)
-    .attr('y', 345)
+    .attr('x', 1000)
+    .attr('y', 400)
     .call(wrap);
+
+hhh.select("foreignObject")
+    .attr("color", "blue")
+    .style("font-family", font)
+    .attr('font-size', 18);
 
 svg.append('text')
     .attr('x', 15)
@@ -201,11 +230,11 @@ svg.append('text')
     .attr('font-size', 20)
     .text("Note: Viewing on a large screen is recommended");
 
-svg.append('text')
+nv_svg.append('text')
     .style("font-family", font)
     .attr('class', 'cityname')
     .attr("font-size", "30px")
-    .attr('x', width / 2 )
+    .attr('x', width / 6 )
     .attr('y', height / 10 )
     .attr('text-anchor', 'middle');
 
@@ -235,7 +264,7 @@ const selectedShapes = cityCircles.selectAll("circles")
         d3.select(this).attr('fill', "red");
     })
     .on('click', function(event, d) {
-        svg.select(".cityname")
+        nv_svg.select(".cityname")
             .text(d.ct);
         cityCircles.selectAll("circle").classed('circSelect', false);
         d3.select(this).classed("circSelect", true);
@@ -279,7 +308,6 @@ let drag = simulation => {
 function networkGenres(citydata) {
     let protonodes = citydata.n;
     let protolinks = citydata.l;
-    init_text.text("");
 
     const dlinks = [];
     protolinks.map(function(link) {
@@ -394,7 +422,7 @@ function networkGenres(citydata) {
         //     .strength(function(d) { return Math.sqrt(d.value)/100 } )
         // )
         .force("charge", d3.forceManyBody().strength(-120).distanceMax(320))//.strength(-100).distanceMax(220))
-        .force("center", d3.forceCenter(width/2, cHeight/2))//.strength(1.5))
+        .force("center", d3.forceCenter(width/2, height/2))//.strength(1.5))
         .force("collide", d3.forceCollide().radius(d => d.r + 1).strength(.75));
 
 
@@ -463,7 +491,7 @@ function networkGenres(citydata) {
             .attr("y2", d => d.target.y);
         node
             .attr("cx", d => { return d.x = Math.max(d.radius+10, Math.min(width - (d.radius+30), d.x)); })
-            .attr("cy", d => { return d.y = Math.max(d.radius+5, Math.min(cHeight - (d.radius+5), d.y)); });
+            .attr("cy", d => { return d.y = Math.max(d.radius+5, Math.min(height - (d.radius+5), d.y)); });
         textElems
             .attr("x", d => d.x + d.radius + 2)
             .attr("y", d => d.y + 2 );
@@ -496,9 +524,7 @@ map.selectAll("rect")
     .on('click', function() {
         cityCircles.selectAll("circle").classed('circSelect', false);
         netviz.selectAll("g").remove();
-        svg.select(".cityname")
-            .text("");
-        init_text.text("Click on a city to view its scene");
+        nv_svg.select(".cityname").text("");
       })
 
 // SECTION: call additional functions
