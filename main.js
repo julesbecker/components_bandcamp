@@ -10,7 +10,6 @@ var geoPolyhedralButterfly = require('d3-geo-polygon').geoPolyhedralButterfly;
 d3.geoPolyhedralButterfly = geoPolyhedralButterfly;
 d3.textwrap = textwrap;
 
-console.log("gOOD MORNING");
 // d3.tip = d3tip;
 const font = "MGD Orion";
 
@@ -94,7 +93,6 @@ mapSwitch.setAttribute("class", "map-switch");
 mapSwitch.append(mapWrap);
 mapSwitch.append(vizWrap);
 sourceDiv.append(mapSwitch);
-console.log("See this?")
 
 const svg = d3.select(mapWrap)
     .append("svg")
@@ -115,7 +113,6 @@ let nv_svg = d3.select(vizWrap)
 
 nv_svg.append("rect")
     .attr("id", "nvbg")
-    .attr("stroke", "blue")
     .attr("fill", "white")
     .attr("width", width)
     .attr("height", height)
@@ -152,14 +149,12 @@ svg.append("rect")
     .attr("x", 1145)
     .attr("height", height)
     .attr("width", 260)
-    .attr("stroke", "black")
     .attr("fill", "white");
 
 svg.append("rect")
     .attr("x", -5)
     .attr("height", height)
     .attr("width", 260)
-    .attr("stroke", "black")
     .attr("fill", "white");
 
 var legend = nv_svg.append('g')
@@ -372,7 +367,8 @@ function networkGenres(citydata) {
     netviz.select("rect#nvbg")
         .on('click', fade(1));
 
-    let custominterpolation = d3.interpolateRgbBasis(["#4d3d95", "#3ab1b2", "#fcff00"]) //rgb(255, 255, 77)
+    function composition(f, g) { return t => f(g(t)); }
+    let custominterpolation = composition(d3.interpolateRgbBasis(["#4d3d95", "#3ab1b2", "#fcff00"]), t=>t**.8) //rgb(255, 255, 77)
     let statusColor = d3.scaleSequential(
       // [d3.min(cityNodes, d => d.relative), d3.max(cityNodes, d => d.relative)], custominterpolation
       [0, d3.max(cityNodes, d => d.relative)], custominterpolation
@@ -391,11 +387,11 @@ function networkGenres(citydata) {
 
         mainGradient.append('stop')
             .attr('class', 'stop-center')
-            .attr('offset', '.25');
+            .attr('offset', .5**.75);
 
         mainGradient.append('stop')
             .attr('class', 'stop-right')
-            .attr('offset', '1');
+            .attr('offset', 1**.75);
 
         var barscale = d3.scaleLinear()
           .domain([0, measure[1]])
