@@ -142,7 +142,7 @@ body {
   .svg-viz-wrap, .svg-map-wrap {
     display: inline-block;
     height: 100vh;
-    width: 50%;
+    width: 60%;
     // position: absolute;
     // top: 0; left: 0;
     // margin-left: 3em;
@@ -150,7 +150,7 @@ body {
   
   .svg-map-wrap {
     order: 1;
-    // width: 50%;
+    width: 40%;
   }
 
   .svg-viz, .svg-map-wrap > .svg-map {
