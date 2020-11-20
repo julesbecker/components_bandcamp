@@ -10,6 +10,7 @@ var geoPolyhedralButterfly = require('d3-geo-polygon').geoPolyhedralButterfly;
 d3.geoPolyhedralButterfly = geoPolyhedralButterfly;
 d3.textwrap = textwrap;
 
+console.log("gOOD MORNING");
 // d3.tip = d3tip;
 const font = "cinetype";
 
@@ -279,8 +280,7 @@ const selectedShapes = cityCircles.selectAll("circles")
         cityCircles.selectAll("circle").classed('circSelect', false);
         d3.select(this).classed("circSelect", true);
         networkGenres(d);
-        vizWrap.classList.add("active-map");
-        mapWrap.classList.remove("active-map");
+        switchViews("viz");
     })
     .on('mouseout', function(event, d) {
         // hide tooltip on mouse out
@@ -572,17 +572,35 @@ let mapTab = controls.querySelector(".single-tab.map-tab");
 let graphTab = controls.querySelector(".single-tab.graph-tab");
 
 mapTab.addEventListener("click", (e) => {
-  mapTab.classList.add("selected");
-  graphTab.classList.remove("selected");
-
-  mapWrap.classList.add("active-map");
-  vizWrap.classList.remove("active-map");
+  switchViews("map");
 });
 
 graphTab.addEventListener("click", (e) => {
-  graphTab.classList.add("selected");
-  mapTab.classList.remove("selected");
-
-  vizWrap.classList.add("active-map");
-  mapWrap.classList.remove("active-map");
+  switchViews("viz");
 });
+
+document.addEventListener("keydown", (e) => {
+  if (e.key == "ArrowLeft") {
+    switchViews("map");
+  } else if (e.key == "ArrowRight") {
+    switchViews("viz");
+  }
+});
+
+function switchViews(toView) {
+  if (toView == "viz") {
+    graphTab.classList.add("selected");
+    mapTab.classList.remove("selected");
+
+    vizWrap.classList.add("active-map");
+    mapWrap.classList.remove("active-map");
+  } else if (toView == "map") {
+    graphTab.classList.remove("selected");
+    mapTab.classList.add("selected");
+
+    vizWrap.classList.remove("active-map");
+    mapWrap.classList.add("active-map");
+  } else {
+    console.log("needs to be either 'viz' or 'map'!")
+  }
+}
