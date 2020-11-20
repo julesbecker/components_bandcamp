@@ -113,10 +113,9 @@ let nv_svg = d3.select(vizWrap)
       .attr("preserveAspectRatio", "xMinYMin meet");
 
 nv_svg.append("rect")
-    .attr("x", 0)
-    .attr("y", 0)
     .attr("id", "nvbg")
-    .attr("fill", "blue")
+    .attr("stroke", "blue")
+    .attr("fill", "white")
     .attr("width", width)
     .attr("height", height)
 
@@ -129,8 +128,6 @@ const map = mapsvg.append("g")
     .attr("id", "map");
 
 map.append("rect")
-    .attr("x", 0)
-    .attr("y", 0)
     .attr("width", width)
     .attr("height", height)
     .attr("fill", "black");
@@ -152,26 +149,26 @@ pathg.append("path")
 
 svg.append("rect")
     .attr("x", 1145)
-    .attr("y", 0)
     .attr("height", height)
     .attr("width", 260)
-    .attr("fill", "pink");
+    .attr("stroke", "black")
+    .attr("fill", "white");
 
 svg.append("rect")
     .attr("x", -5)
-    .attr("y", 0)
     .attr("height", height)
     .attr("width", 260)
-    .attr("fill", "pink");
+    .attr("stroke", "black")
+    .attr("fill", "white");
 
 var legend = nv_svg.append('g')
     .attr("id", "legend")
-    .attr("transform", `translate(20,825)`);
+    .attr("transform", `translate(60,600)`);
 var legendtext = legend.append("text")
-    .attr("x", 45)
-    .attr("y", 25)
+    .attr("y", 20)
     .style("font-family", font)
-    .attr('font-size', 20);
+    .style("font-weight", 600)
+    .attr('font-size', 18);
 var legendBar = legend.append('g');
 let legendTicks = legend.append('g')
     .attr("transform", `translate(0,30)`);
@@ -179,13 +176,26 @@ let legendTicks = legend.append('g')
 
 let less = legend.append("text")
     .attr("id", "less")
-    .attr("x", 35)
-    .attr("y", 48);
+    .attr("fill", "white")
+    .attr("font-family", font)
+    .attr('font-size', 14)
+    .attr("x", 10)
+    .attr("y", 50);
 
 let more = legend.append("text")
     .attr("id", "more")
-    .attr("x", 235)
-    .attr("y", 48);
+    .attr("fill", "black")
+    .attr("font-family", font)
+    .attr('font-size', 14)
+    .attr("x", 150)
+    .attr("y", 50);
+
+legend.append("rect")
+    .attr("x", 70)
+    .attr("y", 43)
+    .attr("height", 2)
+    .attr("width", 55)
+    .attr("fill", "white")
 
 svg.append("path")
     .datum(geooutline)
@@ -354,6 +364,10 @@ function networkGenres(citydata) {
 
     netviz.selectAll("g").remove();
 
+
+    netviz.select("foreignObject")
+        .remove();
+
     netviz.select("rect#nvbg")
         .on('click', fade(1));
 
@@ -376,7 +390,7 @@ function networkGenres(citydata) {
 
         mainGradient.append('stop')
             .attr('class', 'stop-center')
-            .attr('offset', '.5');
+            .attr('offset', '.25');
 
         mainGradient.append('stop')
             .attr('class', 'stop-right')
@@ -393,17 +407,16 @@ function networkGenres(citydata) {
 
         var u = legendBar.append('rect')
             .classed('filled', true)
-            .attr('x', 25)
             .attr('y', 30)
-            .attr('height', 25)
-            .attr('width', 250);
+            .attr('height', 30)
+            .attr('width', 200);
 
         // legendTicks.call(legendAxis)
         //     .call(g => g.select(".domain").remove());
 
-        legendtext.text("Particularity to city");
-        less.text("less");
-        more.text("more");
+        legendtext.text("PARTICULARITY TO CITY");
+        less.text("LESS");
+        more.text("MORE");
 
       }
 
@@ -481,6 +494,19 @@ function networkGenres(citydata) {
         .attr('class', "svgText")
         .attr('font-size',12);
         // .call(labels);
+        var wrap3 = d3.textwrap().bounds({height: 500, width: 250});
+
+    netviz.append("text")
+        .text('The network graph shows all genres for a city that appear in at least 0.1% of the selected city’s albums or individually sold tracks, and that appear at least 100 times in the entire dataset. The strength of connections between nodes represents how often those genre tags co-occurred with one another on album and individual track pages. Genres were standardized wherever possible (e.g., "tekno" was corrected to "techno"), and all geographic genres, like "philly" and "Toronto", were removed if they appeared in the city in which the music was produced. A genre’s particularity to a city was calculated by dividing its proportion of total genres in that city to its average occurrence globally. The lines between each node represent how frequently genres co-occur in the same album or individually sold track.')
+        .attr("id", "about")
+        .attr('x', 1100)
+        .attr('y', 250)
+        .call(wrap3);
+
+    netviz.select("foreignObject")
+        .attr("color", "black")
+        .style("font-family", font)
+        .attr('font-size', 13);
 
     simulation.on("tick", () => {
 
@@ -524,6 +550,7 @@ map.selectAll("rect")
     .on('click', function() {
         cityCircles.selectAll("circle").classed('circSelect', false);
         netviz.selectAll("g").remove();
+        netviz.select("foreignObject").remove();
         nv_svg.select(".cityname").text("");
       })
 
