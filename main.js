@@ -31,7 +31,6 @@ style.innerHTML = css;
 shadow.appendChild(style);
 
 // SECTION: prepare imported functions
-var wrap = d3.textwrap().bounds({height: 250, width: 175});
 
 // const tip = d3.tip()
 //     .attr('class', "d3-tip")
@@ -94,6 +93,7 @@ mapSwitch.setAttribute("class", "map-switch");
 mapSwitch.append(mapWrap);
 mapSwitch.append(vizWrap);
 sourceDiv.append(mapSwitch);
+console.log("See this?")
 
 const svg = d3.select(mapWrap)
     .append("svg")
@@ -204,6 +204,7 @@ svg.append("path")
     .attr("stroke-width", 1)
     .attr("stroke", "black");
 
+var wrap = d3.textwrap().bounds({height: 250, width: 160});
 var wrap2 = d3.textwrap().bounds({height: 500, width: 300});
 
 let ggg = svg.append("g");
@@ -225,13 +226,13 @@ hhh.append('text')
     .text("This map marks cities with at least 500 albums or individual tracks sold between August 19 and November 10, 2020 on Bandcamp.")
     .attr("id", "explainer")
     .attr('x', 1000)
-    .attr('y', 400)
+    .attr('y', 500)
     .call(wrap);
 
 hhh.select("foreignObject")
-    .attr("color", "blue")
+    .attr("color", "black")
     .style("font-family", font)
-    .attr('font-size', 18);
+    .attr('font-size', 13);
 
 svg.append('text')
     .attr('x', 15)
