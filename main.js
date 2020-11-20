@@ -12,7 +12,7 @@ d3.textwrap = textwrap;
 
 console.log("gOOD MORNING");
 // d3.tip = d3tip;
-const font = "cinetype";
+const font = "MGD Orion";
 
 const network_data = require("./data/network_graph.json");
 const world50 = require("./data/world50.json");

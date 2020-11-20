@@ -139,7 +139,7 @@ body {
 
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  // height: 100vh;
 
   .map-switch {
     // display: flex;
@@ -154,8 +154,8 @@ body {
     border: 1px solid grey;
     display: inline-block;
     // height: 100vh;
-    width: 90%;
-    position: absolute;
+    width: 100%;
+    position: relative;
     top: 0; left: 0;
     // margin-left: 3em;
     z-index: 500;
@@ -164,7 +164,7 @@ body {
       content: "";
       position: absolute;
       top: 0; left: 0;
-      display: block;
+      display: none;
       width: 100%; height: 100%;
       background-color: rgba(0,0,0,0.3);
       z-index: 600;
@@ -172,6 +172,7 @@ body {
   }
 
   .svg-viz-wrap {
+    position: absolute;
     right: 0;
     left: auto;
     // order: 1;
@@ -205,6 +206,7 @@ body {
     // width: 35px;
 
     .single-tab {
+      background-color: white;
       border: 1px solid black;
       border-bottom: 0px solid transparent;
       box-sizing: border-box;
@@ -243,6 +245,11 @@ body {
   }
 }
 
+#bandcamp-map::after {
+  display: table;
+  content: "";
+  clear: both;
+}
 
 @media (max-width:800px) {
   .svg-content {
