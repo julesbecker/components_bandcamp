@@ -437,13 +437,14 @@ function networkGenres(citydata) {
 
     const simulation = d3.forceSimulation(cityNodes)
         .force("link", d3.forceLink(cityLinks).id(d => d.id)
-            .distance([90]))
+            .distance([95]))
         //     .strength(function(d) { return Math.sqrt(d.value)/100 } )
         // )
-        .force("charge", d3.forceManyBody().strength(-120).distanceMax(320))//.strength(-100).distanceMax(220))
+        .alphaDecay([.09])
+        .force("charge", d3.forceManyBody().strength(-275).distanceMax(275))//.strength(-100).distanceMax(220))
         .force("center", d3.forceCenter(width/2-75, height/2))//.strength(1.5))
-        .force("x", d3.forceX().strength(-0.025))
-        .force("collide", d3.forceCollide().radius(d => d.r + 1).strength(.8));
+        .force("x", d3.forceX().strength(-0.075))
+        .force("collide", d3.forceCollide().radius(d => d.r + 1).strength(1));
 
 
         // .force("y", d3.forceY().strength(0.1))
