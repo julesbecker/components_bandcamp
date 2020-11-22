@@ -209,6 +209,7 @@ ggg.append("text")
     .attr("x", 25)
     .attr("y", 50)
     .text("Click on a city to view its scene")
+    .attr('class', "svgText")
     .call(wrap2);
 
 ggg.select("foreignObject")
@@ -365,10 +366,8 @@ function networkGenres(citydata) {
 
     let cityLinks = dlinks.map(d => Object.create(d));
     let cityNodes = dnodes.map(d => Object.create(d));
-    console.log("citynodes", cityNodes)
 
     netviz.selectAll("g").remove();
-
 
     netviz.select("foreignObject")
         .remove();
@@ -382,7 +381,6 @@ function networkGenres(citydata) {
       // [d3.min(cityNodes, d => d.relative), d3.max(cityNodes, d => d.relative)], custominterpolation
       [0, d3.max(cityNodes, d => d.relative)], custominterpolation
     );
-    // d3.interpolateTurbo);
 
     function drawScale(measure, interpolator) {
         var barDefs = legendBar.append('defs');
@@ -441,13 +439,14 @@ function networkGenres(citydata) {
         //     .strength(function(d) { return Math.sqrt(d.value)/100 } )
         // )
         .alphaDecay([.09])
+        .velocityDecay([.15])
         .force("charge", d3.forceManyBody().strength(-275).distanceMax(275))//.strength(-100).distanceMax(220))
         .force("center", d3.forceCenter(width/2-75, height/2))//.strength(1.5))
-        .force("x", d3.forceX().strength(-0.075))
+        .force("x", d3.forceX().strength(0))
+        .force("y", d3.forceY().strength(0.1))
         .force("collide", d3.forceCollide().radius(d => d.r + 1).strength(1));
 
 
-        // .force("y", d3.forceY().strength(0.1))
 
         // function strength(link) {
         //   return 1 / Math.min(count(link.source), count(link.target));
@@ -504,7 +503,8 @@ function networkGenres(citydata) {
         .attr('class', "svgText")
         .attr('font-size', d => labelscale(d.radius));
         // .call(labels);
-        var wrap3 = d3.textwrap().bounds({height: 500, width: 250});
+
+    var wrap3 = d3.textwrap().bounds({height: 500, width: 250});
 
     netviz.append("text")
         .text('The network graph shows all genres for a city that appear in at least 0.1% of the selected city’s albums or individually sold tracks, and that appear at least 100 times in the entire dataset. The strength of connections between nodes represents how often those genre tags co-occurred with one another on album and individual track pages. Genres were standardized wherever possible (e.g., "tekno" was corrected to "techno"), and all geographic genres, like "philly" and "Toronto", were removed if they appeared in the city in which the music was produced. A genre’s particularity to a city was calculated by dividing its proportion of total genres in that city to its average occurrence globally. The lines between each node represent how frequently genres co-occur in the same album or individually sold track.')
