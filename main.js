@@ -21,7 +21,7 @@ const countries = topojson.feature(world50, world50.objects.land);
 
 // SECTION: shadow DOM and CSS imports
 let root = document.querySelector("#map-container");
-let shadow = root.attachShadow({ mode: "open" });
+let shadow = root.attachShadow({ mode: "closed" });
 let sourceDiv = document.createElement("div");
 sourceDiv.setAttribute("id", "bandcamp-map");
 shadow.appendChild(sourceDiv);
@@ -559,25 +559,25 @@ mapsvg.call(zoom);
 // map.call(tip);
 
 // tabs for switching between sections
-let tabsTemplate = `
-    <div class="single-tab map-tab selected"><div class="inner-tab-text">City Map</div></div>
-    <div class="single-tab graph-tab"><div class="inner-tab-text">Genre Graph</div></div>
-`
-let controls = document.createElement("div");
-controls.setAttribute("class", "map-tabs-parent");
-controls.innerHTML = tabsTemplate;
-sourceDiv.appendChild(controls);
+// let tabsTemplate = `
+//     <div class="single-tab map-tab selected"><div class="inner-tab-text">City Map</div></div>
+//     <div class="single-tab graph-tab"><div class="inner-tab-text">Genre Graph</div></div>
+// `
+// let controls = document.createElement("div");
+// controls.setAttribute("class", "map-tabs-parent");
+// controls.innerHTML = tabsTemplate;
+// sourceDiv.appendChild(controls);
 
-let mapTab = controls.querySelector(".single-tab.map-tab");
-let graphTab = controls.querySelector(".single-tab.graph-tab");
+// let mapTab = controls.querySelector(".single-tab.map-tab");
+// let graphTab = controls.querySelector(".single-tab.graph-tab");
 
-mapTab.addEventListener("click", (e) => {
-  switchViews("map");
-});
+// mapTab.addEventListener("click", (e) => {
+//   switchViews("map");
+// });
 
-graphTab.addEventListener("click", (e) => {
-  switchViews("viz");
-});
+// graphTab.addEventListener("click", (e) => {
+//   switchViews("viz");
+// });
 
 document.addEventListener("keydown", (e) => {
   if (e.key == "ArrowLeft") {
@@ -589,14 +589,14 @@ document.addEventListener("keydown", (e) => {
 
 function switchViews(toView) {
   if (toView == "viz") {
-    graphTab.classList.add("selected");
-    mapTab.classList.remove("selected");
+    // graphTab.classList.add("selected");
+    // mapTab.classList.remove("selected");
 
     vizWrap.classList.add("active-map");
     mapWrap.classList.remove("active-map");
   } else if (toView == "map") {
-    graphTab.classList.remove("selected");
-    mapTab.classList.add("selected");
+    // graphTab.classList.remove("selected");
+    // mapTab.classList.add("selected");
 
     vizWrap.classList.remove("active-map");
     mapWrap.classList.add("active-map");
