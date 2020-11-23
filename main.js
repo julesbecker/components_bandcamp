@@ -30,14 +30,34 @@ const style = document.createElement("style");
 style.innerHTML = css;
 shadow.appendChild(style);
 
-// SECTION: prepare imported functions
+// ----- Pane wrappers
 
-// const tip = d3.tip()
-//     .attr('class', "d3-tip")
-//     .style("color", "white")
-//     .style("padding", "6px")
-//     .offset([-15, 0])
-//     .html(function(d) {return `<div style='float: right'>${d}</div>`});
+let mapWrap = document.createElement("div");
+mapWrap.setAttribute("class", "svg-map-wrap active-map");
+let vizWrap = document.createElement("div");
+vizWrap.setAttribute("class", "svg-viz-wrap");
+
+let mapSwitch = document.createElement("div");
+mapSwitch.setAttribute("class", "map-switch");
+
+mapSwitch.append(mapWrap);
+mapSwitch.append(vizWrap);
+sourceDiv.append(mapSwitch);
+
+// ----- Graph description block
+
+let descText = 'The network graph shows all genres for a city that appear in at least 0.1% of the selected city’s albums or individually sold tracks, and that appear at least 100 times in the entire dataset. The strength of connections between nodes represents how often those genre tags co-occurred with one another on album and individual track pages. Genres were standardized wherever possible (e.g., "tekno" was corrected to "techno"), and all geographic genres, like "philly" and "Toronto", were removed if they appeared in the city in which the music was produced. A genre’s particularity to a city was calculated by dividing its proportion of total genres in that city to its average occurrence globally. The lines between each node represent how frequently genres co-occur in the same album or individually sold track.';
+let vizTextInner = `
+  <h1 class="viz-city-header"></h1>
+  <p class="about-viz about">${descText}</p>
+  <div class="legend-wrap"></div>`;
+
+let vizAboutBlock = document.createElement("div");
+vizAboutBlock.setAttribute("class", "about-viz-wrap");
+vizAboutBlock.innerHTML = vizTextInner;
+vizWrap.append(vizAboutBlock);
+
+// ----- Tooltips
 
 let newTip = d3.select(sourceDiv).append("div")
   .attr("class", "newtips")
@@ -81,18 +101,6 @@ const radius = d3.scaleSqrt()
 network_data.map((d) => { d.radius = radius(d.c); });
 
 // SECTION: create svgs
-
-let mapWrap = document.createElement("div");
-mapWrap.setAttribute("class", "svg-map-wrap active-map");
-let vizWrap = document.createElement("div");
-vizWrap.setAttribute("class", "svg-viz-wrap");
-
-let mapSwitch = document.createElement("div");
-mapSwitch.setAttribute("class", "map-switch");
-
-mapSwitch.append(mapWrap);
-mapSwitch.append(vizWrap);
-sourceDiv.append(mapSwitch);
 
 const svg = d3.select(mapWrap)
     .append("svg")
@@ -238,13 +246,13 @@ svg.append('text')
     .attr('font-size', 20)
     .text("Note: Viewing on a large screen is recommended");
 
-nv_svg.append('text')
-    .style("font-family", font)
-    .attr('class', 'cityname')
-    .attr("font-size", "30px")
-    .attr('x', width / 6 )
-    .attr('y', height / 10 )
-    .attr('text-anchor', 'middle');
+// nv_svg.append('text')
+//     .style("font-family", font)
+//     .attr('class', 'cityname')
+//     .attr("font-size", "30px")
+//     .attr('x', width / 6 )
+//     .attr('y', height / 10 )
+//     .attr('text-anchor', 'middle');
 
 const cityCircles = map.append("g");
 
@@ -272,8 +280,9 @@ cityCircles.selectAll("circles")
         d3.select(this).attr('fill', "red");
     })
     .on('click', function(event, d) {
-        nv_svg.select(".cityname")
-            .text(d.ct);
+        vizAboutBlock.querySelector(".viz-city-header").innerText = d.ct;
+        // nv_svg.select(".cityname")
+        //     .text(d.ct);
         cityCircles.selectAll("circle").classed('circSelect', false);
         d3.select(this).classed("circSelect", true);
         console.log("d", d);
@@ -504,14 +513,14 @@ function networkGenres(citydata) {
         .attr('font-size', d => labelscale(d.radius));
         // .call(labels);
 
-    var wrap3 = d3.textwrap().bounds({height: 500, width: 250});
+    // var wrap3 = d3.textwrap().bounds({height: 500, width: 250});
 
-    netviz.append("text")
-        .text('The network graph shows all genres for a city that appear in at least 0.1% of the selected city’s albums or individually sold tracks, and that appear at least 100 times in the entire dataset. The strength of connections between nodes represents how often those genre tags co-occurred with one another on album and individual track pages. Genres were standardized wherever possible (e.g., "tekno" was corrected to "techno"), and all geographic genres, like "philly" and "Toronto", were removed if they appeared in the city in which the music was produced. A genre’s particularity to a city was calculated by dividing its proportion of total genres in that city to its average occurrence globally. The lines between each node represent how frequently genres co-occur in the same album or individually sold track.')
-        .attr("id", "about")
-        .attr('x', 1100)
-        .attr('y', 250)
-        .call(wrap3);
+    // netviz.append("text")
+    //     .text('The network graph shows all genres for a city that appear in at least 0.1% of the selected city’s albums or individually sold tracks, and that appear at least 100 times in the entire dataset. The strength of connections between nodes represents how often those genre tags co-occurred with one another on album and individual track pages. Genres were standardized wherever possible (e.g., "tekno" was corrected to "techno"), and all geographic genres, like "philly" and "Toronto", were removed if they appeared in the city in which the music was produced. A genre’s particularity to a city was calculated by dividing its proportion of total genres in that city to its average occurrence globally. The lines between each node represent how frequently genres co-occur in the same album or individually sold track.')
+    //     .attr("id", "about")
+    //     // .attr('x', 1100)
+    //     // .attr('y', 250)
+    //     .call(wrap3);
 
     netviz.select("foreignObject")
         .attr("color", "black")
@@ -561,7 +570,7 @@ map.selectAll("rect")
         cityCircles.selectAll("circle").classed('circSelect', false);
         netviz.selectAll("g").remove();
         netviz.select("foreignObject").remove();
-        nv_svg.select(".cityname").text("");
+        // nv_svg.select(".cityname").text("");
       })
 
 // SECTION: call additional functions
@@ -569,25 +578,27 @@ mapsvg.call(zoom);
 // map.call(tip);
 
 // tabs for switching between sections
-// let tabsTemplate = `
-//     <div class="single-tab map-tab selected"><div class="inner-tab-text">City Map</div></div>
-//     <div class="single-tab graph-tab"><div class="inner-tab-text">Genre Graph</div></div>
-// `
-// let controls = document.createElement("div");
-// controls.setAttribute("class", "map-tabs-parent");
-// controls.innerHTML = tabsTemplate;
-// sourceDiv.appendChild(controls);
+let tabsTemplate = `
+    <div class="single-tab text-tab">Back to text</div>
+    <div class="single-tab map-tab">Back to map</div>
+    <div class="single-tab graph-tab">Back to graph</div>
+`;
+let controls = document.createElement("div");
+controls.setAttribute("class", "map-tabs-parent");
+controls.innerHTML = tabsTemplate;
+sourceDiv.appendChild(controls);
 
-// let mapTab = controls.querySelector(".single-tab.map-tab");
-// let graphTab = controls.querySelector(".single-tab.graph-tab");
+let mapTab = controls.querySelector(".single-tab.map-tab");
+let graphTab = controls.querySelector(".single-tab.graph-tab");
 
-// mapTab.addEventListener("click", (e) => {
-//   switchViews("map");
-// });
+mapTab.addEventListener("click", (e) => {
+  console.log("hello???");
+  switchViews("map");
+});
 
-// graphTab.addEventListener("click", (e) => {
-//   switchViews("viz");
-// });
+graphTab.addEventListener("click", (e) => {
+  switchViews("viz");
+});
 
 document.addEventListener("keydown", (e) => {
   if (e.key == "ArrowLeft") {
@@ -598,15 +609,16 @@ document.addEventListener("keydown", (e) => {
 });
 
 function switchViews(toView) {
+  console.log(toView);
   if (toView == "viz") {
-    // graphTab.classList.add("selected");
-    // mapTab.classList.remove("selected");
+    graphTab.classList.remove("current");
+    mapTab.classList.add("current");
 
     vizWrap.classList.add("active-map");
     mapWrap.classList.remove("active-map");
   } else if (toView == "map") {
-    // graphTab.classList.remove("selected");
-    // mapTab.classList.add("selected");
+    graphTab.classList.add("current");
+    mapTab.classList.remove("current");
 
     vizWrap.classList.remove("active-map");
     mapWrap.classList.add("active-map");
