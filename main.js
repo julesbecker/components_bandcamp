@@ -590,9 +590,9 @@ sourceDiv.appendChild(controls);
 
 let mapTab = controls.querySelector(".single-tab.map-tab");
 let graphTab = controls.querySelector(".single-tab.graph-tab");
+let exitTab = controls.querySelector(".single-tab.text-tab");
 
 mapTab.addEventListener("click", (e) => {
-  console.log("hello???");
   switchViews("map");
 });
 
@@ -600,11 +600,21 @@ graphTab.addEventListener("click", (e) => {
   switchViews("viz");
 });
 
+const exitEvent = new Event('exit');
+
+exitTab.addEventListener("click", (e) => {
+  console.log("trying to leave");
+  root.dispatchEvent(exitEvent);
+});
+
 document.addEventListener("keydown", (e) => {
   if (e.key == "ArrowLeft") {
     switchViews("map");
   } else if (e.key == "ArrowRight") {
     switchViews("viz");
+  } else if (e.key == "Escape") {
+    console.log("trying to leave");
+    root.dispatchEvent(exitEvent);
   }
 });
 
