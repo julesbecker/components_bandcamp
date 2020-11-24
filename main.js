@@ -5,12 +5,10 @@ var css = require('./static/css/style.css');
 var topojson = require("topojson-client");
 var d3 = require('d3');
 var textwrap = require('d3-textwrap').textwrap;
-// var d3tip = require('d3-tip');
 var geoPolyhedralButterfly = require('d3-geo-polygon').geoPolyhedralButterfly;
 d3.geoPolyhedralButterfly = geoPolyhedralButterfly;
 d3.textwrap = textwrap;
 
-// d3.tip = d3tip;
 const font = "cinetype";
 
 const network_data = require("./data/network_graph.json");
@@ -80,8 +78,11 @@ const zoom = d3.zoom()
     );
 
 // set up dimensions for each svg
-var height = 700
+var height = 700;
 var width = 1400;
+var cHeight = vizWrap.clientHeight;
+var cWidth = vizWrap.clientWidth-vizAboutBlock.clientWidth;
+// height = svgParent[0][0].clientHeight - margin.top - margin.bottom;
 
 // set up map assets
 const geooutline = ({type: "Sphere"});
@@ -113,17 +114,27 @@ const svg = d3.select(mapWrap)
 
 let nv_svg = d3.select(vizWrap)
     .append("svg")
-    .attr("viewBox", `0 0 ${width} ${height}`)
-    .classed("svg-viz", true)
-    .classed("svg-content", true)
+    .attr("id", "nv_svg")
+    .attr("width", cWidth);
+    // .classed("svg-viz", true)
+    // .classed("svg-content", true)
+      // .attr("width", "100%");
+      // .attr("preserveAspectRatio", "xMinYMin meet");
+
+// console.log("nvsvgh", vizWrap.getElementById('nv_svg').getBoundingClientRect().height)
+let legend_svg = //d3.select(vizWrap).append("svg");
+    nv_svg.append("g"); // Becky - when you're ready to place it, delete this line and uncomment the rest of the def
+    // .attr("viewBox", `0 0 ${270} ${90}`)
+    // .attr("width", 270)
+    // .attr("height", 90)
       // .style("height", "100%")
-      .attr("preserveAspectRatio", "xMinYMin meet");
+      // .attr("preserveAspectRatio", "xMinYMin meet");
 
 nv_svg.append("rect")
     .attr("id", "nvbg")
-    .attr("fill", "white")
-    .attr("width", width)
-    .attr("height", height)
+    .attr("width", cWidth)
+    .attr("height", cHeight)
+    .attr("fill", "white");
 
 let netviz = nv_svg.append('g');
 
@@ -165,9 +176,9 @@ svg.append("rect")
     .attr("width", 260)
     .attr("fill", "white");
 
-var legend = nv_svg.append('g')
-    .attr("id", "legend")
-    .attr("transform", `translate(60,600)`);
+var legend = legend_svg.append('g')
+    .attr("id", "legend");
+    // .attr("transform", `translate(60,600)`);
 var legendtext = legend.append("text")
     .attr("y", 20)
     .style("font-family", font)
@@ -267,12 +278,6 @@ cityCircles.selectAll("circles")
     .attr('opacity', .7)
     //NOTE: mouseover behavior determined here
     .on('mouseenter', function(event, d) {
-        // show tooltip on mouse enter
-        // tip.show(d.ct, this);
-        // console.log(event.target.ownerSVGElement.ownerSVGElement);
-        // console.log(event.target);
-        // let rect = event.target.ownerSVGElement.ownerSVGElement.parentElement.getBoundingClientRect();
-        // console.log(rect);
         newTip.style("opacity", 1);
         newTip.html(d.ct)
             .style("left", (event.clientX) + "px")
@@ -285,13 +290,10 @@ cityCircles.selectAll("circles")
         //     .text(d.ct);
         cityCircles.selectAll("circle").classed('circSelect', false);
         d3.select(this).classed("circSelect", true);
-        console.log("d", d);
         networkGenres(d);
         switchViews("viz");
     })
     .on('mouseout', function(d) {
-        // hide tooltip on mouse out
-        // tip.hide();
         newTip.style("opacity", 0);
         d3.select(this).attr('fill', d3.rgb(3, 90, 252));
     });
@@ -321,12 +323,12 @@ let drag = simulation => {
         .on("end", dragended);
 }
 
-
 function networkGenres(citydata) {
     let protonodes = citydata.n;
     let protolinks = citydata.l;
+    console.log("viz", cHeight, cWidth)
 
-    console.log(citydata)
+
     const dlinks = [];
     protolinks.map(function(link) {
         link["ts"].map(function(target) {
@@ -359,7 +361,7 @@ function networkGenres(citydata) {
     let dnodes = protonodes.map(function(node) {
         const radius = d3.scaleSqrt()
             .domain([0, d3.max(protonodes, node => node.c)])
-            .range([1, width / 40]);
+            .range([1, cWidth / 40]);
         let noderadius = radius(node['c'])
         var formattedNode = {};
         let genre = genreAliases[node["g"]];
@@ -378,8 +380,8 @@ function networkGenres(citydata) {
 
     netviz.selectAll("g").remove();
 
-    netviz.select("foreignObject")
-        .remove();
+    // netviz.select("foreignObject")
+    //     .remove();
 
     netviz.select("rect#nvbg")
         .on('click', fade(1));
@@ -438,7 +440,7 @@ function networkGenres(citydata) {
     var n = cityNodes.length;
     cityNodes.forEach(function(d, i) {
         // console.log("node i", i)
-      d.x = width / n * i;
+      d.x = cWidth / n * i;
       // d.y = height / n * i;
     });
 
@@ -450,13 +452,17 @@ function networkGenres(citydata) {
         .alphaDecay([.09])
         .velocityDecay([.15])
         .force("charge", d3.forceManyBody().strength(-275).distanceMax(275))//.strength(-100).distanceMax(220))
-        .force("center", d3.forceCenter(width/2-75, height/2))//.strength(1.5))
-        .force("x", d3.forceX().strength(0))
-        .force("y", d3.forceY().strength(0.1))
+        .force("center", d3.forceCenter(cWidth/2, cHeight/2).strength(1.25))
         .force("collide", d3.forceCollide().radius(d => d.r + 1).strength(1));
 
-
-
+    if (nv_svg.width > nv_svg.height) {
+      simulation.force("x", d3.forceX().strength(0))
+          .force("y", d3.forceY().strength(0.1));
+    }
+    else {
+        simulation.force("y", d3.forceY().strength(0))
+            .force("x", d3.forceX().strength(0.1));
+    }
         // function strength(link) {
         //   return 1 / Math.min(count(link.source), count(link.target));
         // }
@@ -513,19 +519,19 @@ function networkGenres(citydata) {
         .attr('font-size', d => labelscale(d.radius));
         // .call(labels);
 
-    // var wrap3 = d3.textwrap().bounds({height: 500, width: 250});
-
+    // var wrap3 = d3.textwrap().bounds({height: 500, width: 225});
+    //
     // netviz.append("text")
-    //     .text('The network graph shows all genres for a city that appear in at least 0.1% of the selected city’s albums or individually sold tracks, and that appear at least 100 times in the entire dataset. The strength of connections between nodes represents how often those genre tags co-occurred with one another on album and individual track pages. Genres were standardized wherever possible (e.g., "tekno" was corrected to "techno"), and all geographic genres, like "philly" and "Toronto", were removed if they appeared in the city in which the music was produced. A genre’s particularity to a city was calculated by dividing its proportion of total genres in that city to its average occurrence globally. The lines between each node represent how frequently genres co-occur in the same album or individually sold track.')
+    //     .text('The network graph shows all genres for a city that appear in at least 0.1% of the selected city’s albums or individually sold tracks, and that appear at least 100 times in the entire dataset. The strength of connections between nodes represents how often those genre tags co-occurred with one another on album and individual track pages. Genres were standardized wherever possible (e.g., "tekno" was corrected to "techno"), and all geographic genres, like "philly" and "Toronto", were removed if they appeared in the city in which the music was produced. A genre’s particularity to a city was calculated by dividing its proportion of total genres in that city to its average occurrence globally.')
     //     .attr("id", "about")
-    //     // .attr('x', 1100)
-    //     // .attr('y', 250)
+    //     .attr('x', 1125)
+    //     .attr('y', 250)
     //     .call(wrap3);
-
-    netviz.select("foreignObject")
-        .attr("color", "black")
-        .style("font-family", font)
-        .attr('font-size', 13);
+    //
+    // netviz.select("foreignObject")
+    //     .attr("color", "black")
+    //     .style("font-family", font)
+    //     .attr('font-size', 13);
 
     simulation.on("tick", () => {
 
@@ -535,8 +541,8 @@ function networkGenres(citydata) {
             .attr("x2", d => d.target.x)
             .attr("y2", d => d.target.y);
         node
-            .attr("cx", d => { return d.x = Math.max(d.radius+10, Math.min(width - (d.radius+30), d.x)); })
-            .attr("cy", d => { return d.y = Math.max(d.radius+5, Math.min(height - (d.radius+5), d.y)); });
+            .attr("cx", d => { return d.x = Math.max(d.radius+10, Math.min(cWidth - (d.radius+30), d.x)); })
+            .attr("cy", d => { return d.y = Math.max(d.radius+5, Math.min(cHeight - (d.radius+5), d.y)); });
         textElems
             .attr("x", d => d.x + d.radius + 2)
             .attr("y", d => d.y + 2 );
@@ -575,7 +581,6 @@ map.selectAll("rect")
 
 // SECTION: call additional functions
 mapsvg.call(zoom);
-// map.call(tip);
 
 // tabs for switching between sections
 let tabsTemplate = `
