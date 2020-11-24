@@ -3,18 +3,18 @@ body {
 }
 
 @font-face {
-  font-family: "orion";
+  font-family: "MGD Orion";
   src: url("fonts/MGDOrion-Regular.woff2") format('woff2');
 }
 
 @font-face {
-  font-family: "orion";
+  font-family: "MGD Orion";
   src: url("fonts/MGDOrion-black.woff2") format('woff2');
   font-weight: bold;
 }
 
 @font-face {
-  font-family: "orion";
+  font-family: "MGD Orion";
   src: url("fonts/MGDOrion-italic.woff2") format('woff2');
   font-style: italic;
 }
