@@ -80,8 +80,9 @@ const zoom = d3.zoom()
 // set up dimensions for each svg
 var height = 700;
 var width = 1400;
-var cHeight = 700;
-var cWidth = 1400;
+var cHeight = vizWrap.clientHeight;
+var cWidth = vizWrap.clientWidth;
+// height = svgParent[0][0].clientHeight - margin.top - margin.bottom;
 
 // set up map assets
 const geooutline = ({type: "Sphere"});
@@ -116,8 +117,8 @@ let nv_svg = d3.select(vizWrap)
     .attr("viewBox", `0 0 ${cWidth} ${cHeight}`)
     .classed("svg-viz", true)
     .classed("svg-content", true)
-      // .style("height", "100%")
-      .attr("preserveAspectRatio", "xMinYMin meet");
+      .attr("width", "100%");
+      // .attr("preserveAspectRatio", "xMinYMin meet");
 
 
 let legend_svg = d3.select(vizWrap)
@@ -288,7 +289,6 @@ cityCircles.selectAll("circles")
         //     .text(d.ct);
         cityCircles.selectAll("circle").classed('circSelect', false);
         d3.select(this).classed("circSelect", true);
-        console.log("d", d);
         networkGenres(d);
         switchViews("viz");
     })
@@ -322,12 +322,10 @@ let drag = simulation => {
         .on("end", dragended);
 }
 
-
 function networkGenres(citydata) {
     let protonodes = citydata.n;
     let protolinks = citydata.l;
 
-    console.log(citydata)
     const dlinks = [];
     protolinks.map(function(link) {
         link["ts"].map(function(target) {
@@ -379,8 +377,8 @@ function networkGenres(citydata) {
 
     netviz.selectAll("g").remove();
 
-    netviz.select("foreignObject")
-        .remove();
+    // netviz.select("foreignObject")
+    //     .remove();
 
     netviz.select("rect#nvbg")
         .on('click', fade(1));
@@ -439,7 +437,7 @@ function networkGenres(citydata) {
     var n = cityNodes.length;
     cityNodes.forEach(function(d, i) {
         // console.log("node i", i)
-      d.x = width / n * i;
+      d.x = cWidth / n * i;
       // d.y = height / n * i;
     });
 
@@ -451,7 +449,7 @@ function networkGenres(citydata) {
         .alphaDecay([.09])
         .velocityDecay([.15])
         .force("charge", d3.forceManyBody().strength(-275).distanceMax(275))//.strength(-100).distanceMax(220))
-        .force("center", d3.forceCenter(width/2-75, height/2).strength(1.25))
+        .force("center", d3.forceCenter(cWidth/2, cHeight/2).strength(1.25))
         .force("x", d3.forceX().strength(0))
         .force("y", d3.forceY().strength(0.1))
         .force("collide", d3.forceCollide().radius(d => d.r + 1).strength(1));
@@ -534,8 +532,8 @@ function networkGenres(citydata) {
             .attr("x2", d => d.target.x)
             .attr("y2", d => d.target.y);
         node
-            .attr("cx", d => { return d.x = Math.max(d.radius+10, Math.min(width - (d.radius+30), d.x)); })
-            .attr("cy", d => { return d.y = Math.max(d.radius+5, Math.min(height - (d.radius+5), d.y)); });
+            .attr("cx", d => { return d.x = Math.max(d.radius+10, Math.min(cWidth - (d.radius+30), d.x)); })
+            .attr("cy", d => { return d.y = Math.max(d.radius+5, Math.min(cHeight - (d.radius+5), d.y)); });
         textElems
             .attr("x", d => d.x + d.radius + 2)
             .attr("y", d => d.y + 2 );
