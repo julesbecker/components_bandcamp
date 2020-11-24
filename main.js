@@ -603,7 +603,6 @@ graphTab.addEventListener("click", (e) => {
 const exitEvent = new Event('exit');
 
 exitTab.addEventListener("click", (e) => {
-  console.log("trying to leave");
   root.dispatchEvent(exitEvent);
 });
 
@@ -613,7 +612,6 @@ document.addEventListener("keydown", (e) => {
   } else if (e.key == "ArrowRight") {
     switchViews("viz");
   } else if (e.key == "Escape") {
-    console.log("trying to leave");
     root.dispatchEvent(exitEvent);
   }
 });
