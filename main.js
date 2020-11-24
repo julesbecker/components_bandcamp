@@ -81,7 +81,7 @@ const zoom = d3.zoom()
 var height = 700;
 var width = 1400;
 var cHeight = vizWrap.clientHeight;
-var cWidth = vizWrap.clientWidth;
+var cWidth = vizWrap.clientWidth-vizAboutBlock.clientWidth;
 // height = svgParent[0][0].clientHeight - margin.top - margin.bottom;
 
 // set up map assets
@@ -114,26 +114,27 @@ const svg = d3.select(mapWrap)
 
 let nv_svg = d3.select(vizWrap)
     .append("svg")
-    .attr("viewBox", `0 0 ${cWidth} ${cHeight}`)
-    .classed("svg-viz", true)
-    .classed("svg-content", true)
-      .attr("width", "100%");
+    .attr("id", "nv_svg")
+    .attr("width", cWidth);
+    // .classed("svg-viz", true)
+    // .classed("svg-content", true)
+      // .attr("width", "100%");
       // .attr("preserveAspectRatio", "xMinYMin meet");
 
-
-let legend_svg = d3.select(vizWrap)
-    .append("svg")
-    .attr("viewBox", `0 0 ${270} ${90}`)
-    .attr("width", 270)
-    .attr("height", 90)
+// console.log("nvsvgh", vizWrap.getElementById('nv_svg').getBoundingClientRect().height)
+let legend_svg = //d3.select(vizWrap).append("svg");
+    nv_svg.append("g"); // Becky - when you're ready to place it, delete this line and uncomment the rest of the def
+    // .attr("viewBox", `0 0 ${270} ${90}`)
+    // .attr("width", 270)
+    // .attr("height", 90)
       // .style("height", "100%")
-      .attr("preserveAspectRatio", "xMinYMin meet");
+      // .attr("preserveAspectRatio", "xMinYMin meet");
 
 nv_svg.append("rect")
     .attr("id", "nvbg")
-    .attr("fill", "white")
     .attr("width", cWidth)
     .attr("height", cHeight)
+    .attr("fill", "white");
 
 let netviz = nv_svg.append('g');
 
@@ -325,6 +326,8 @@ let drag = simulation => {
 function networkGenres(citydata) {
     let protonodes = citydata.n;
     let protolinks = citydata.l;
+    console.log("viz", cHeight, cWidth)
+
 
     const dlinks = [];
     protolinks.map(function(link) {
@@ -358,7 +361,7 @@ function networkGenres(citydata) {
     let dnodes = protonodes.map(function(node) {
         const radius = d3.scaleSqrt()
             .domain([0, d3.max(protonodes, node => node.c)])
-            .range([1, width / 40]);
+            .range([1, cWidth / 40]);
         let noderadius = radius(node['c'])
         var formattedNode = {};
         let genre = genreAliases[node["g"]];
@@ -450,10 +453,16 @@ function networkGenres(citydata) {
         .velocityDecay([.15])
         .force("charge", d3.forceManyBody().strength(-275).distanceMax(275))//.strength(-100).distanceMax(220))
         .force("center", d3.forceCenter(cWidth/2, cHeight/2).strength(1.25))
-        .force("x", d3.forceX().strength(0))
-        .force("y", d3.forceY().strength(0.1))
         .force("collide", d3.forceCollide().radius(d => d.r + 1).strength(1));
 
+    if (nv_svg.width > nv_svg.height) {
+      simulation.force("x", d3.forceX().strength(0))
+          .force("y", d3.forceY().strength(0.1));
+    }
+    else {
+        simulation.force("y", d3.forceY().strength(0))
+            .force("x", d3.forceX().strength(0.1));
+    }
         // function strength(link) {
         //   return 1 / Math.min(count(link.source), count(link.target));
         // }
