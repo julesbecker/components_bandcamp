@@ -122,13 +122,15 @@ let nv_svg = d3.select(vizWrap)
       // .attr("preserveAspectRatio", "xMinYMin meet");
 
 // console.log("nvsvgh", vizWrap.getElementById('nv_svg').getBoundingClientRect().height)
-let legend_svg = //d3.select(vizWrap).append("svg");
-    nv_svg.append("g"); // Becky - when you're ready to place it, delete this line and uncomment the rest of the def
-    // .attr("viewBox", `0 0 ${270} ${90}`)
-    // .attr("width", 270)
-    // .attr("height", 90)
-      // .style("height", "100%")
-      // .attr("preserveAspectRatio", "xMinYMin meet");
+let legendWrap = sourceDiv.querySelector(".legend-wrap");
+let legend_svg = d3.select(legendWrap).append("svg")
+    // nv_svg.append("g"); // Becky - when you're ready to place it, delete this line and uncomment the rest of the def
+    .attr("viewBox", `0 0 ${270} ${90}`)
+    .attr("width", 270)
+    .attr("height", 90)
+    .attr("class", "legend-svg")
+    .style("height", "100%")
+    .attr("preserveAspectRatio", "xMinYMin meet");
 
 nv_svg.append("rect")
     .attr("id", "nvbg")
