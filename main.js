@@ -230,27 +230,27 @@ ggg.append("text")
     .attr("x", 25)
     .attr("y", 50)
     .text("Click on a city to view its scene")
-    .attr('class', "svgText")
     .call(wrap2);
 
 ggg.select("foreignObject")
-    .attr("color", "blue")
-    .style("font-family", font)
-    .attr('font-size', 80);
+    // .attr("color", "blue")
+    // .style("font-family", font)
+    // .attr('font-size', 80)
+    .attr('class', "map-instruction");
 
 let hhh = svg.append("g");
 
 hhh.append('text')
     .text("This map marks cities with at least 500 albums or individual tracks sold between August 19 and November 10, 2020 on Bandcamp.")
-    .attr("id", "explainer")
     .attr('x', 1000)
     .attr('y', 500)
     .call(wrap);
 
 hhh.select("foreignObject")
-    .attr("color", "black")
-    .style("font-family", font)
-    .attr('font-size', 13);
+    .attr("class", "about-map")
+    // .attr("color", "black")
+    // .style("font-family", font)
+    // .attr('font-size', 13);
 
 svg.append('text')
     .attr('x', 15)

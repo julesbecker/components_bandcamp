@@ -4,7 +4,7 @@
 }
 
 #bandcamp-map {
-  --bc-header-font: "cinetype", serif;
+  --bc-header-font: "cinetype", "MGD Orion", serif;
   --bc-body-font: "Solanel", sans-serif;
 }
 
@@ -112,7 +112,22 @@ body {
 }
 
 .svgText {
-    pointer-events: none;
+  pointer-events: none;
+}
+
+.map-instruction {
+  color: blue;
+  font-family: var(--bc-header-font);
+  font-size: 80px;
+  line-height: 1;
+  // pointer-events: none;
+}
+
+.about-map {
+  color: black;
+  font-family: var(--bc-body-font);
+  font-size: 13;
+  line-height: 1;
 }
 
 .outline {
@@ -220,11 +235,14 @@ body {
     h1 {
       font-family: var(--bc-header-font);
       font-size: 3em;
+      line-height: 0.9;
       width: 140%;
     }
 
     p {
       font-family: var(--bc-body-font);
+      font-size: 0.9em;
+      line-height: 1.2;
     }
 
     .legend-wrap {
