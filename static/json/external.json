@@ -1,5 +1,6 @@
 {
   "js": "static/js/bundle.js",
   "css": "static/css/style.css",
-  "wrapper": "map-container"
+  "wrapper": "map-container",
+  "preview": "static/images/preview-img.png"
 }
