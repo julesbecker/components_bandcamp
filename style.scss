@@ -159,6 +159,7 @@ body {
 
   display: flex;
   flex-direction: column;
+  position: relative;
   // height: 100vh;
 
   .map-switch {
@@ -194,8 +195,8 @@ body {
 
   .svg-viz-wrap {
     position: absolute;
-    right: 0;
-    left: auto;
+    // right: 0;
+    left: 0;
     // order: 1;
     // width: 40%;
   }
@@ -284,6 +285,10 @@ body {
     &.current {
       // background-color: rgb(3, 90, 252);
       color: white;
+    }
+
+    &.text-tab {
+      display: none;
     }
   }
 

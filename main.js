@@ -121,6 +121,39 @@ let nv_svg = d3.select(vizWrap)
       // .attr("width", "100%");
       // .attr("preserveAspectRatio", "xMinYMin meet");
 
+window.addEventListener("resize", function() {
+  // console.log("resize!");
+  // resizeViz();
+  debounce(resizeViz(), 100);
+  // debounce(resizeViz(), 150);
+  
+});
+
+document.addEventListener("enter", function() {
+  console.log('somebody pushed enter!');
+  debounce(resizeViz(), 1);
+})
+
+function resizeViz() {
+  console.log("resize! inner");
+  let cHeight = vizWrap.clientHeight;
+  let cWidth = vizWrap.clientWidth-vizAboutBlock.clientWidth;
+  console.log(cWidth);
+  nv_svg.attr("width", cWidth).attr("height", cHeight);
+  // nvbg.attr("width", cWidth).attr("height", cHeight);
+  // simulation.force("center", d3.forceCenter(cWidth/2, cHeight/2).strength(1.25));
+};
+
+function debounce(func, time){
+  // console.log("debouncing");
+  var time = time || 100; // 100 by default if no param
+  var timer;
+  return function(event){
+      if(timer) clearTimeout(timer);
+      timer = setTimeout(func, time, event);
+  };
+}
+
 // console.log("nvsvgh", vizWrap.getElementById('nv_svg').getBoundingClientRect().height)
 let legendWrap = sourceDiv.querySelector(".legend-wrap");
 let legend_svg = d3.select(legendWrap).append("svg")
@@ -132,7 +165,7 @@ let legend_svg = d3.select(legendWrap).append("svg")
     .style("height", "100%")
     .attr("preserveAspectRatio", "xMinYMin meet");
 
-nv_svg.append("rect")
+let nvbg = nv_svg.append("rect")
     .attr("id", "nvbg")
     .attr("width", cWidth)
     .attr("height", cHeight)
@@ -631,6 +664,7 @@ function switchViews(toView) {
 
     vizWrap.classList.add("active-map");
     mapWrap.classList.remove("active-map");
+    resizeViz();
   } else if (toView == "map") {
     graphTab.classList.add("current");
     mapTab.classList.remove("current");
