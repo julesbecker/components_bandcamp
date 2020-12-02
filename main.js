@@ -130,8 +130,8 @@ window.addEventListener("resize", function() {
 });
 
 buttn.addEventListener("click", () => {
-  networkGenres(citydata);
-  buttn.disabled = true;
+    networkGenres(citydata);
+    buttn.disabled = true;
 });
 
 // document.addEventListener("enter", function() {
@@ -303,7 +303,7 @@ hhh.append('text')
     .call(wrap);
 
 hhh.select("foreignObject")
-    .attr("class", "about-map")
+    .attr("class", "about-map");
     // .attr("color", "black")
     // .style("font-family", font)
     // .attr('font-size', 13);
@@ -324,6 +324,7 @@ svg.append('text')
 //     .attr('text-anchor', 'middle');
 
 const cityCircles = map.append("g");
+let citydata;
 
 cityCircles.selectAll("circles")
   .attr("id", "cityCircles")
@@ -346,6 +347,7 @@ cityCircles.selectAll("circles")
         vizAboutBlock.querySelector(".viz-city-header").innerText = d.ct;
         // nv_svg.select(".cityname")
         //     .text(d.ct);
+        citydata = d;
         cityCircles.selectAll("circle").classed('circSelect', false);
         d3.select(this).classed("circSelect", true);
         networkGenres(d);
