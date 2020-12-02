@@ -161,18 +161,20 @@ function debounce(func, time){
 
 // console.log("nvsvgh", vizWrap.getElementById('nv_svg').getBoundingClientRect().height)
 let legendWrap = sourceDiv.querySelector(".legend-wrap");
+let partic = {w: 200, h: 90}; //previously w: 270
 let legend_svg = d3.select(legendWrap).append("svg")
-    .attr("viewBox", `0 0 ${270} ${90}`)
-    .attr("width", 270)
-    .attr("height", 90)
+    .attr("viewBox", `0 0 ${partic.w} ${partic.h}`)
+    .attr("width", partic.w)
+    .attr("height", partic.h)
     .attr("class", "legend-svg")
     .style("height", "100%")
     .attr("preserveAspectRatio", "xMinYMin meet");
 
 
+let appearDim = { w: 135, h: 110 }; //previously 400x400
 let legend_svg2 = d3.select(legendWrap).append("svg")
-    .attr("width", 400)
-    .attr("height", 400)
+    .attr("width", appearDim.w)
+    .attr("height", appearDim.h)
     .attr("class", "legend-svg")
     .style("height", "100%")
     .attr("preserveAspectRatio", "xMinYMin meet");
@@ -520,7 +522,7 @@ function networkGenres(citydata) {
 
     function drawNodeLegend() {
 
-      legendtext2.text("APPEARANCES")
+      legendtext2.text("APPEARANCES");
       legendCircle.selectAll("g").remove();
         let svg = legend_svg2;
         // use that scaling function
@@ -533,8 +535,8 @@ function networkGenres(citydata) {
                 domain: [0, biggestNode], // the values min and max
                 range: [0, maxNodeSize], // the circle area/size mapping
                 values: [10, 34, 83], // values for circles
-                width: 400,
-                height: 400,
+                width: appearDim.w,
+                height: appearDim.h,
                 suffix:'', // ability to pass in a suffix
                 circleColor: '#888',
                 textPadding: 10,
