@@ -48,6 +48,7 @@ let descText = 'The network graph shows all genres for a city that appear in at 
 let vizTextInner = `
   <h1 class="viz-city-header"></h1>
   <p class="about-viz about">${descText}</p>
+  <button class="regenerate-nodes" disabled>Regenerate Nodes</button>
   <div class="legend-wrap"></div>`;
 
 let vizAboutBlock = document.createElement("div");
@@ -121,18 +122,22 @@ let nv_svg = d3.select(vizWrap)
       // .attr("width", "100%");
       // .attr("preserveAspectRatio", "xMinYMin meet");
 
-window.addEventListener("resize", function() {
-  // console.log("resize!");
-  // resizeViz();
-  debounce(resizeViz(), 100);
-  // debounce(resizeViz(), 150);
+let buttn = vizAboutBlock.querySelector("button");
+// console.log(buttn);
 
+window.addEventListener("resize", function() {
+  buttn.disabled = false;
 });
 
-document.addEventListener("enter", function() {
-  console.log('somebody pushed enter!');
-  debounce(resizeViz(), 1);
-})
+buttn.addEventListener("click", () => {
+  networkGenres(citydata);
+  buttn.disabled = true;
+});
+
+// document.addEventListener("enter", function() {
+//   console.log('somebody pushed enter!');
+//   debounce(resizeViz(), 1);
+// })
 
 function resizeViz() {
   console.log("resize! inner");
