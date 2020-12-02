@@ -126,7 +126,7 @@ window.addEventListener("resize", function() {
   // resizeViz();
   debounce(resizeViz(), 100);
   // debounce(resizeViz(), 150);
-  
+
 });
 
 document.addEventListener("enter", function() {
@@ -157,10 +157,17 @@ function debounce(func, time){
 // console.log("nvsvgh", vizWrap.getElementById('nv_svg').getBoundingClientRect().height)
 let legendWrap = sourceDiv.querySelector(".legend-wrap");
 let legend_svg = d3.select(legendWrap).append("svg")
-    // nv_svg.append("g"); // Becky - when you're ready to place it, delete this line and uncomment the rest of the def
     .attr("viewBox", `0 0 ${270} ${90}`)
     .attr("width", 270)
     .attr("height", 90)
+    .attr("class", "legend-svg")
+    .style("height", "100%")
+    .attr("preserveAspectRatio", "xMinYMin meet");
+
+
+let legend_svg2 = d3.select(legendWrap).append("svg")
+    .attr("width", 400)
+    .attr("height", 400)
     .attr("class", "legend-svg")
     .style("height", "100%")
     .attr("preserveAspectRatio", "xMinYMin meet");
@@ -223,6 +230,15 @@ var legendBar = legend.append('g');
 // let legendTicks = legend.append('g')
 //     .attr("transform", `translate(0,30)`);
 
+
+var legendCircle = legend_svg2.append('g')
+    .attr("id", "legend_circle");
+
+var legendtext2 = legendCircle.append("text")
+    .attr("y", 18)
+    .style("font-family", font)
+    .style("font-weight", 600)
+    .attr('font-size', 18);
 
 let less = legend.append("text")
     .attr("id", "less")
@@ -359,10 +375,32 @@ let drag = simulation => {
 }
 
 function networkGenres(citydata) {
+    // base size variables
+    let cHeight = vizWrap.clientHeight;
+    let cWidth = vizWrap.clientWidth-vizAboutBlock.clientWidth;
+    let cArea = cHeight*cWidth;
+    console.log("viz", cHeight, cWidth, cArea)
+
+    // consider adding a "prop" modifier to other variables, to account for the length-width issues
+    let cProp = d3.min([cHeight, cWidth])/d3.max([cHeight, cWidth]);
+    let cHyp = Math.hypot(cHeight, cWidth)
+    // console.log("cProp", cProp)
+    // console.log("cHyp", cHyp)
+
+    // variables for netviz rendering
+    let maxNodeSize = cArea / 20000;
+    let linkwidthMax = cHyp/115;
+    let smallLabel = cHyp/120;
+    let bigLabel = smallLabel*2.15;
+    // let linkdistance = cHyp/13;
+    let forceStrength = -(cHyp/3.25);
+    // let distMax = cArea/2200;
+    let distMax = cHyp/6;
+    // console.log("smallLabel, bigLabel", smallLabel, bigLabel)
+    console.log("maxNodeSize", maxNodeSize, "distMax", distMax, "linkwidthMax", linkwidthMax)
+
     let protonodes = citydata.n;
     let protolinks = citydata.l;
-    console.log("viz", cHeight, cWidth)
-
 
     const dlinks = [];
     protolinks.map(function(link) {
@@ -370,21 +408,18 @@ function networkGenres(citydata) {
             let source = link["s"];
             const lw = d3.scaleSqrt()
                 .domain([0, citydata['w']])
-                .range([.01, 10]);
+                .range([.01, linkwidthMax]);
             // if target's count is greater than 4% of the largest link in the set,
             if (target['c'] > citydata['w']*.004) {
-                    // add the connection
-                    var formattedLink = {};
-                    let linkwidth = lw(target['c']);
+                // add the connection
+                var formattedLink = {};
+                let linkwidth = lw(target['c']);
 
-                    formattedLink.source = source;
-                    formattedLink.target = target["t"];
-                    formattedLink.value = linkwidth;
-                    dlinks.push(formattedLink);
+                formattedLink.source = source;
+                formattedLink.target = target["t"];
+                formattedLink.value = linkwidth;
+                dlinks.push(formattedLink);
             }
-            // else {
-            //   console.log(source, target)
-            // }
         })
     });
 
@@ -396,7 +431,7 @@ function networkGenres(citydata) {
     let dnodes = protonodes.map(function(node) {
         const radius = d3.scaleSqrt()
             .domain([0, d3.max(protonodes, node => node.c)])
-            .range([1, cWidth / 40]);
+            .range([1, maxNodeSize]);
         let noderadius = radius(node['c'])
         var formattedNode = {};
         let genre = genreAliases[node["g"]];
@@ -405,13 +440,22 @@ function networkGenres(citydata) {
         formattedNode.count = node["c"];
         formattedNode.relative = node["r"];
         formattedNode.radius = noderadius;
-        // formattedNode.x = Math.max((noderadius), Math.min(width - (noderadius)));
         // formattedNode.y = Math.max((noderadius), Math.min(width - (noderadius)));
         return formattedNode;
     });
 
     let cityLinks = dlinks.map(d => Object.create(d));
     let cityNodes = dnodes.map(d => Object.create(d));
+
+    let n = cityNodes.length;
+
+    let linkdistance = cArea/(6750*(n/100)); // add modifier based on number of nodes
+    console.log("linkdistance", linkdistance, "n", n)
+
+    cityNodes.forEach(function(d, i) {
+      d.x = cWidth / n * i;
+      // d.y = height / n * i;
+    });
 
     netviz.selectAll("g").remove();
 
@@ -467,36 +511,153 @@ function networkGenres(citydata) {
         legendtext.text("PARTICULARITY TO CITY");
         less.text("LESS");
         more.text("MORE");
-
       }
 
-    drawScale([d3.min(cityNodes, d => d.relative).toString(), d3.max(cityNodes, d => d.relative).toString()], custominterpolation);
+    function drawNodeLegend() {
 
-    var n = cityNodes.length;
-    cityNodes.forEach(function(d, i) {
-        // console.log("node i", i)
-      d.x = cWidth / n * i;
-      // d.y = height / n * i;
-    });
+      legendtext2.text("APPEARANCES")
+      legendCircle.selectAll("g").remove();
+        let svg = legend_svg2;
+        // use that scaling function
+        let biggestNode = d3.max(cityNodes, d => d.count);
+        function circleLegend(selection) {
+
+            let instance = {}
+            // set some defaults
+            const api = {
+                domain: [0, biggestNode], // the values min and max
+                range: [0, maxNodeSize], // the circle area/size mapping
+                values: [10, 34, 83], // values for circles
+                width: 400,
+                height: 400,
+                suffix:'', // ability to pass in a suffix
+                circleColor: '#888',
+                textPadding: 10,
+                textColor: '#454545'
+            }
+
+
+            const powScale = d3.scalePow()
+                .domain(api.domain)
+                .range(api.range);
+
+            const sqrtScale = d3.scaleSqrt()
+                .domain(api.domain)
+                .range(api.range);
+
+            instance.render = function () {
+
+                const s = selection.append('g')
+                    .attr('class', 'legend-wrap')
+                    // push down to radius of largest circle
+                    .attr('transform', 'translate(0,' + sqrtScale(d3.max(api.values)) + ')')
+
+                // append the values for circles
+                s.append('g')
+                    .attr('class', 'values-wrap')
+                    .selectAll('circle')
+                    .data(api.values)
+                    .enter().append('circle')
+                    .attr('class', d => 'values values-' + d)
+                    .attr('r', d => sqrtScale(d))
+                    .attr('cx', api.width/2)
+                    .attr('cy', d => api.height/1.5 - sqrtScale(d))
+                    .style('fill', 'none')
+                    .style('stroke', api.circleColor)
+
+                // append some lines based on values
+                s.append('g')
+                    .attr('class', 'values-line-wrap')
+                    .selectAll('.values-labels')
+                    .data(api.values)
+                    .enter().append('line')
+                    .attr('x1', d => api.width/2 + sqrtScale(d))
+                    .attr('x2', api.width/2 + sqrtScale(api.domain[1]) + 10)
+                    .attr('y1', d => api.height/1.5 - powScale(d)-10)
+                    .attr('y2', d => api.height/1.5 - powScale(d)-10)
+                    .style('stroke', api.textColor)
+                    .style('stroke-dasharray', ('2,2'))
+
+                // append some labels from values
+                s.append('g')
+                    .attr('class', 'values-labels-wrap')
+                    .selectAll('.values-labels')
+                    .data(api.values)
+                    .enter().append('text')
+                    .attr('x', api.width/2 + sqrtScale(api.domain[1]) + api.textPadding)
+                    .attr('y', d => (api.height/1.5 - powScale(d) - 7))
+                    .attr('shape-rendering', 'crispEdges')
+                    .style('text-anchor', 'end')
+                    .style('fill', api.textColor)
+                    .style("font-family", font)
+                    .attr('font-size', 10)
+                    .text(d => d + api.suffix);
+
+                return instance
+            }
+
+            for (let key in api) {
+                instance[key] = getSet(key, instance).bind(api)
+            }
+
+            return instance
+
+            // https://gist.github.com/gneatgeek/5892586
+            function getSet(option, component) {
+                return function (_) {
+                    if (! arguments.length) {
+                        return this[option];
+                    }
+                this[option] = _;
+                return component;
+              }
+            }
+
+        }
+
+        function round(n) {return Math.ceil((n+1)/5)*5}
+
+        var l = circleLegend(legendCircle)
+            .domain([0, biggestNode]) // the dataset min and max
+            .range( [0, maxNodeSize]) // the circle area/size mapping
+            .values([round(biggestNode/21), round(biggestNode/3), round(biggestNode)]) // pass in values (e.g. min,mean/median & max)
+            // optional
+            .width(120) // it centers to this
+            .height(100) // it centers to this
+            .suffix('') // ability to pass in a suffix e.g. '%'
+            .circleColor( '#888') // stroke of the circles
+            .textPadding(30) // left padding on text
+            .textColor( '#454545') // the fill for text
+
+        // and render it
+        l.render()
+      }
+
+    drawNodeLegend();
+    drawScale([d3.min(cityNodes, d => d.relative).toString(), d3.max(cityNodes, d => d.relative).toString()], custominterpolation);
 
     const simulation = d3.forceSimulation(cityNodes)
         .force("link", d3.forceLink(cityLinks).id(d => d.id)
-            .distance([95]))
+            .distance([linkdistance]))
         //     .strength(function(d) { return Math.sqrt(d.value)/100 } )
         // )
         .alphaDecay([.09])
         .velocityDecay([.15])
-        .force("charge", d3.forceManyBody().strength(-275).distanceMax(275))//.strength(-100).distanceMax(220))
+        .force("charge", d3.forceManyBody().strength(forceStrength).distanceMax(distMax))//.strength(-100).distanceMax(220))
         .force("center", d3.forceCenter(cWidth/2, cHeight/2).strength(1.25))
-        .force("collide", d3.forceCollide().radius(d => d.r + 1).strength(1));
+        .force("collide", d3.forceCollide().radius(d => d.r + 2).strength(2));
 
-    if (nv_svg.width > nv_svg.height) {
+    if (cHeight < cWidth) {
+      let yforce = Math.sqrt(1-cProp)/9;
+      console.log("yforce", yforce);
       simulation.force("x", d3.forceX().strength(0))
-          .force("y", d3.forceY().strength(0.1));
+          .force("y", d3.forceY().strength(yforce));
     }
     else {
-        simulation.force("y", d3.forceY().strength(0))
-            .force("x", d3.forceX().strength(0.1));
+        let xforce = Math.sqrt(1-cProp)/4;
+        console.log("xforce", xforce);
+        simulation.force("y", d3.forceY().strength(.02))
+            .force("x", d3.forceX().strength(xforce));
     }
         // function strength(link) {
         //   return 1 / Math.min(count(link.source), count(link.target));
@@ -543,7 +704,7 @@ function networkGenres(citydata) {
     //     .component(textLabel);
     var labelscale = d3.scaleLinear()
       .domain([0, d3.max(cityNodes, city => city.radius)])
-      .range([9, 18]);
+      .range([smallLabel, bigLabel]);
 
     const textElems = netviz.append('g')
     .selectAll('text')
