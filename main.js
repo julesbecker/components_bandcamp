@@ -902,3 +902,6 @@ function debounce(func, time){
       timer = setTimeout(func, time, event);
   };
 }
+
+// emit an event when fully loaded
+root.dispatchEvent(new Event("externalLoaded"));
