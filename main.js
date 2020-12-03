@@ -833,6 +833,7 @@ document.addEventListener("keydown", (e) => {
   } else if (e.key == "Escape") {
     if (vizAboutBlock.querySelector(".viz-details").classList.contains("modal")) {
       vizAboutBlock.querySelector(".viz-details").classList.remove("modal");
+      controls.style.zIndex = 1000;
     } else {
       root.dispatchEvent(exitEvent);
     }
