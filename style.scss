@@ -248,6 +248,8 @@ body {
       font-family: var(--bc-body-font);
       font-size: 0.9em;
       line-height: 1.2;
+      pointer-events: none;
+      width: 113%;
     }
 
     .legend-wrap {
@@ -446,6 +448,10 @@ body {
       display: block;
     }
 
+    &.modal p {
+      width: auto;
+    }
+
     &.modal .legend-wrap {
       flex-direction: column;
     }
@@ -456,6 +462,7 @@ body {
   }
 
   #bandcamp-map .map-tabs-parent {
+    background-color: white;
     flex-direction: row;
     position: relative;
     z-index: 1000;
