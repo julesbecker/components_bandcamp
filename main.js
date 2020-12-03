@@ -831,7 +831,11 @@ document.addEventListener("keydown", (e) => {
   } else if (e.key == "ArrowRight") {
     switchViews("viz");
   } else if (e.key == "Escape") {
-    root.dispatchEvent(exitEvent);
+    if (vizAboutBlock.querySelector(".viz-details").classList.contains("modal")) {
+      vizAboutBlock.querySelector(".viz-details").classList.remove("modal");
+    } else {
+      root.dispatchEvent(exitEvent);
+    }
   }
 });
 
@@ -870,11 +874,12 @@ window.addEventListener("resize", function() {
   resizeViz();
 });
 
-// document.addEventListener("enter", function() {
-//   console.log('somebody pushed enter!');
-//   // debounce(resizeViz(), 100;
-//   debounce(resizeViz, 150);
-// })
+document.addEventListener("enter", function() {
+  controls.style.zIndex = 1000;
+  // console.log('somebody pushed enter!');
+  // debounce(resizeViz(), 100;
+  // debounce(resizeViz, 150);
+})
 
 function resizeViz() {
   console.log("resize! inner");
