@@ -47,14 +47,29 @@ sourceDiv.append(mapSwitch);
 let descText = 'The network graph shows all genres for a city that appear in at least 0.1% of the selected city’s albums or individually sold tracks, and that appear at least 100 times in the entire dataset. The strength of connections between nodes represents how often those genre tags co-occurred with one another on album and individual track pages. Genres were standardized wherever possible (e.g., "tekno" was corrected to "techno"), and all geographic genres, like "philly" and "Toronto", were removed if they appeared in the city in which the music was produced. A genre’s particularity to a city was calculated by dividing its proportion of total genres in that city to its average occurrence globally. The lines between each node represent how frequently genres co-occur in the same album or individually sold track.';
 let vizTextInner = `
   <h1 class="viz-city-header"></h1>
-  <p class="about-viz about">${descText}</p>
-  <button class="regenerate-nodes" disabled>Regenerate Nodes</button>
-  <div class="legend-wrap"></div>`;
+  <div class="reveal-viz-about">About this graph</div>
+  <div class="viz-details">
+    <div class="hide-viz-about"></div>
+    <h3>About this graph</h3>
+    <p class="about-viz about">${descText}</p>
+    <div class="legend-wrap"></div>
+  </div>`;
 
 let vizAboutBlock = document.createElement("div");
 vizAboutBlock.setAttribute("class", "about-viz-wrap");
 vizAboutBlock.innerHTML = vizTextInner;
 vizWrap.append(vizAboutBlock);
+
+// on mobile, button that opens the details section
+vizAboutBlock.querySelector(".reveal-viz-about").addEventListener("click", () => {
+  vizAboutBlock.querySelector(".viz-details").classList.add("modal");
+  controls.style.zIndex = 1;
+});
+
+vizAboutBlock.querySelector(".hide-viz-about").addEventListener("click", () => {
+  controls.style.zIndex = 1000;
+  vizAboutBlock.querySelector(".viz-details").classList.remove("modal");
+});
 
 // ----- Tooltips
 
@@ -121,43 +136,6 @@ let nv_svg = d3.select(vizWrap)
     // .classed("svg-content", true)
       // .attr("width", "100%");
       // .attr("preserveAspectRatio", "xMinYMin meet");
-
-let buttn = vizAboutBlock.querySelector("button");
-// console.log(buttn);
-
-window.addEventListener("resize", function() {
-  buttn.disabled = false;
-});
-
-buttn.addEventListener("click", () => {
-    networkGenres(citydata);
-    buttn.disabled = true;
-});
-
-// document.addEventListener("enter", function() {
-//   console.log('somebody pushed enter!');
-//   debounce(resizeViz(), 1);
-// })
-
-function resizeViz() {
-  console.log("resize! inner");
-  let cHeight = vizWrap.clientHeight;
-  let cWidth = vizWrap.clientWidth-vizAboutBlock.clientWidth;
-  console.log(cWidth);
-  nv_svg.attr("width", cWidth).attr("height", cHeight);
-  // nvbg.attr("width", cWidth).attr("height", cHeight);
-  // simulation.force("center", d3.forceCenter(cWidth/2, cHeight/2).strength(1.25));
-};
-
-function debounce(func, time){
-  // console.log("debouncing");
-  var time = time || 100; // 100 by default if no param
-  var timer;
-  return function(event){
-      if(timer) clearTimeout(timer);
-      timer = setTimeout(func, time, event);
-  };
-}
 
 // console.log("nvsvgh", vizWrap.getElementById('nv_svg').getBoundingClientRect().height)
 let legendWrap = sourceDiv.querySelector(".legend-wrap");
@@ -383,11 +361,39 @@ let drag = simulation => {
         .on("end", dragended);
 }
 
+function getVizDimensions() {
+  let cWidth, cHeight;
+  if (window.innerWidth > 750) {
+    // console.log("big screen");
+    cHeight = vizWrap.clientHeight;
+    cWidth = vizWrap.clientWidth-vizAboutBlock.clientWidth;
+  } else {
+    // console.log("small screen");
+    cHeight = window.innerHeight - controls.clientHeight - vizAboutBlock.clientHeight;
+    cWidth = window.innerWidth;
+  }
+
+  let obj = {w: cWidth, h: cHeight}
+  // console.log("generated dims: ");
+  console.log(obj);
+  return obj;
+}
+
 function networkGenres(citydata) {
     // base size variables
-    let cHeight = vizWrap.clientHeight;
-    let cWidth = vizWrap.clientWidth-vizAboutBlock.clientWidth;
+    let cHeight, cWidth;
+    // if (window.innerWidth > 750) {
+    //   cHeight = vizWrap.clientHeight;
+    //   cWidth = vizWrap.clientWidth-vizAboutBlock.clientWidth;
+    // } else {
+    //   cHeight = controls.clientHeight;
+    //   cWidth = window.innerWidth;
+    // }
+    let cDims = getVizDimensions();
+    cHeight = cDims.h; cWidth = cDims.w;
+    
     let cArea = cHeight*cWidth;
+    console.log(`width: ${window.innerWidth}`);
     console.log("viz", cHeight, cWidth, cArea)
 
     // consider adding a "prop" modifier to other variables, to account for the length-width issues
@@ -792,6 +798,7 @@ let tabsTemplate = `
     <div class="single-tab text-tab">Back to text</div>
     <div class="single-tab map-tab">Back to map</div>
     <div class="single-tab graph-tab">Back to graph</div>
+    <div class="single-tab regenerate-nodes disabled">Redraw Nodes</button>
 `;
 let controls = document.createElement("div");
 controls.setAttribute("class", "map-tabs-parent");
@@ -810,6 +817,8 @@ graphTab.addEventListener("click", (e) => {
   switchViews("viz");
 });
 
+// emit an event when someone clicks on "back to text," or presses ESC
+// needed for the site, not for the map itself
 const exitEvent = new Event('exit');
 
 exitTab.addEventListener("click", (e) => {
@@ -844,4 +853,46 @@ function switchViews(toView) {
   } else {
     console.log("needs to be either 'viz' or 'map'!")
   }
+}
+
+
+let buttn = controls.querySelector(".regenerate-nodes");
+// console.log(buttn);
+
+buttn.addEventListener("click", () => {
+  networkGenres(citydata);
+  buttn.classList.add("disabled");
+});
+
+window.addEventListener("resize", function() {
+  // buttn.classList.remove("disabled");
+  buttn.classList.remove("disabled");
+  resizeViz();
+});
+
+// document.addEventListener("enter", function() {
+//   console.log('somebody pushed enter!');
+//   // debounce(resizeViz(), 100;
+//   debounce(resizeViz, 150);
+// })
+
+function resizeViz() {
+  console.log("resize! inner");
+  // let cHeight = vizWrap.clientHeight;
+  // let cWidth = vizWrap.clientWidth-vizAboutBlock.clientWidth;
+  let cDims = getVizDimensions();
+  // console.log(cWidth);
+  nv_svg.attr("width", cDims.w).attr("height", cDims.h);
+  // nvbg.attr("width", cWidth).attr("height", cHeight);
+  // simulation.force("center", d3.forceCenter(cWidth/2, cHeight/2).strength(1.25));
+};
+
+function debounce(func, time){
+  // console.log("debouncing");
+  var time = time || 100; // 100 by default if no param
+  var timer;
+  return function(event){
+      if(timer) clearTimeout(timer);
+      timer = setTimeout(func, time, event);
+  };
 }

@@ -12,6 +12,10 @@ body {
   margin: 0;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .d3-tip, .newtips {
   box-sizing: border-box;
   line-height: 1;
@@ -231,7 +235,7 @@ body {
     padding-left: 3em;
     padding-top: 1em;
     position: relative;
-    width: 25%;
+    width: 30%;
 
     h1 {
       font-family: var(--bc-header-font);
@@ -247,8 +251,13 @@ body {
     }
 
     .legend-wrap {
+      display: flex;
       margin-top: 2em;
       width: 110%;
+
+      svg:first-of-type {
+        margin-right: 1em;
+      }
     }
   }
 }
@@ -306,6 +315,22 @@ body {
     // font-size: 1.1em;
   }
 
+  .single-tab.regenerate-nodes::before {
+    content: "⟲";
+    font-size: 1.7em;
+    font-weight: bold;
+    margin: -1px 0.6em 0em -3px;
+  }
+
+  .regenerate-nodes {
+    background-color: #27ae3c;
+    display: inline-block; 
+
+    &.disabled {
+      display: none;
+    }
+  }
+
   .single-tab.map-tab::before {
     transform: rotate(-180deg);
   }
@@ -330,4 +355,130 @@ body {
     opacity: 100%
   }
 }
+
+.reveal-viz-about {
+  display: none;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  font-family: "Andale Mono", sans-serif;
+  margin: 0 auto;
+  width: 50%;
+  text-align: center;
+  padding: 0.7em;
+  font-size: 0.9em;
+  text-transform: uppercase;
+}
+
+.viz-details {
+  position: relative;
+
+  h3, .hide-viz-about {
+    display: none;
+  }
+
+  .hide-viz-about {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    &::before {
+      background-color: black;
+      color: transparent;
+      content: "❌";
+      display: inline-block;
+      padding: 1em;
+      text-shadow: 0 0 0 #fff;
+      // width: 50px;
+      // height: 50px;
+    }
+  }
+}
+
+// .viz-details .hide-viz-about {
+//   &::before {
+    
 // }
+
+@media (max-width: 850px) and (min-width: 751px) {
+  .svg-viz-wrap .about-viz-wrap p {
+    width: 119%;
+  }
+}
+
+@media (max-width: 750px) {
+  .svg-viz-wrap {
+    flex-direction: column;
+
+    .about-viz-wrap {
+      padding: 0;
+      width: auto;
+  
+      h1 {
+        font-size: 2em;
+        text-align: center;
+        width: auto;
+      }
+    }
+  }
+
+  .reveal-viz-about {
+    display: block;
+  }
+
+  .viz-details {
+    background-color: white;
+    display: none;
+
+    &.modal {
+      display: block;
+      padding: 2em;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    &.modal h3 {
+      display: block;
+    }
+
+    &.modal .legend-wrap {
+      flex-direction: column;
+    }
+
+    &.modal .hide-viz-about {
+      display: block;
+    }
+  }
+
+  #bandcamp-map .map-tabs-parent {
+    flex-direction: row;
+    position: relative;
+    z-index: 1000;
+
+    .single-tab {
+      font-size: 0.9em;
+      max-width: inherit;
+      text-align: center;
+      width: 100%;
+
+      &::before {
+        display: none;
+      }
+    }
+
+    .single-tab:not(.text-tab):not(.regenerate-nodes) {
+      margin-left: 1em;
+    }
+
+    .regenerate-nodes {
+      position: fixed;
+      bottom: 0;
+      margin-bottom: 0;
+    }
+  }
+}
