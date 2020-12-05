@@ -157,7 +157,7 @@ let legend_svg2 = d3.select(legendWrap).append("svg")
     .style("height", "100%")
     .attr("preserveAspectRatio", "xMinYMin meet");
 
-let nvbg = nv_svg.append("rect")
+nv_svg.append("rect")
     .attr("id", "nvbg")
     .attr("width", cWidth)
     .attr("height", cHeight)
@@ -331,7 +331,7 @@ cityCircles.selectAll("circles")
         networkGenres(d);
         switchViews("viz");
     })
-    .on('mouseout', function(d) {
+    .on('mouseout', function() {
         newTip.style("opacity", 0);
         d3.select(this).attr('fill', d3.rgb(3, 90, 252));
     });
@@ -391,7 +391,7 @@ function networkGenres(citydata) {
     // }
     let cDims = getVizDimensions();
     cHeight = cDims.h; cWidth = cDims.w;
-    
+
     let cArea = cHeight*cWidth;
     console.log(`width: ${window.innerWidth}`);
     console.log("viz", cHeight, cWidth, cArea)
@@ -403,7 +403,7 @@ function networkGenres(citydata) {
     // console.log("cHyp", cHyp)
 
     // variables for netviz rendering
-    let maxNodeSize = cArea / 20000;
+    let maxNodeSize = cArea / 15000;
     let linkwidthMax = cHyp/115;
     let smallLabel = cHyp/120;
     let bigLabel = smallLabel*2.15;
@@ -446,7 +446,7 @@ function networkGenres(citydata) {
     let dnodes = protonodes.map(function(node) {
         const radius = d3.scaleSqrt()
             .domain([0, d3.max(protonodes, node => node.c)])
-            .range([1, maxNodeSize]);
+            .range([.75, maxNodeSize]);
         let noderadius = radius(node['c'])
         var formattedNode = {};
         let genre = genreAliases[node["g"]];
@@ -487,7 +487,7 @@ function networkGenres(citydata) {
       [0, d3.max(cityNodes, d => d.relative)], custominterpolation
     );
 
-    function drawScale(measure, interpolator) {
+    function drawScale() {
         var barDefs = legendBar.append('defs');
 
         var mainGradient = barDefs.append('linearGradient')
@@ -532,7 +532,6 @@ function networkGenres(citydata) {
 
       legendtext2.text("APPEARANCES");
       legendCircle.selectAll("g").remove();
-        let svg = legend_svg2;
         // use that scaling function
         let biggestNode = d3.max(cityNodes, d => d.count);
         function circleLegend(selection) {
@@ -587,7 +586,7 @@ function networkGenres(citydata) {
                     .data(api.values)
                     .enter().append('line')
                     .attr('x1', d => api.width/2 + sqrtScale(d))
-                    .attr('x2', api.width/2 + sqrtScale(api.domain[1]) + 10)
+                    .attr('x2', d => api.width/2 + sqrtScale(api.domain[1]) + 16 - d.toString().length*3)
                     .attr('y1', d => api.height/1.5 - powScale(d)-10)
                     .attr('y2', d => api.height/1.5 - powScale(d)-10)
                     .style('stroke', api.textColor)
@@ -891,7 +890,7 @@ function resizeViz() {
   nv_svg.attr("width", cDims.w).attr("height", cDims.h);
   // nvbg.attr("width", cWidth).attr("height", cHeight);
   // simulation.force("center", d3.forceCenter(cWidth/2, cHeight/2).strength(1.25));
-};
+}
 
 function debounce(func, time){
   // console.log("debouncing");
