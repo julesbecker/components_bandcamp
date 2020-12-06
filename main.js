@@ -81,8 +81,8 @@ vizAboutBlock.querySelector(".hide-viz-about").addEventListener("click", () => {
 // ----- Tooltips
 
 let newTip = d3.select(sourceDiv).append("div")
-  .attr("class", "newtips")
-  .style("opacity", 0);
+  .attr("class", "newtips hidden");
+  // .style("opacity", 0);
 
 const zoom = d3.zoom()
     .translateExtent([[17, 100], [883, 580]])
@@ -322,7 +322,8 @@ cityCircles.selectAll("circles")
     .attr('opacity', .7)
     //NOTE: mouseover behavior determined here
     .on('mouseenter', function(event, d) {
-        newTip.style("opacity", 1);
+        // newTip.attr("opacity", 1);
+        newTip.attr("class", "newtips");
         newTip.html(d.ct)
             .style("left", (event.clientX) + "px")
             .style("top", (event.clientY - 10) + "px");
@@ -337,7 +338,8 @@ cityCircles.selectAll("circles")
         switchViews("viz");
     })
     .on('mouseout', function() {
-        newTip.style("opacity", 0);
+        // newTip.style("opacity", 0);
+        newTip.attr("class", "newtips hidden");
         d3.select(this).attr('fill', d3.rgb(3, 90, 252));
     });
 
@@ -377,7 +379,7 @@ function getVizDimensions() {
     cHeight = window.innerHeight - controls.clientHeight - vizAboutBlock.clientHeight;
     cWidth = window.innerWidth;
     if (cHeight < cWidth) {
-      cHeight *= 2;
+      cHeight = window.innerHeight;
     }
   }
 
@@ -855,6 +857,7 @@ function switchViews(toView) {
 
     vizWrap.classList.add("active-map");
     mapWrap.classList.remove("active-map");
+    buttn.classList.remove("disabled-on-map");
     resizeViz();
   } else if (toView == "map") {
     graphTab.classList.add("current");
@@ -862,6 +865,7 @@ function switchViews(toView) {
 
     vizWrap.classList.remove("active-map");
     mapWrap.classList.add("active-map");
+    buttn.classList.add("disabled-on-map");
   } else {
     console.log("needs to be either 'viz' or 'map'!")
   }
@@ -883,6 +887,7 @@ window.addEventListener("resize", function() {
 });
 
 document.addEventListener("enter", function() {
+  buttn.classList.add("disabled-on-map");
   controls.style.zIndex = 1000;
   // console.log('somebody pushed enter!');
   // debounce(resizeViz(), 100;

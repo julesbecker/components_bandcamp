@@ -29,6 +29,10 @@ body {
   position: absolute;
   z-index: 100000;
 
+  &.hidden {
+    opacity: 0;
+  }
+
   /* Creates a small triangle extender for the tooltip */
   &:after {
     box-sizing: border-box;
@@ -281,7 +285,7 @@ body {
   }
 }
 
-#bandcamp-map .map-tabs-parent {
+.map-tabs-parent {
   --tab-color: #0D1BE8;
   display: flex;
   flex-direction: column;
@@ -345,7 +349,7 @@ body {
     background-color: #27ae3c;
     display: inline-block; 
 
-    &.disabled {
+    &.disabled, &.disabled-on-map {
       display: none;
     }
   }
@@ -485,7 +489,7 @@ body {
     }
   }
 
-  #bandcamp-map .map-tabs-parent {
+  .map-tabs-parent {
     background-color: white;
     flex-direction: row;
     position: relative;
@@ -511,5 +515,42 @@ body {
       bottom: 0;
       margin-bottom: 0;
     }
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .svg-viz-wrap .about-viz-wrap {
+    margin-left: 0.4em;
+    padding: 0;
+    position: absolute;
+    // width: 50%;
+    
+    h1 {
+      font-size: 1.6em;
+      // text-align: center;
+      // width: auto;
+      // float: left;
+      margin-bottom: 0.3em;
+      margin-top: 0.3em;
+    }
+    .reveal-viz-about {
+      // float: left;
+      font-size: 0.7em;
+      width: auto;
+    }
+  }
+
+  .map-tabs-parent {
+    flex-direction: column;
+    position: absolute;
+
+    .single-tab {
+      margin-left: 0 !important;
+      width: auto;
+    }
+  }
+
+  .viz-details.modal .legend-wrap {
+    width: 100%;
   }
 }
