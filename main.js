@@ -323,8 +323,6 @@ cityCircles.selectAll("circles")
     })
     .on('click', function(event, d) {
         vizAboutBlock.querySelector(".viz-city-header").innerText = d.ct;
-        // nv_svg.select(".cityname")
-        //     .text(d.ct);
         citydata = d;
         cityCircles.selectAll("circle").classed('circSelect', false);
         d3.select(this).classed("circSelect", true);
@@ -371,6 +369,9 @@ function getVizDimensions() {
     // console.log("small screen");
     cHeight = window.innerHeight - controls.clientHeight - vizAboutBlock.clientHeight;
     cWidth = window.innerWidth;
+    if (cHeight < cWidth) {
+      cHeight *= 2;
+    }
   }
 
   let obj = {w: cWidth, h: cHeight}
