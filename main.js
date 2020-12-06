@@ -52,7 +52,14 @@ let vizTextInner = `
     <div class="hide-viz-about"></div>
     <h3>About this graph</h3>
     <p class="about-viz about">${descText}</p>
-    <div class="legend-wrap"></div>
+    <div class="legend-wrap">
+      <div class="legend-single particularity-wrap">
+        <h4>Particularity to city</h4>
+      </div>
+      <div class="legend-single appearances-wrap">
+        <h4>Appearances</h4>
+      </div>
+    </div>
   </div>`;
 
 let vizAboutBlock = document.createElement("div");
@@ -140,17 +147,17 @@ let nv_svg = d3.select(vizWrap)
 // console.log("nvsvgh", vizWrap.getElementById('nv_svg').getBoundingClientRect().height)
 let legendWrap = sourceDiv.querySelector(".legend-wrap");
 let partic = {w: 200, h: 90}; //previously w: 270
-let legend_svg = d3.select(legendWrap).append("svg")
+let legend_svg = d3.select(legendWrap.querySelector(".particularity-wrap")).append("svg")
     .attr("viewBox", `0 0 ${partic.w} ${partic.h}`)
     .attr("width", partic.w)
     .attr("height", partic.h)
     .attr("class", "legend-svg")
-    .style("height", "100%")
+    // .style("height", "100%")
     .attr("preserveAspectRatio", "xMinYMin meet");
 
 
-let appearDim = { w: 135, h: 110 }; //previously 400x400
-let legend_svg2 = d3.select(legendWrap).append("svg")
+let appearDim = { w: 150, h: 110 }; //previously 400x400
+let legend_svg2 = d3.select(legendWrap.querySelector(".appearances-wrap")).append("svg")
     .attr("width", appearDim.w)
     .attr("height", appearDim.h)
     .attr("class", "legend-svg")
@@ -206,11 +213,11 @@ svg.append("rect")
 var legend = legend_svg.append('g')
     .attr("id", "legend");
     // .attr("transform", `translate(60,600)`);
-var legendtext = legend.append("text")
-    .attr("y", 20)
-    .style("font-family", font)
-    .style("font-weight", 600)
-    .attr('font-size', 18);
+// var legendtext = legend.append("text")
+//     .attr("y", 20)
+//     .style("font-family", font)
+//     .style("font-weight", 600)
+//     .attr('font-size', 18);
 var legendBar = legend.append('g');
 // let legendTicks = legend.append('g')
 //     .attr("transform", `translate(0,30)`);
@@ -219,11 +226,11 @@ var legendBar = legend.append('g');
 var legendCircle = legend_svg2.append('g')
     .attr("id", "legend_circle");
 
-var legendtext2 = legendCircle.append("text")
-    .attr("y", 18)
-    .style("font-family", font)
-    .style("font-weight", 600)
-    .attr('font-size', 18);
+// var legendtext2 = legendCircle.append("text")
+//     .attr("y", 18)
+//     .style("font-family", font)
+//     .style("font-weight", 600)
+//     .attr('font-size', 18);
 
 let less = legend.append("text")
     .attr("id", "less")
@@ -524,14 +531,14 @@ function networkGenres(citydata) {
         // legendTicks.call(legendAxis)
         //     .call(g => g.select(".domain").remove());
 
-        legendtext.text("PARTICULARITY TO CITY");
+        // legendtext.text("PARTICULARITY TO CITY");
         less.text("LESS");
         more.text("MORE");
       }
 
     function drawNodeLegend() {
 
-      legendtext2.text("APPEARANCES");
+      // legendtext2.text("APPEARANCES");
       legendCircle.selectAll("g").remove();
         // use that scaling function
         let biggestNode = d3.max(cityNodes, d => d.count);

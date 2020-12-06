@@ -255,10 +255,27 @@ body {
     .legend-wrap {
       display: flex;
       margin-top: 2em;
-      width: 110%;
+      width: 37vw;
 
-      svg:first-of-type {
+      .legend-single {
+        flex: 0 1 auto;
+        // width: 40%;
+      }
+
+      h4 {
+        font-family: var(--bc-header-font);
+        margin: 0;
+        margin-bottom: -1em;
+        text-transform: uppercase;
+      }
+
+      & div:first-of-type {
         margin-right: 1em;
+        // width: 60%;
+
+        svg {
+          max-width: 100%;
+        }
       }
     }
   }
@@ -404,9 +421,16 @@ body {
 // }
 
 @media (max-width: 850px) and (min-width: 751px) {
-  .svg-viz-wrap .about-viz-wrap p {
-    width: 119%;
+  .svg-viz-wrap .about-viz-wrap {
+    padding-left: 1em;
+    padding-top: 0;
+
+    p {
+      width: 119%;
+    }
   }
+
+
 }
 
 @media (max-width: 750px) {
