@@ -260,6 +260,23 @@ svg.append("path")
 var wrap = d3.textwrap().bounds({height: 250, width: 160});
 var wrap2 = d3.textwrap().bounds({height: 500, width: 225});
 
+let cityName = svg.append("text")
+    .attr("x", width/2+6)
+    .attr("y", 115)
+    .style("font-weight", 600)
+    .attr("text-anchor", 'middle')
+    .style("font-family", font)
+    .style("font-size", 28)
+    .text("");
+
+let countryName = svg.append("text")
+    .attr("x", width/2+5)
+    .attr("y", 145)
+    .attr("text-anchor", 'middle')
+    .style("font-family", font)
+    .style("font-size", 20)
+    .text("");
+
 let ggg = svg.append("g");
 
 ggg.append("text")
@@ -314,6 +331,9 @@ cityCircles.selectAll("circles")
     .attr('opacity', .7)
     //NOTE: mouseover behavior determined here
     .on('mouseenter', function(event, d) {
+        let array = d.ct.split(/\,\s(?=[^\,]+$)/);
+        cityName.text(array[0]+',');
+        countryName.text(array[1]);
         // newTip.style("opacity", 1);
         // newTip.html(d.ct)
         //     .style("left", (event.clientX) + "px")
@@ -331,6 +351,8 @@ cityCircles.selectAll("circles")
     .on('mouseout', function() {
         // newTip.style("opacity", 0);
         // newTip.attr("class", "newtips hidden");
+        cityName.text("");
+        countryName.text("");
         d3.select(this).attr('fill', d3.rgb(3, 90, 252));
     });
 
