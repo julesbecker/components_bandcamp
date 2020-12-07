@@ -122,7 +122,7 @@ body {
 .map-instruction {
   color: blue;
   font-family: var(--bc-header-font);
-  font-size: 80px;
+  font-size: 55px;
   line-height: 1;
   // pointer-events: none;
 }
@@ -130,7 +130,7 @@ body {
 .about-map {
   color: black;
   font-family: var(--bc-body-font);
-  font-size: 13;
+  font-size: 6;
   line-height: 1;
 }
 
@@ -229,7 +229,7 @@ body {
 
 .svg-viz-wrap {
   display: flex !important;
-  
+
   .about-viz-wrap {
     box-sizing: border-box;
     padding-left: 3em;
@@ -326,7 +326,7 @@ body {
 
   .regenerate-nodes {
     background-color: #27ae3c;
-    display: inline-block; 
+    display: inline-block;
 
     &.disabled {
       display: none;
@@ -400,7 +400,7 @@ body {
 
 // .viz-details .hide-viz-about {
 //   &::before {
-    
+
 // }
 
 @media (max-width: 850px) and (min-width: 751px) {
@@ -416,7 +416,7 @@ body {
     .about-viz-wrap {
       padding: 0;
       width: auto;
-  
+
       h1 {
         font-size: 2em;
         text-align: center;
