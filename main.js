@@ -431,7 +431,7 @@ function networkGenres(citydata) {
     let smallLabel = cHyp/120;
     let bigLabel = smallLabel*2.15;
     // let linkdistance = cHyp/13;
-    let forceStrength = -(cHyp/3.25);
+    let forceStrength = -(cHyp/3.4);
     // let distMax = cArea/2200;
     let distMax = cHyp/6;
     console.log("smallLabel, bigLabel", smallLabel, bigLabel)
