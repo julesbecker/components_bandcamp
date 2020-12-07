@@ -54,7 +54,14 @@ let vizTextInner = `
     <div class="hide-viz-about"></div>
     <h3>About this graph</h3>
     <p class="about-viz about">${descText}</p>
-    <div class="legend-wrap"></div>
+    <div class="legend-wrap">
+      <div class="legend-single particularity-wrap">
+        <h4>Particularity to city</h4>
+      </div>
+      <div class="legend-single appearances-wrap">
+        <h4>Appearances</h4>
+      </div>
+    </div>
   </div>`;
 
 let vizAboutBlock = document.createElement("div");
@@ -143,17 +150,17 @@ let nv_svg = d3.select(vizWrap)
 // console.log("nvsvgh", vizWrap.getElementById('nv_svg').getBoundingClientRect().height)
 let legendWrap = sourceDiv.querySelector(".legend-wrap");
 let partic = {w: 200, h: 90}; //previously w: 270
-let legend_svg = d3.select(legendWrap).append("svg")
+let legend_svg = d3.select(legendWrap.querySelector(".particularity-wrap")).append("svg")
     .attr("viewBox", `0 0 ${partic.w} ${partic.h}`)
     .attr("width", partic.w)
     .attr("height", partic.h)
     .attr("class", "legend-svg")
-    .style("height", "100%")
+    // .style("height", "100%")
     .attr("preserveAspectRatio", "xMinYMin meet");
 
 
-let appearDim = { w: 135, h: 110 }; //previously 400x400
-let legend_svg2 = d3.select(legendWrap).append("svg")
+let appearDim = { w: 150, h: 110 }; //previously 400x400
+let legend_svg2 = d3.select(legendWrap.querySelector(".appearances-wrap")).append("svg")
     .attr("width", appearDim.w)
     .attr("height", appearDim.h)
     .attr("class", "legend-svg")
@@ -200,11 +207,11 @@ svg.append("rect")
 var legend = legend_svg.append('g')
     .attr("id", "legend");
     // .attr("transform", `translate(60,600)`);
-var legendtext = legend.append("text")
-    .attr("y", 20)
-    .style("font-family", font)
-    .style("font-weight", 600)
-    .attr('font-size', 18);
+// var legendtext = legend.append("text")
+//     .attr("y", 20)
+//     .style("font-family", font)
+//     .style("font-weight", 600)
+//     .attr('font-size', 18);
 var legendBar = legend.append('g');
 // let legendTicks = legend.append('g')
 //     .attr("transform", `translate(0,30)`);
@@ -213,10 +220,11 @@ var legendBar = legend.append('g');
 var legendCircle = legend_svg2.append('g')
     .attr("id", "legend_circle");
 
-var legendtext2 = legendCircle.append("text")
-    .attr("y", 18)
-    .style("font-family", font)
-    .style("font-weight", 600);
+// var legendtext2 = legendCircle.append("text")
+//     .attr("y", 18)
+//     .style("font-family", font)
+//     .style("font-weight", 600)
+//     .attr('font-size', 18);
 
 let less = legend.append("text")
     .attr("id", "less")
@@ -314,8 +322,6 @@ cityCircles.selectAll("circles")
     })
     .on('click', function(event, d) {
         vizAboutBlock.querySelector(".viz-city-header").innerText = d.ct;
-        // nv_svg.select(".cityname")
-        //     .text(d.ct);
         citydata = d;
         cityCircles.selectAll("circle").classed('circSelect', false);
         d3.select(this).classed("circSelect", true);
@@ -324,6 +330,7 @@ cityCircles.selectAll("circles")
     })
     .on('mouseout', function() {
         // newTip.style("opacity", 0);
+        // newTip.attr("class", "newtips hidden");
         d3.select(this).attr('fill', d3.rgb(3, 90, 252));
     });
 
@@ -362,6 +369,9 @@ function getVizDimensions() {
     // console.log("small screen");
     cHeight = window.innerHeight - controls.clientHeight - vizAboutBlock.clientHeight;
     cWidth = window.innerWidth;
+    if (cHeight < cWidth) {
+      cHeight = window.innerHeight;
+    }
   }
 
   let obj = {w: cWidth, h: cHeight}
@@ -514,14 +524,14 @@ function networkGenres(citydata) {
         // legendTicks.call(legendAxis)
         //     .call(g => g.select(".domain").remove());
 
-        legendtext.text("PARTICULARITY TO CITY");
+        // legendtext.text("PARTICULARITY TO CITY");
         less.text("LESS");
         more.text("MORE");
       }
 
     function drawNodeLegend() {
 
-      legendtext2.text("APPEARANCES").attr('font-size', d3.min([18, smallLabel*2]));
+      // legendtext2.text("APPEARANCES");
       legendCircle.selectAll("g").remove();
         // use that scaling function
         let biggestNode = d3.max(cityNodes, d => d.count);
@@ -838,6 +848,7 @@ function switchViews(toView) {
 
     vizWrap.classList.add("active-map");
     mapWrap.classList.remove("active-map");
+    buttn.classList.remove("disabled-on-map");
     resizeViz();
   } else if (toView == "map") {
     graphTab.classList.add("current");
@@ -845,6 +856,7 @@ function switchViews(toView) {
 
     vizWrap.classList.remove("active-map");
     mapWrap.classList.add("active-map");
+    buttn.classList.add("disabled-on-map");
   } else {
     console.log("needs to be either 'viz' or 'map'!")
   }
@@ -866,6 +878,7 @@ window.addEventListener("resize", function() {
 });
 
 document.addEventListener("enter", function() {
+  buttn.classList.add("disabled-on-map");
   controls.style.zIndex = 1000;
   // console.log('somebody pushed enter!');
   // debounce(resizeViz(), 100;

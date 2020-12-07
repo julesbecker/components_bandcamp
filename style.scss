@@ -29,6 +29,10 @@ body {
   position: absolute;
   z-index: 100000;
 
+  &.hidden {
+    opacity: 0;
+  }
+
   /* Creates a small triangle extender for the tooltip */
   &:after {
     box-sizing: border-box;
@@ -255,16 +259,33 @@ body {
     .legend-wrap {
       display: flex;
       margin-top: 2em;
-      width: 110%;
+      width: 37vw;
 
-      svg:first-of-type {
+      .legend-single {
+        flex: 0 1 auto;
+        // width: 40%;
+      }
+
+      h4 {
+        font-family: var(--bc-header-font);
+        margin: 0;
+        margin-bottom: -1em;
+        text-transform: uppercase;
+      }
+
+      & div:first-of-type {
         margin-right: 1em;
+        // width: 60%;
+
+        svg {
+          max-width: 100%;
+        }
       }
     }
   }
 }
 
-#bandcamp-map .map-tabs-parent {
+.map-tabs-parent {
   --tab-color: #0D1BE8;
   display: flex;
   flex-direction: column;
@@ -328,7 +349,7 @@ body {
     background-color: #27ae3c;
     display: inline-block;
 
-    &.disabled {
+    &.disabled, &.disabled-on-map {
       display: none;
     }
   }
@@ -404,9 +425,16 @@ body {
 // }
 
 @media (max-width: 850px) and (min-width: 751px) {
-  .svg-viz-wrap .about-viz-wrap p {
-    width: 119%;
+  .svg-viz-wrap .about-viz-wrap {
+    padding-left: 1em;
+    padding-top: 0;
+
+    p {
+      width: 119%;
+    }
   }
+
+
 }
 
 @media (max-width: 750px) {
@@ -461,7 +489,7 @@ body {
     }
   }
 
-  #bandcamp-map .map-tabs-parent {
+  .map-tabs-parent {
     background-color: white;
     flex-direction: row;
     position: relative;
@@ -487,5 +515,42 @@ body {
       bottom: 0;
       margin-bottom: 0;
     }
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .svg-viz-wrap .about-viz-wrap {
+    margin-left: 0.4em;
+    padding: 0;
+    position: absolute;
+    // width: 50%;
+    
+    h1 {
+      font-size: 1.6em;
+      // text-align: center;
+      // width: auto;
+      // float: left;
+      margin-bottom: 0.3em;
+      margin-top: 0.3em;
+    }
+    .reveal-viz-about {
+      // float: left;
+      font-size: 0.7em;
+      width: auto;
+    }
+  }
+
+  .map-tabs-parent {
+    flex-direction: column;
+    position: absolute;
+
+    .single-tab {
+      margin-left: 0 !important;
+      width: auto;
+    }
+  }
+
+  .viz-details.modal .legend-wrap {
+    width: 100%;
   }
 }
