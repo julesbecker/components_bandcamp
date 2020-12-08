@@ -294,8 +294,13 @@ cityCircles.selectAll("circles")
     //NOTE: mouseover behavior determined here
     .on('mouseenter', function(event, d) {
         let array = d.ct.split(/,\s(?=[^,]+$)/);
-        cityName.text(array[0]+',');
-        countryName.text(array[1]);
+        if (array[1] != null) {
+          cityName.text(array[0]+',');
+          countryName.text(array[1]);
+        }
+        else {
+          cityName.text(array[0]);
+        }
         d3.select(this).attr('fill', "red");
     })
     .on('click', function(event, d) {
