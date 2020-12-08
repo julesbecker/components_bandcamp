@@ -204,7 +204,7 @@ let less = legend.append("text")
     .attr("id", "less")
     .attr("fill", "white")
     .attr("font-family", font)
-    .attr('font-size', 14)
+    .attr('font-size', "14px")
     .attr("x", 10)
     .attr("y", 50);
 
@@ -212,7 +212,7 @@ let more = legend.append("text")
     .attr("id", "more")
     .attr("fill", "black")
     .attr("font-family", font)
-    .attr('font-size', 14)
+    .attr('font-size', "14px")
     .attr("x", 150)
     .attr("y", 50);
 
@@ -239,7 +239,7 @@ let cityName = svg.append("text")
     .style("font-weight", 600)
     .attr("text-anchor", 'middle')
     .style("font-family", font)
-    .style("font-size", 34)
+    .style("font-size", "34px")
     .text("");
 
 let countryName = svg.append("text")
@@ -247,7 +247,7 @@ let countryName = svg.append("text")
     .attr("y", 150)
     .attr("text-anchor", 'middle')
     .style("font-family", font)
-    .style("font-size", 24)
+    .style("font-size", "24px")
     .text("");
 
 let ggg = svg.append("g");
@@ -635,7 +635,7 @@ function networkGenres(citydata) {
         .join('text')
             .text(d => d.genre)
             .attr('class', "svgText")
-            .attr("alignment-baseline", "middle")
+            .attr("dominant-baseline", "middle")
             .attr('font-size', d => labelscale(d.radius));
 
     let qqq = netviz.append('g');
@@ -646,10 +646,9 @@ function networkGenres(citydata) {
             .text(d => d.genre)
             .attr("id", d => cleanName(d.genre))
             .attr('class', "svgText")
-            .attr("alignment-baseline", "middle")
+            .attr("dominant-baseline", "middle")
             .attr("fill", "white")
-            .attr("stroke-width", .5)
-            .style("font-weight", 850)
+            .style("font-weight", 700)
             .attr('font-size', d => labelscale(d.radius))
             .attr("opacity", 0);
 
@@ -663,7 +662,6 @@ function networkGenres(citydata) {
         .data(cityNodes)
         .join('rect')
             .attr("id", d => cleanName(d.genre))
-            .attr("alignment-baseline", "middle")
             .attr("width", d => d.textbox[0] * 1.05 + 3)
             .attr('height', d => d.textbox[1] + 5)
             .attr('class', "svgText")
