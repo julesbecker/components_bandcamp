@@ -266,21 +266,21 @@ let cityName = svg.append("text")
     .style("font-weight", 600)
     .attr("text-anchor", 'middle')
     .style("font-family", font)
-    .style("font-size", 28)
+    .style("font-size", 34)
     .text("");
 
 let countryName = svg.append("text")
     .attr("x", width/2+5)
-    .attr("y", 145)
+    .attr("y", 150)
     .attr("text-anchor", 'middle')
     .style("font-family", font)
-    .style("font-size", 20)
+    .style("font-size", 24)
     .text("");
 
 let ggg = svg.append("g");
 
 ggg.append("text")
-    .attr("x", 50)
+    .attr("x", 75)
     .attr("y", 330)
     .text("Click on a city")
     .call(wrap2);
@@ -293,14 +293,12 @@ let hhh = svg.append("g");
 hhh.append('text')
     .text("This map marks cities with at least 500 albums or individual tracks sold between August 19 and November 10, 2020 on Bandcamp.")
     .attr('x', 685)
-    .attr('y', 475)
+    .attr('y', 340)
     .call(wrap);
 
 hhh.select("foreignObject")
     .attr("class", "about-map")
-    // .attr("color", "black")
-    // .style("font-family", font)
-    .attr('font-size', 13);
+    .attr('font-size', 22);
 
 svg.append('text')
     .attr('x', 15)
@@ -308,14 +306,6 @@ svg.append('text')
     .attr("class", "mobilenote")
     .attr('font-size', 20)
     .text("Note: Viewing on a large screen is recommended");
-
-// nv_svg.append('text')
-//     .style("font-family", font)
-//     .attr('class', 'cityname')
-//     .attr("font-size", "30px")
-//     .attr('x', width / 6 )
-//     .attr('y', height / 10 )
-//     .attr('text-anchor', 'middle');
 
 const cityCircles = map.append("g");
 let citydata;
@@ -331,13 +321,9 @@ cityCircles.selectAll("circles")
     .attr('opacity', .7)
     //NOTE: mouseover behavior determined here
     .on('mouseenter', function(event, d) {
-        let array = d.ct.split(/\,\s(?=[^\,]+$)/);
+        let array = d.ct.split(/,\s(?=[^,]+$)/);
         cityName.text(array[0]+',');
         countryName.text(array[1]);
-        // newTip.style("opacity", 1);
-        // newTip.html(d.ct)
-        //     .style("left", (event.clientX) + "px")
-        //     .style("top", (event.clientY - 10) + "px");
         d3.select(this).attr('fill', "red");
     })
     .on('click', function(event, d) {
@@ -349,8 +335,6 @@ cityCircles.selectAll("circles")
         switchViews("viz");
     })
     .on('mouseout', function() {
-        // newTip.style("opacity", 0);
-        // newTip.attr("class", "newtips hidden");
         cityName.text("");
         countryName.text("");
         d3.select(this).attr('fill', d3.rgb(3, 90, 252));
@@ -384,11 +368,9 @@ let drag = simulation => {
 function getVizDimensions() {
   let cWidth, cHeight;
   if (window.innerWidth > 750) {
-    // console.log("big screen");
     cHeight = vizWrap.clientHeight;
     cWidth = vizWrap.clientWidth-vizAboutBlock.clientWidth;
   } else {
-    // console.log("small screen");
     cHeight = window.innerHeight - controls.clientHeight - vizAboutBlock.clientHeight;
     cWidth = window.innerWidth;
     if (cHeight < cWidth) {
@@ -405,13 +387,6 @@ function getVizDimensions() {
 function networkGenres(citydata) {
     // base size variables
     let cHeight, cWidth;
-    // if (window.innerWidth > 750) {
-    //   cHeight = vizWrap.clientHeight;
-    //   cWidth = vizWrap.clientWidth-vizAboutBlock.clientWidth;
-    // } else {
-    //   cHeight = controls.clientHeight;
-    //   cWidth = window.innerWidth;
-    // }
     let cDims = getVizDimensions();
     cHeight = cDims.h; cWidth = cDims.w;
 
@@ -461,11 +436,6 @@ function networkGenres(citydata) {
         })
     });
 
-  // const dlinks = protolinks.forEach((l, i) => {
-  //     var index = {}
-  //     l.forEach(n => {})
-  // })
-
     let dnodes = protonodes.map(function(node) {
         const radius = d3.scaleSqrt()
             .domain([0, d3.max(protonodes, node => node.c)])
@@ -497,18 +467,12 @@ function networkGenres(citydata) {
 
     netviz.selectAll("g").remove();
 
-    // netviz.select("foreignObject")
-    //     .remove();
-
     netviz.select("rect#nvbg")
         .on('click', fade(1));
 
     function composition(f, g) { return t => f(g(t)); }
     let custominterpolation = composition(d3.interpolateRgbBasis(["#4d3d95", "#3ab1b2", "#fcff00"]), t=>t**.8) //rgb(255, 255, 77)
-    let statusColor = d3.scaleSequential(
-      // [d3.min(cityNodes, d => d.relative), d3.max(cityNodes, d => d.relative)], custominterpolation
-      [0, d3.max(cityNodes, d => d.relative)], custominterpolation
-    );
+    let statusColor = d3.scaleSequential([0, d3.max(cityNodes, d => d.relative)], custominterpolation);
 
     function drawScale() {
         var barDefs = legendBar.append('defs');
@@ -528,51 +492,37 @@ function networkGenres(citydata) {
             .attr('class', 'stop-right')
             .attr('offset', 1**.75);
 
-        // var barscale = d3.scaleLinear()
-        //   .domain([0, measure[1]])
-        //   .range([0, 200]);
-        //
-        // let legendAxis = d3.axisBottom()
-        //     .scale(barscale)
-        //     .ticks(width > 500 ? 5:2)
-        //     .tickSize(30);
-
         legendBar.append('rect')
             .classed('filled', true)
             .attr('y', 30)
             .attr('height', 30)
             .attr('width', 200);
 
-        // legendTicks.call(legendAxis)
-        //     .call(g => g.select(".domain").remove());
-
-        // legendtext.text("PARTICULARITY TO CITY");
         less.text("LESS");
         more.text("MORE");
       }
 
     function drawNodeLegend() {
 
-      // legendtext2.text("APPEARANCES");
       legendCircle.selectAll("g").remove();
-        // use that scaling function
+        // use scaling function
         let biggestNode = d3.max(cityNodes, d => d.count);
         function circleLegend(selection) {
 
             let instance = {}
+            function round(n) {return Math.ceil((n+1)/5)*5}
             // set some defaults
             const api = {
                 domain: [0, biggestNode], // the values min and max
                 range: [0, maxNodeSize], // the circle area/size mapping
-                values: [10, 34, 83], // values for circles
-                width: appearDim.w,
-                height: appearDim.h,
+                values: [round(biggestNode/21), round(biggestNode/3), round(biggestNode)], // values for circles
+                width: appearDim.w-30,
+                height: appearDim.h-20,
                 suffix:'', // ability to pass in a suffix
                 circleColor: '#888',
-                textPadding: 10,
+                textPadding: 30,
                 textColor: '#454545'
             }
-
 
             const powScale = d3.scalePow()
                 .domain(api.domain)
@@ -642,31 +592,13 @@ function networkGenres(citydata) {
             // https://gist.github.com/gneatgeek/5892586
             function getSet(option, component) {
                 return function (_) {
-                    if (! arguments.length) {
-                        return this[option];
-                    }
+                    if (! arguments.length) {return this[option];}
                 this[option] = _;
                 return component;
               }
             }
-
         }
-
-        function round(n) {return Math.ceil((n+1)/5)*5}
-
         var l = circleLegend(legendCircle)
-            .domain([0, biggestNode]) // the dataset min and max
-            .range( [0, maxNodeSize]) // the circle area/size mapping
-            .values([round(biggestNode/21), round(biggestNode/3), round(biggestNode)]) // pass in values (e.g. min,mean/median & max)
-            // optional
-            .width(appearDim.w-30) // it centers to this
-            .height(appearDim.h-20) // it centers to this
-            .suffix('') // ability to pass in a suffix e.g. '%'
-            .circleColor( '#888') // stroke of the circles
-            .textPadding(30) // left padding on text
-            .textColor( '#454545') // the fill for text
-
-        // and render it
         l.render()
       }
 
@@ -676,8 +608,6 @@ function networkGenres(citydata) {
     const simulation = d3.forceSimulation(cityNodes)
         .force("link", d3.forceLink(cityLinks).id(d => d.id)
             .distance([linkdistance]))
-        //     .strength(function(d) { return Math.sqrt(d.value)/100 } )
-        // )
         .alphaDecay([.09])
         .velocityDecay([.15])
         .force("charge", d3.forceManyBody().strength(forceStrength).distanceMax(distMax))//.strength(-100).distanceMax(220))
@@ -686,19 +616,18 @@ function networkGenres(citydata) {
 
     if (cHeight < cWidth) {
       let yforce = Math.sqrt(1-cProp)/9;
-      console.log("yforce", yforce);
       simulation.force("x", d3.forceX().strength(0))
           .force("y", d3.forceY().strength(yforce));
     }
     else {
         let xforce = Math.sqrt(1-cProp)/4;
-        console.log("xforce", xforce);
         simulation.force("y", d3.forceY().strength(.02))
             .force("x", d3.forceX().strength(xforce));
     }
-        // function strength(link) {
-        //   return 1 / Math.min(count(link.source), count(link.target));
-        // }
+
+    function cleanName(str) {
+        return str.replace(/ |\/|&|!/gi, "_").replace(/^(?=\d)/gi, "_")
+    }
 
     const link = netviz.append("g")
         .attr("stroke", "#aaa")
@@ -708,78 +637,76 @@ function networkGenres(citydata) {
     .join("line")
         .attr("stroke-width", d => d.value);
 
-    const node = netviz.append("g")
-      .attr("stroke", "#000")
-    .selectAll("circle")
-    .data(cityNodes)
-    .join("circle")
-    .attr("r", d => d.radius)
-      .attr("fill", d => statusColor(d.relative))
-      .call(drag(simulation))
-    .on('mouseover.fade', fade(0.1))
-    .on("mouseenter", (event, d) => {
-      let prepped_name = d.__proto__.genre.replace(/ |\/|&/gi, "_").replace(/^(?=\d)/gi, "_")
-      netviz.select(`#${prepped_name}`).attr("fill", null).style("font-weight", null);
-      netviz.select(`#${prepped_name}`)
-          .attr("fill", "red")
-          .attr("stroke", "black")
-          .attr("stroke-width", .5)
-          .style("font-weight", 850).raise();
-    })
-    .on('mouseout.fade', fade(1))
-    .on("mouseout", (event, d) => {
-      let prepped_name = d.__proto__.genre.replace(/ |\/|&/gi, "_").replace(/^(?=\d)/gi, "_")
-      netviz.select(`#${prepped_name}`).attr("fill", null).style("font-weight", null).attr("stroke", null);
-      netviz.select(`#${prepped_name}`).attr("fill", "black").style("font-weight", 300);
-    });
-
-    // const labelPadding = 2;
-    //
-    // // the component used to render each label
-    // const textLabel = layoutTextLabel()
-    //   .padding(labelPadding)
-    //   .value(d => d.properties.name);
-    //
-    // // a strategy that combines simulated annealing with removal
-    // // of overlapping labels
-    // const strategy = layoutRemoveOverlaps(layoutGreedy());
-    //
-    // // create the layout that positions the labels
-    // const labels = layoutLabel(strategy)
-    //     .size((d, i, g) => {
-    //         // measure the label and add the required padding
-    //         const textSize = g[i].getElementsByTagName('text')[0].getBBox();
-    //         return [textSize.width + labelPadding * 2, textSize.height + labelPadding * 2];
-    //     })
-    //     .position(d => projection(d.geometry.coordinates))
-    //     .component(textLabel);
     var labelscale = d3.scaleLinear()
       .domain([0, d3.max(cityNodes, city => city.radius)])
       .range([smallLabel, bigLabel]);
 
-    const textElems = netviz.append('g')
-    .selectAll('text')
-    .data(cityNodes)
-    .join('text')
-        .text(d => d.genre)
-        .attr('class', "svgText")
-        .attr("id", d => d.genre.replace(/ |\/|&/gi, "_").replace(/^(?=\d)/gi, "_"))
-        .attr('font-size', d => labelscale(d.radius));
-        // .call(labels);
+    const node = netviz.append("g")
+        .attr("stroke", "#000")
+        .selectAll("circle")
+        .data(cityNodes)
+        .join("circle")
+        .attr("r", d => d.radius)
+          .attr("fill", d => statusColor(d.relative))
+          .call(drag(simulation))
+        .on('mouseover.fade', fade(0.1))
+        .on("mouseenter", (event, d) => {
+          let prepped_name = cleanName(d.__proto__.genre)
+          let selectedLabel = netviz.select(`text#${prepped_name}`);
+          let selectedBox = netviz.select(`rect#${prepped_name}`);
+          selectedBox.attr("opacity", 1);
+          selectedLabel.attr("opacity", 1);
+        })
+        .on('mouseout.fade', fade(1))
+        .on("mouseout", (event, d) => {
+          let prepped_name = cleanName(d.__proto__.genre)
+          netviz.select(`text#${prepped_name}`).attr("opacity", 0);
+          netviz.select(`rect#${prepped_name}`).attr("opacity", 0);
+        });
 
-    // var wrap3 = d3.textwrap().bounds({height: 500, width: 225});
-    //
-    // netviz.append("text")
-    //     .text('The network graph shows all genres for a city that appear in at least 0.1% of the selected city’s albums or individually sold tracks, and that appear at least 100 times in the entire dataset. The strength of connections between nodes represents how often those genre tags co-occurred with one another on album and individual track pages. Genres were standardized wherever possible (e.g., "tekno" was corrected to "techno"), and all geographic genres, like "philly" and "Toronto", were removed if they appeared in the city in which the music was produced. A genre’s particularity to a city was calculated by dividing its proportion of total genres in that city to its average occurrence globally.')
-    //     .attr("id", "about")
-    //     .attr('x', 1125)
-    //     .attr('y', 250)
-    //     .call(wrap3);
-    //
-    // netviz.select("foreignObject")
-    //     .attr("color", "black")
-    //     .style("font-family", font)
-    //     .attr('font-size', 13);
+    const textElems = netviz.append('g')
+        .selectAll("text")
+        .data(cityNodes)
+        .join('text')
+            .text(d => d.genre)
+            .attr('class', "svgText")
+            .attr("alignment-baseline", "middle")
+            .attr('font-size', d => labelscale(d.radius));
+
+    let qqq = netviz.append('g');
+    const otherText = netviz.append('g')
+        .selectAll("text")
+        .data(cityNodes)
+        .join('text')
+            .text(d => d.genre)
+            .attr("id", d => cleanName(d.genre))
+            .attr('class', "svgText")
+            .attr("alignment-baseline", "middle")
+            .attr("fill", "white")
+            .attr("stroke-width", .5)
+            .style("font-weight", 850)
+            .attr('font-size', d => labelscale(d.radius))
+            .attr("opacity", 0);
+
+    cityNodes.forEach(function(d) {
+          let textBounds = netviz.select(`text#${cleanName(d.__proto__.genre)}`).node().getBBox();
+          d.textbox = [textBounds.width, textBounds.height];
+    });
+
+    const textBoxes = qqq.append('g')
+        .selectAll("rect")
+        .data(cityNodes)
+        .join('rect')
+            .attr("id", d => cleanName(d.genre))
+            .attr("alignment-baseline", "middle")
+            .attr("width", d => d.textbox[0] * 1.05 + 3)
+            .attr('height', d => d.textbox[1] + 5)
+            .attr('class', "svgText")
+            .attr("fill", "blue")
+            .attr('transform', function() {
+              return `translate(0, -${this.getAttribute('height') / 2})`;
+            })
+            .attr("opacity", 0);
 
     simulation.on("tick", () => {
 
@@ -791,15 +718,20 @@ function networkGenres(citydata) {
         node
             .attr("cx", d => { return d.x = Math.max(d.radius+10, Math.min(cWidth - (d.radius+30), d.x)); })
             .attr("cy", d => { return d.y = Math.max(d.radius+5, Math.min(cHeight - (d.radius+5), d.y)); });
+
         textElems
+            .attr("x", d => d.x + d.radius + 5)
+            .attr("y", d => d.y);
+        otherText
+            .attr("x", d => d.x + d.radius + 5)
+            .attr("y", d => d.y);
+        textBoxes
             .attr("x", d => d.x + d.radius + 2)
-            .attr("y", d => d.y + 2 );
+            .attr("y", d => d.y);
     });
 
     function fade(opacity) {
         return (event, d) => {
-            console.log('fade', d)
-
             node.style('opacity', function (o) { return isConnected(d, o) ? 1 : opacity });
             textElems.style('visibility', function (o) { return isConnected(d, o) ? "visible" : "hidden" });
             link.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
@@ -827,7 +759,6 @@ map.selectAll("rect")
         cityCircles.selectAll("circle").classed('circSelect', false);
         netviz.selectAll("g").remove();
         netviz.select("foreignObject").remove();
-        // nv_svg.select(".cityname").text("");
       })
 
 // SECTION: call additional functions
