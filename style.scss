@@ -126,8 +126,9 @@ body {
 .map-instruction {
   color: blue;
   font-family: var(--bc-header-font);
+  font-weight: 650;
   font-size: 55px;
-  line-height: 1;
+  line-height: 1.15;
   // pointer-events: none;
 }
 
@@ -524,7 +525,7 @@ body {
     padding: 0;
     position: absolute;
     // width: 50%;
-    
+
     h1 {
       font-size: 1.6em;
       // text-align: center;

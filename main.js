@@ -280,9 +280,9 @@ let countryName = svg.append("text")
 let ggg = svg.append("g");
 
 ggg.append("text")
-    .attr("x", 20)
-    .attr("y", 320)
-    .text("Click on a city to view its scene")
+    .attr("x", 50)
+    .attr("y", 330)
+    .text("CLICK ON A CITY")
     .call(wrap2);
 
 ggg.select("foreignObject")
@@ -488,7 +488,7 @@ function networkGenres(citydata) {
     let n = cityNodes.length;
 
     let linkdistance = cArea/(6750*(n/100)); // add modifier based on number of nodes
-    console.log("linkdistance", linkdistance, "n", n)
+    console.log("cityNodes", cityNodes, "n", n)
 
     cityNodes.forEach(function(d, i) {
       d.x = cWidth / n * i;
@@ -717,7 +717,17 @@ function networkGenres(citydata) {
       .attr("fill", d => statusColor(d.relative))
       .call(drag(simulation))
     .on('mouseover.fade', fade(0.1))
-    .on('mouseout.fade', fade(1));
+    .on("mouseenter", (event, d) => {
+      let prepped_name = d.__proto__.genre.replace(/ |\/|&/gi, "_").replace(/^(?=\d)/gi, "_")
+      netviz.select(`#${prepped_name}`).attr("fill", null).style("font-weight", null);
+      netviz.select(`#${prepped_name}`).attr("fill", "#e3667d").style("font-weight", 800);
+    })
+    .on('mouseout.fade', fade(1))
+    .on("mouseout", (event, d) => {
+      let prepped_name = d.__proto__.genre.replace(/ |\/|&/gi, "_").replace(/^(?=\d)/gi, "_")
+      netviz.select(`#${prepped_name}`).attr("fill", null).style("font-weight", null);
+      netviz.select(`#${prepped_name}`).attr("fill", "black").style("font-weight", 300);
+    });
 
     // const labelPadding = 2;
     //
@@ -749,6 +759,7 @@ function networkGenres(citydata) {
     .join('text')
         .text(d => d.genre)
         .attr('class', "svgText")
+        .attr("id", d => d.genre.replace(/ |\/|&/gi, "_").replace(/^(?=\d)/gi, "_"))
         .attr('font-size', d => labelscale(d.radius));
         // .call(labels);
 
@@ -783,12 +794,15 @@ function networkGenres(citydata) {
 
     function fade(opacity) {
         return (event, d) => {
+            console.log('fade', d)
+
             node.style('opacity', function (o) { return isConnected(d, o) ? 1 : opacity });
             textElems.style('visibility', function (o) { return isConnected(d, o) ? "visible" : "hidden" });
             link.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
             if(opacity === 1){
                 node.style('opacity', 1)
                 textElems.style('visibility', 'visible')
+                d3.select()
                 link.style('stroke-opacity', 0.3)
             }
         };
