@@ -258,7 +258,7 @@ svg.append("path")
     .attr("stroke", "black");
 
 var wrap = d3.textwrap().bounds({height: 250, width: 160});
-var wrap2 = d3.textwrap().bounds({height: 500, width: 225});
+var wrap2 = d3.textwrap().bounds({height: 500, width: 200});
 
 let cityName = svg.append("text")
     .attr("x", width/2+6)
@@ -282,7 +282,7 @@ let ggg = svg.append("g");
 ggg.append("text")
     .attr("x", 50)
     .attr("y", 330)
-    .text("CLICK ON A CITY")
+    .text("Click on a city")
     .call(wrap2);
 
 ggg.select("foreignObject")
@@ -720,12 +720,16 @@ function networkGenres(citydata) {
     .on("mouseenter", (event, d) => {
       let prepped_name = d.__proto__.genre.replace(/ |\/|&/gi, "_").replace(/^(?=\d)/gi, "_")
       netviz.select(`#${prepped_name}`).attr("fill", null).style("font-weight", null);
-      netviz.select(`#${prepped_name}`).attr("fill", "#e3667d").style("font-weight", 800);
+      netviz.select(`#${prepped_name}`)
+          .attr("fill", "red")
+          .attr("stroke", "black")
+          .attr("stroke-width", .5)
+          .style("font-weight", 850).raise();
     })
     .on('mouseout.fade', fade(1))
     .on("mouseout", (event, d) => {
       let prepped_name = d.__proto__.genre.replace(/ |\/|&/gi, "_").replace(/^(?=\d)/gi, "_")
-      netviz.select(`#${prepped_name}`).attr("fill", null).style("font-weight", null);
+      netviz.select(`#${prepped_name}`).attr("fill", null).style("font-weight", null).attr("stroke", null);
       netviz.select(`#${prepped_name}`).attr("fill", "black").style("font-weight", 300);
     });
 
