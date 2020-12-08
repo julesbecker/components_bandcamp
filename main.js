@@ -11,12 +11,10 @@ d3.textwrap = textwrap;
 
 const font = "cinetype";
 
-const network_data = require("./data/network_graph.json");
 const world50 = require("./data/world50.json");
-const genreAliases = require("./data/ng_ids.json")
 const countries = topojson.feature(world50, world50.objects.land);
-
-console.log(network_data[0])
+const network_data = require("./data/network_graph.json");
+const genreAliases = require("./data/ng_ids.json")
 
 // SECTION: shadow DOM and CSS imports
 let root = document.querySelector("#map-container");
@@ -132,32 +130,23 @@ const svg = d3.select(mapWrap)
     .append("svg")
     .attr("id", "svg1")
     .attr("viewBox", `5 70 ${width-10} ${height-175}`)
-    // .attr("width", width)
     .classed("svg-map", true)
     .classed("svg-content", true)
-      // .style("height", 497)
       .attr("preserveAspectRatio", "xMinYMin meet");
 
 let nv_svg = d3.select(vizWrap)
     .append("svg")
     .attr("id", "nv_svg")
     .attr("width", cWidth);
-    // .classed("svg-viz", true)
-    // .classed("svg-content", true)
-      // .attr("width", "100%");
-      // .attr("preserveAspectRatio", "xMinYMin meet");
 
-// console.log("nvsvgh", vizWrap.getElementById('nv_svg').getBoundingClientRect().height)
 let legendWrap = sourceDiv.querySelector(".legend-wrap");
-let partic = {w: 200, h: 90}; //previously w: 270
+let partic = {w: 200, h: 90};
 let legend_svg = d3.select(legendWrap.querySelector(".particularity-wrap")).append("svg")
     .attr("viewBox", `0 0 ${partic.w} ${partic.h}`)
     .attr("width", partic.w)
     .attr("height", partic.h)
     .attr("class", "legend-svg")
-    // .style("height", "100%")
     .attr("preserveAspectRatio", "xMinYMin meet");
-
 
 let appearDim = { w: 150, h: 110 }; //previously 400x400
 let legend_svg2 = d3.select(legendWrap.querySelector(".appearances-wrap")).append("svg")
@@ -206,25 +195,10 @@ svg.append("rect")
 
 var legend = legend_svg.append('g')
     .attr("id", "legend");
-    // .attr("transform", `translate(60,600)`);
-// var legendtext = legend.append("text")
-//     .attr("y", 20)
-//     .style("font-family", font)
-//     .style("font-weight", 600)
-//     .attr('font-size', 18);
+
 var legendBar = legend.append('g');
-// let legendTicks = legend.append('g')
-//     .attr("transform", `translate(0,30)`);
 
-
-var legendCircle = legend_svg2.append('g')
-    .attr("id", "legend_circle");
-
-// var legendtext2 = legendCircle.append("text")
-//     .attr("y", 18)
-//     .style("font-family", font)
-//     .style("font-weight", 600)
-//     .attr('font-size', 18);
+var legendCircle = legend_svg2.append('g');
 
 let less = legend.append("text")
     .attr("id", "less")
@@ -252,7 +226,6 @@ legend.append("rect")
 svg.append("path")
     .datum(geooutline)
     .attr("d", path)
-    // .attr("x", -200)
     .attr("fill", "none")
     .attr("stroke-width", 1)
     .attr("stroke", "black");
@@ -311,7 +284,6 @@ const cityCircles = map.append("g");
 let citydata;
 
 cityCircles.selectAll("circles")
-  .attr("id", "cityCircles")
   .data(network_data)
   //NOTE: Circle characteristics are set here
   .join("circle")
@@ -391,14 +363,12 @@ function networkGenres(citydata) {
     cHeight = cDims.h; cWidth = cDims.w;
 
     let cArea = cHeight*cWidth;
-    console.log(`width: ${window.innerWidth}`);
-    console.log("viz", cHeight, cWidth, cArea)
+    // console.log(`width: ${window.innerWidth}`);
+    // console.log("viz", cHeight, cWidth, cArea)
 
     // consider adding a "prop" modifier to other variables, to account for the length-width issues
     let cProp = d3.min([cHeight, cWidth])/d3.max([cHeight, cWidth]);
     let cHyp = Math.hypot(cHeight, cWidth)
-    // console.log("cProp", cProp)
-    // console.log("cHyp", cHyp)
 
     // variables for netviz rendering
     let maxNodeSize = cArea / 15000;
@@ -422,9 +392,8 @@ function networkGenres(citydata) {
             const lw = d3.scaleSqrt()
                 .domain([0, citydata['w']])
                 .range([.01, linkwidthMax]);
-            // if target's count is greater than 4% of the largest link in the set,
+            // if target's count > 4% of largest link in the set, add the connection
             if (target['c'] > citydata['w']*.004) {
-                // add the connection
                 var formattedLink = {};
                 let linkwidth = lw(target['c']);
 
@@ -652,16 +621,12 @@ function networkGenres(citydata) {
         .on('mouseover.fade', fade(0.1))
         .on("mouseenter", (event, d) => {
           let prepped_name = cleanName(d.__proto__.genre)
-          let selectedLabel = netviz.select(`text#${prepped_name}`);
-          let selectedBox = netviz.select(`rect#${prepped_name}`);
-          selectedBox.attr("opacity", 1);
-          selectedLabel.attr("opacity", 1);
+          netviz.selectAll(`#${prepped_name}`).attr("opacity", 1);
         })
         .on('mouseout.fade', fade(1))
         .on("mouseout", (event, d) => {
           let prepped_name = cleanName(d.__proto__.genre)
-          netviz.select(`text#${prepped_name}`).attr("opacity", 0);
-          netviz.select(`rect#${prepped_name}`).attr("opacity", 0);
+          netviz.selectAll(`#${prepped_name}`).attr("opacity", 0);
         });
 
     const textElems = netviz.append('g')
@@ -689,8 +654,8 @@ function networkGenres(citydata) {
             .attr("opacity", 0);
 
     cityNodes.forEach(function(d) {
-          let textBounds = netviz.select(`text#${cleanName(d.__proto__.genre)}`).node().getBBox();
-          d.textbox = [textBounds.width, textBounds.height];
+        let textBounds = netviz.select(`text#${cleanName(d.__proto__.genre)}`).node().getBBox();
+        d.textbox = [textBounds.width, textBounds.height];
     });
 
     const textBoxes = qqq.append('g')
