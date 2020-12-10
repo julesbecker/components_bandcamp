@@ -737,7 +737,7 @@ let tabsTemplate = `
     <div class="single-tab text-tab">Back to text</div>
     <div class="single-tab map-tab">Back to map</div>
     <div class="single-tab graph-tab">Back to graph</div>
-    <div class="single-tab regenerate-nodes disabled">Redraw Nodes</button>
+    <div class="single-tab regenerate-nodes disabled disabled-on-map">Redraw Nodes</button>
 `;
 let controls = document.createElement("div");
 controls.setAttribute("class", "map-tabs-parent");
@@ -782,6 +782,7 @@ document.addEventListener("keydown", (e) => {
 function switchViews(toView) {
   console.log(toView);
   if (toView == "viz") {
+    hasVizBeenOpenedOnce = true;
     graphTab.classList.remove("current");
     mapTab.classList.add("current");
 
@@ -810,39 +811,24 @@ buttn.addEventListener("click", () => {
   buttn.classList.add("disabled");
 });
 
+let hasVizBeenOpenedOnce = false;
+
 window.addEventListener("resize", function() {
-  // buttn.classList.remove("disabled");
-  buttn.classList.remove("disabled");
+  if (hasVizBeenOpenedOnce) {
+    buttn.classList.remove("disabled");
+  }
+  
   resizeViz();
 });
 
 document.addEventListener("enter", function() {
   buttn.classList.add("disabled-on-map");
   controls.style.zIndex = 1000;
-  // console.log('somebody pushed enter!');
-  // debounce(resizeViz(), 100;
-  // debounce(resizeViz, 150);
 })
 
 function resizeViz() {
-  console.log("resize! inner");
-  // let cHeight = vizWrap.clientHeight;
-  // let cWidth = vizWrap.clientWidth-vizAboutBlock.clientWidth;
   let cDims = getVizDimensions();
-  // console.log(cWidth);
   nv_svg.attr("width", cDims.w).attr("height", cDims.h);
-  // nvbg.attr("width", cWidth).attr("height", cHeight);
-  // simulation.force("center", d3.forceCenter(cWidth/2, cHeight/2).strength(1.25));
-}
-
-function debounce(func, time){
-  // console.log("debouncing");
-  var time = time || 100; // 100 by default if no param
-  var timer;
-  return function(event){
-      if(timer) clearTimeout(timer);
-      timer = setTimeout(func, time, event);
-  };
 }
 
 // emit an event when fully loaded
