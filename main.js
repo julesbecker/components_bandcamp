@@ -130,9 +130,11 @@ const svg = d3.select(mapWrap)
     .append("svg")
     .attr("id", "svg1")
     .attr("viewBox", `5 70 ${width-10} ${height-175}`)
+    // .attr("width", width)
+    // .attr("height", height)
     .classed("svg-map", true)
-    .classed("svg-content", true)
-      .attr("preserveAspectRatio", "xMinYMin meet");
+    // .classed("svg-content", true)
+      .attr("preserveAspectRatio", "xMidYMid meet");
 
 let nv_svg = d3.select(vizWrap)
     .append("svg")
@@ -188,9 +190,15 @@ svg.append("path")
     .attr("fill", "white");
 
 svg.append("rect")
+    .attr("x", -990)
+    .attr("height", height)
+    .attr("width", 1000)
+    .attr("fill", "white");
+
+svg.append("rect")
     .attr("x", 895)
     .attr("height", height)
-    .attr("width", 500)
+    .attr("width", 1000)
     .attr("fill", "white");
 
 var legend = legend_svg.append('g')
@@ -817,7 +825,7 @@ window.addEventListener("resize", function() {
   if (hasVizBeenOpenedOnce) {
     buttn.classList.remove("disabled");
   }
-  
+
   resizeViz();
 });
 
