@@ -306,13 +306,17 @@ body {
     display: none;
     font-family: "Andale Mono", monospace;
     font-size: 1em;
-    margin-bottom: 0.5em;
+    margin-bottom: 0em;
     max-width: 140px;
     padding: 1em;
     text-transform: uppercase;
 
     &.text-tab, &.current {
       display: inline-block;
+    }
+
+    &.text-tab {
+      background-color: black;
     }
 
     &:hover {
