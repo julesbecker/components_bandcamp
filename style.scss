@@ -450,6 +450,18 @@ body {
 
 }
 
+.desktop-rec {
+  display: none;
+  margin: 0 1em;
+  text-align: center;
+
+  h2 {
+    font-family: "Andale Mono", monospace;
+    font-size: 1.9em;
+    text-transform: uppercase;
+  }
+}
+
 @media (max-width: 750px) {
   .svg-viz-wrap {
     flex-direction: column;
@@ -524,15 +536,14 @@ body {
       }
     }
 
-    .single-tab:not(.text-tab):not(.regenerate-nodes) {
-      margin-left: 1em;
-    }
-
     .regenerate-nodes {
       position: fixed;
       bottom: 0;
       margin-bottom: 0;
     }
+  }
+  .desktop-rec {
+    display: block;
   }
 }
 
