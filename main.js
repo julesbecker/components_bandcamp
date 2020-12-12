@@ -239,7 +239,7 @@ svg.append("path")
     .attr("stroke", "black");
 
 var wrap = d3.textwrap().bounds({height: 250, width: 160});
-var wrap2 = d3.textwrap().bounds({height: 500, width: 200});
+var wrap2 = d3.textwrap().bounds({height: 500, width: 220});
 
 let cityName = svg.append("text")
     .attr("x", width/2+6)
@@ -261,13 +261,21 @@ let countryName = svg.append("text")
 let ggg = svg.append("g");
 
 ggg.append("text")
-    .attr("x", 75)
-    .attr("y", 330)
-    .text("Click on a city")
+    .attr("x", 15)
+    .attr("y", 320)
+    .text("Click on a")
     .call(wrap2);
 
 ggg.select("foreignObject")
     .attr('class', "map-instruction");
+
+ggg.append("text")
+    .attr("x", 15)
+    .attr("y", 555)
+    .text("city")
+    .attr('class', "map-instruction")
+    .attr("fill", "blue")
+    ;
 
 let hhh = svg.append("g");
 
