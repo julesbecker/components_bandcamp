@@ -5,7 +5,7 @@
 
 #bandcamp-map {
   --bc-header-font: "cinetype", "MGD Orion", serif;
-  --bc-body-font: "Solanel", sans-serif;
+  --bc-body-font: "cinetype", sans-serif;
 }
 
 body {
@@ -128,7 +128,7 @@ body {
   font-family: var(--bc-header-font);
   font-weight: 650;
   font-size: 95px;
-  line-height: .8;
+  line-height: .825;
   // pointer-events: none;
 }
 
@@ -137,7 +137,7 @@ body {
   font-family: var(--bc-body-font);
   font-size: 22;
   letter-spacing: -0.1px;
-  line-height: 1;
+  line-height: 1.15;
 }
 
 .outline {
