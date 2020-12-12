@@ -750,10 +750,12 @@ mapsvg.call(zoom);
 
 // tabs for switching between sections
 let tabsTemplate = `
-    <div class="single-tab text-tab">Back to text</div>
-    <div class="single-tab map-tab">Back to map</div>
-    <div class="single-tab graph-tab">Back to graph</div>
-    <div class="single-tab regenerate-nodes disabled disabled-on-map">Redraw Nodes</button>
+    <div class="single-tab text-tab"><span>Back to text</span></div>
+    <div class="single-tab map-tab"><span>Back to map</span></div>
+    <div class="single-tab graph-tab"><span>Back to graph</span></div>
+    <div class="single-tab regenerate-nodes disabled disabled-on-map">
+      <span>Redraw Nodes</span>
+    </div>
 `;
 let controls = document.createElement("div");
 controls.setAttribute("class", "map-tabs-parent");

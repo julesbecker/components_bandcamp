@@ -136,6 +136,7 @@ body {
   color: black;
   font-family: var(--bc-body-font);
   font-size: 22;
+  letter-spacing: -0.1px;
   line-height: 1;
 }
 
@@ -301,8 +302,9 @@ body {
     padding: 1em;
     text-transform: uppercase;
 
-    &.text-tab, &.current {
-      display: inline-block;
+    &.text-tab, &.regenerate-nodes, &.current {
+      // display: inline-block;
+      display: flex;
     }
 
     &.text-tab {
@@ -323,13 +325,22 @@ body {
   .single-tab::before {
     content: "❌";
     color: transparent;
-    // display: inline-block;
-    float: left;
+    // float: left;
+    font-family: "Arial", sans-serif;
     font-size: 1.2em;
-    // margin-right: 0.5em;
+    height: 100%;
+    // margin-right: 0.8em;
     // margin-bottom: 1em;
-    margin: 1px 0.8em 0.4em 0;
+    // margin: 1px 0.8em 0.4em 0;
     text-shadow: 0 0 0 #fff;
+
+    display: inline-block;
+    width: 30%;
+  }
+
+  span {
+    display: block;
+    width: 70%;
   }
 
   .single-tab.graph-tab::before,
@@ -341,13 +352,14 @@ body {
   .single-tab.regenerate-nodes::before {
     content: "⟲";
     font-size: 1.7em;
+    // font-size: 19px;
     font-weight: bold;
-    margin: -1px 0.6em 0em -3px;
+    // margin: -1px 0.6em 0em -3px;
   }
 
   .regenerate-nodes {
     background-color: #27ae3c;
-    display: inline-block;
+    // display: flex;
 
     &.disabled, &.disabled-on-map {
       display: none;
@@ -355,6 +367,7 @@ body {
   }
 
   .single-tab.map-tab::before {
+    text-align: right;
     transform: rotate(-180deg);
   }
 }
@@ -504,6 +517,11 @@ body {
       &::before {
         display: none;
       }
+
+      span {
+        text-align: center;
+        width: 100%;
+      }
     }
 
     .single-tab:not(.text-tab):not(.regenerate-nodes) {
@@ -547,6 +565,10 @@ body {
     .single-tab {
       margin-left: 0 !important;
       width: auto;
+
+      span {
+        text-align: left;
+      }
     }
   }
 
