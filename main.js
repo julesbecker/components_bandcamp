@@ -615,7 +615,7 @@ function networkGenres(citydata) {
     }
 
     function cleanName(str) {
-        return str.replace(/ |\/|&|!/gi, "_").replace(/^(?=\d)/gi, "_")
+        return str.replace(/ |\/|&|!|\*/gi, "_").replace(/^(?=\d)/gi, "_")
     }
 
     const link = netviz.append("g")
