@@ -2,7 +2,7 @@ This is the codebase for the visualization of bandcamp artist data to be publish
 
 Code overview:
 - Data:
-  - **world50.json** and **countries50.json** provide the data for rendering the geomap.
+  - **world50.json** contains the geomap data.
   - **network_graph.json** contains the data that populates the map with city circles and generates the network visualizations.
   - **ng_ids.json** is used to translate the numerical ids in network_graph.json into genre names.
 - Rendering:
