@@ -346,7 +346,7 @@
                 "sha256:687d01f963ea20360c0b904ee7a37c3d8cda553858c8d6e33fd0afd13e89de32"
             ],
             "markers": "python_version >= '3.5'",
-            "version": "==6.1.4"
+            "version": ">=6.1.5"
         },
         "numpy": {
             "hashes": [
