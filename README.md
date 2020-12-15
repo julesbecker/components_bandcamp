@@ -1,4 +1,4 @@
-This is the codebase for the visualization of bandcamp artist data to be published on https://components.one. See the demo at http://view.components.one.
+This is the codebase for the visualization of bandcamp album genre data to be published on https://components.one. See the demo at http://view.components.one.
 
 Code overview:
 - Data:
