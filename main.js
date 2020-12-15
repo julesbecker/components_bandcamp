@@ -82,12 +82,6 @@ vizAboutBlock.querySelector(".hide-viz-about").addEventListener("click", () => {
   vizAboutBlock.querySelector(".viz-details").classList.remove("modal");
 });
 
-// ----- Tooltips
-
-// let newTip = d3.select(sourceDiv).append("div")
-//   .attr("class", "newtips")
-//   .style("opacity", 0);
-
 const zoom = d3.zoom()
     .translateExtent([[17, 100], [883, 580]])
     .extent([[17, 100], [883, 580]])
@@ -375,8 +369,6 @@ function getVizDimensions() {
   }
 
   let obj = {w: cWidth, h: cHeight}
-  // console.log("generated dims: ");
-  console.log(obj);
   return obj;
 }
 
@@ -387,8 +379,6 @@ function networkGenres(citydata) {
     cHeight = cDims.h; cWidth = cDims.w;
 
     let cArea = cHeight*cWidth;
-    // console.log(`width: ${window.innerWidth}`);
-    // console.log("viz", cHeight, cWidth, cArea)
 
     // consider adding a "prop" modifier to other variables, to account for the length-width issues
     let cProp = d3.min([cHeight, cWidth])/d3.max([cHeight, cWidth]);
@@ -399,12 +389,8 @@ function networkGenres(citydata) {
     let linkwidthMax = cHyp/115;
     let smallLabel = cHyp/120;
     let bigLabel = smallLabel*2.15;
-    // let linkdistance = cHyp/13;
     let forceStrength = -(cHyp/3.4);
-    // let distMax = cArea/2200;
     let distMax = cHyp/6;
-    console.log("smallLabel, bigLabel", smallLabel, bigLabel)
-    console.log("maxNodeSize", maxNodeSize, "distMax", distMax, "linkwidthMax", linkwidthMax)
 
     let protonodes = citydata.n;
     let protolinks = citydata.l;
@@ -451,11 +437,9 @@ function networkGenres(citydata) {
     let n = cityNodes.length;
 
     let linkdistance = cArea/(6750*(n/100)); // add modifier based on number of nodes
-    console.log("cityNodes", cityNodes, "n", n)
 
     cityNodes.forEach(function(d, i) {
       d.x = cWidth / n * i;
-      // d.y = height / n * i;
     });
 
     netviz.selectAll("g").remove();
@@ -686,7 +670,7 @@ function networkGenres(citydata) {
         .data(cityNodes)
         .join('rect')
             .attr("id", d => cleanName(d.genre))
-            .attr("width", d => d.textbox[0] * 1.05 + 3)
+            .attr("width", d => d.textbox[0] + 6)
             .attr('height', d => d.textbox[1] + 5)
             .attr('class', "svgText")
             .attr("fill", "blue")
