@@ -266,7 +266,7 @@ body {
     .legend-wrap {
       display: flex;
       margin-top: 2em;
-      width: 37vw;
+      width: 100%;
 
       .legend-svg {
         margin-top: 1em;
@@ -285,8 +285,10 @@ body {
         text-transform: uppercase;
       }
 
-      & div:first-of-type {
+      // & div:first-of-type {
+      .particularity-wrap {
         margin-right: 1em;
+        min-width: 200px;
         // width: 60%;
 
         svg {
@@ -470,9 +472,9 @@ body {
       width: 129%;
     }
 
-    .legend-wrap {
-      width: 42vw;
-    }
+    // .legend-wrap {
+    //   width: 100vw;
+    // }
 
     .legend-wrap div:first-of-type {
       margin-right: 1.5em;
