@@ -131,6 +131,11 @@ const svg = d3.select(mapWrap)
     // .classed("svg-content", true)
       .attr("preserveAspectRatio", "xMidYMid meet");
 
+let mapSmallDesc = document.createElement("div");
+mapSmallDesc.setAttribute("class", "map-mobile-desc");
+mapSmallDesc.innerHTML = "<h4>This map marks cities with at least 500 albums or individual tracks sold between August 19 and November 10, 2020 on Bandcamp.</h4>";
+mapWrap.appendChild(mapSmallDesc);
+
 let nv_svg = d3.select(vizWrap)
     .append("svg")
     .attr("id", "nv_svg")

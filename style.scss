@@ -466,6 +466,15 @@ body {
   }
 }
 
+.map-mobile-desc {
+  display: none;
+  font-family: "cinetype";
+  margin: 0 auto;
+  margin-top: 2em;
+  text-align: center;
+  width: 80%;
+}
+
 @media (max-width: 750px) {
   .svg-viz-wrap {
     flex-direction: column;
@@ -547,6 +556,9 @@ body {
     }
   }
   .desktop-rec {
+    display: block;
+  }
+  .map-mobile-desc {
     display: block;
   }
 }
