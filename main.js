@@ -126,7 +126,6 @@ network_data.map((d) => { d.radius = radius(d.c); });
 
 const svg = d3.select(mapWrap)
     .append("svg")
-    .attr("id", "svg1")
     .attr("viewBox", `5 70 ${width} ${height-175}`)
     .classed("svg-map", true)
     // .classed("svg-content", true)
@@ -143,15 +142,12 @@ let legend_svg = d3.select(legendWrap.querySelector(".particularity-wrap")).appe
     .attr("viewBox", `0 0 ${partic.w} ${partic.h}`)
     .attr("width", partic.w)
     .attr("height", partic.h)
-    .attr("class", "legend-svg")
     .attr("preserveAspectRatio", "xMinYMin meet");
 
-let appearDim = { w: 150, h: 110 }; //previously 400x400
-let legend_svg2 = d3.select(legendWrap.querySelector(".appearances-wrap")).append("svg")
-    .attr("width", appearDim.w)
-    .attr("height", appearDim.h)
+// let appearDim = { w: 150, h: 110 }; //previously 400x400
+let legendCircle = d3.select(legendWrap.querySelector(".appearances-wrap")).append("svg")
     .attr("class", "legend-svg")
-    .style("height", "100%")
+    .attr("y", 20)
     .attr("preserveAspectRatio", "xMinYMin meet");
 
 nv_svg.append("rect")
@@ -164,10 +160,9 @@ let netviz = nv_svg.append('g');
 
 let mapsvg = svg.append("g");
 
-let mapgroup = svg.append("g").attr("id", "mapgroup").attr("transform", 'translate(10,0)');
+let mapgroup = svg.append("g").attr("transform", 'translate(10,0)');
 // SECTION: setting up map...
-const map = mapsvg.append("g")
-    .attr("id", "map");
+const map = mapsvg.append("g");
 
 map.append("rect")
     .attr("width", width)
@@ -176,7 +171,6 @@ map.append("rect")
 
 map.append("path")
     .datum(countries)
-    .attr("id", "lp_path")
     .attr("fill", "white")
     .attr("d", path);
 
@@ -198,35 +192,34 @@ svg.append("rect")
     .attr("width", 1000)
     .attr("fill", "white");
 
-var legend = legend_svg.append('g')
-    .attr("id", "legend");
+var legendBar = legend_svg.append('g');
 
-var legendBar = legend.append('g');
+legendBar.append("rect")
+    .attr("id", "color")
+    .attr('y', 30)
+    .attr('height', 30)
+    .attr('width', 200);
 
-var legendCircle = legend_svg2.append('g');
+legendBar.append("rect")
+    .attr("x", 70)
+    .attr("y", 43)
+    .attr("height", 2)
+    .attr("width", 55)
+    .attr("fill", "white");
 
-let less = legend.append("text")
-    .attr("id", "less")
+let less = legendBar.append("text")
     .attr("fill", "white")
     .attr("font-family", font)
     .attr('font-size', "14px")
     .attr("x", 10)
     .attr("y", 50);
 
-let more = legend.append("text")
-    .attr("id", "more")
+let more = legendBar.append("text")
     .attr("fill", "black")
     .attr("font-family", font)
     .attr('font-size', "14px")
     .attr("x", 150)
     .attr("y", 50);
-
-legend.append("rect")
-    .attr("x", 70)
-    .attr("y", 43)
-    .attr("height", 2)
-    .attr("width", 55)
-    .attr("fill", "white")
 
 svg.append("path")
     .datum(geooutline)
@@ -236,7 +229,7 @@ svg.append("path")
     .attr("stroke", "black");
 
 var wrap = d3.textwrap().bounds({height: 250, width: 200});
-var wrap2 = d3.textwrap().bounds({height: 500, width: 220});
+var wrap2 = d3.textwrap().bounds({height: 400, width: 220});
 
 let cityName = svg.append("text")
     .attr("x", width/2+6)
@@ -271,8 +264,7 @@ ggg.append("text")
     .attr("y", 565)
     .text("city")
     .attr('class', "map-instruction")
-    .attr("fill", "blue")
-    ;
+    .attr("fill", "blue");
 
 let hhh = svg.append("g");
 
@@ -469,11 +461,8 @@ function networkGenres(citydata) {
             .attr('class', 'stop-right')
             .attr('offset', 1**.75);
 
-        legendBar.append('rect')
-            .classed('filled', true)
-            .attr('y', 30)
-            .attr('height', 30)
-            .attr('width', 200);
+        legendBar.select('rect#color')
+            .classed('filled', true);
 
         less.text("LESS");
         more.text("MORE");
@@ -481,9 +470,12 @@ function networkGenres(citydata) {
 
     function drawNodeLegend() {
 
-      legendCircle.selectAll("g").remove();
         // use scaling function
-        let biggestNode = d3.max(cityNodes, d => d.count);
+        let biggestNode = d3.max(cityNodes, d => d.radius);
+        legendCircle
+            .attr("width", biggestNode*4)
+            .attr("height", biggestNode*2+5);
+
         function circleLegend(selection) {
 
             let instance = {}
@@ -493,8 +485,8 @@ function networkGenres(citydata) {
                 domain: [0, biggestNode], // the values min and max
                 range: [0, maxNodeSize], // the circle area/size mapping
                 values: [round(biggestNode/21), round(biggestNode/3), round(biggestNode)], // values for circles
-                width: appearDim.w-30,
-                height: appearDim.h-20,
+                width: biggestNode*4,
+                height: biggestNode*2+5,
                 suffix:'', // ability to pass in a suffix
                 circleColor: '#888',
                 textPadding: 30,
@@ -509,6 +501,7 @@ function networkGenres(citydata) {
                 .domain(api.domain)
                 .range(api.range);
 
+            legendCircle.selectAll("g").remove();
             instance.render = function () {
 
                 const s = selection.append('g')
@@ -518,27 +511,25 @@ function networkGenres(citydata) {
 
                 // append the values for circles
                 s.append('g')
-                    .attr('class', 'values-wrap')
                     .selectAll('circle')
                     .data(api.values)
                     .enter().append('circle')
                     .attr('class', d => 'values values-' + d)
                     .attr('r', d => sqrtScale(d))
-                    .attr('cx', api.width/2)
-                    .attr('cy', d => api.height/1.5 - sqrtScale(d))
+                    .attr('cx', api.width/3)
+                    .attr('cy', d => api.height/2 - sqrtScale(d))
                     .style('fill', 'none')
                     .style('stroke', api.circleColor)
 
                 // append some lines based on values
                 s.append('g')
-                    .attr('class', 'values-line-wrap')
                     .selectAll('.values-labels')
                     .data(api.values)
                     .enter().append('line')
-                    .attr('x1', d => api.width/2 + sqrtScale(d))
-                    .attr('x2', d => api.width/2 + sqrtScale(api.domain[1]) + 16 - d.toString().length*3)
-                    .attr('y1', d => api.height/1.5 - powScale(d)-10)
-                    .attr('y2', d => api.height/1.5 - powScale(d)-10)
+                    .attr('x1', d => api.width/3 + sqrtScale(d))
+                    .attr('x2', d => api.width/3 + sqrtScale(api.domain[1]) + 16 - d.toString().length*3)
+                    .attr('y1', d => api.height/1.5 - powScale(d)-15)
+                    .attr('y2', d => api.height/1.5 - powScale(d)-15)
                     .style('stroke', api.textColor)
                     .style('stroke-dasharray', ('2,2'))
 
@@ -548,8 +539,8 @@ function networkGenres(citydata) {
                     .selectAll('.values-labels')
                     .data(api.values)
                     .enter().append('text')
-                    .attr('x', api.width/2 + sqrtScale(api.domain[1]) + api.textPadding)
-                    .attr('y', d => (api.height/1.5 - powScale(d) - 7))
+                    .attr('x', api.width/3 + sqrtScale(api.domain[1]) + api.textPadding)
+                    .attr('y', d => (api.height/1.5 - powScale(d) - 12))
                     .attr('shape-rendering', 'crispEdges')
                     .style('text-anchor', 'end')
                     .style('fill', api.textColor)
@@ -579,7 +570,6 @@ function networkGenres(citydata) {
         l.render()
       }
 
-    drawNodeLegend();
     drawScale([d3.min(cityNodes, d => d.relative).toString(), d3.max(cityNodes, d => d.relative).toString()], custominterpolation);
 
     const simulation = d3.forceSimulation(cityNodes)
@@ -587,7 +577,7 @@ function networkGenres(citydata) {
             .distance([linkdistance]))
         .alphaDecay([.09])
         .velocityDecay([.15])
-        .force("charge", d3.forceManyBody().strength(forceStrength).distanceMax(distMax))//.strength(-100).distanceMax(220))
+        .force("charge", d3.forceManyBody().strength(forceStrength).distanceMax(distMax))
         .force("center", d3.forceCenter(cWidth/2, cHeight/2).strength(1.25))
         .force("collide", d3.forceCollide().radius(d => d.r + 2).strength(2));
 
@@ -636,6 +626,8 @@ function networkGenres(citydata) {
           let prepped_name = cleanName(d.__proto__.genre)
           netviz.selectAll(`#${prepped_name}`).attr("opacity", 0);
         });
+
+    drawNodeLegend();
 
     const textElems = netviz.append('g')
         .selectAll("text")
@@ -753,11 +745,11 @@ let mapTab = controls.querySelector(".single-tab.map-tab");
 let graphTab = controls.querySelector(".single-tab.graph-tab");
 let exitTab = controls.querySelector(".single-tab.text-tab");
 
-mapTab.addEventListener("click", (e) => {
+mapTab.addEventListener("click", () => {
   switchViews("map");
 });
 
-graphTab.addEventListener("click", (e) => {
+graphTab.addEventListener("click", () => {
   switchViews("viz");
 });
 
@@ -765,7 +757,7 @@ graphTab.addEventListener("click", (e) => {
 // needed for the site, not for the map itself
 const exitEvent = new Event('exit');
 
-exitTab.addEventListener("click", (e) => {
+exitTab.addEventListener("click", () => {
   root.dispatchEvent(exitEvent);
 });
 
