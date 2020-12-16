@@ -132,12 +132,22 @@ body {
   // pointer-events: none;
 }
 
+.map-instruction-2 {
+  color: black;
+  font-family: var(--bc-header-font);
+  font-weight: 650;
+  font-size: 55px;
+  line-height: 1.1;
+  opacity: 0;
+  // pointer-events: none;
+}
+
 .about-map {
   color: black;
   font-family: var(--bc-body-font);
-  font-size: 22;
   letter-spacing: -0.1px;
   line-height: 1.15;
+  opacity: 1;
 }
 
 .outline {
@@ -476,6 +486,12 @@ body {
 }
 
 @media (max-width: 750px) {
+  .map-instruction-2 {
+    opacity: 1;
+  }
+  .about-map {
+    opacity: 0;
+  }
   .svg-viz-wrap {
     flex-direction: column;
 

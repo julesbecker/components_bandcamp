@@ -273,22 +273,24 @@ ggg.append("text")
 let hhh = svg.append("g");
 
 hhh.append('text')
-    .text("This map marks cities with at least 500 albums or individual tracks sold between August 19 and November 10, 2020 on Bandcamp.")
-    .attr("class", "map-information")
+    .text("Pinch map to zoom")
     .attr('x', 685)
     .attr('y', 340)
     .call(wrap);
 
 hhh.select("foreignObject")
-    .attr("class", "about-map")
-    .attr('font-size', 22);
+    .attr("class", "map-instruction-2");
 
-svg.append('text')
-    .attr('x', 15)
-    .attr('y', 15)
-    .attr("class", "mobilenote")
-    .attr('font-size', 20)
-    .text("Note: Viewing on a large screen is recommended");
+let mmm = svg.append("g");
+
+mmm.append('text')
+    .text("This map marks cities with at least 500 albums or individual tracks sold between August 19 and November 10, 2020 on Bandcamp.")
+    .attr('x', 685)
+    .attr('y', 340)
+    .call(wrap);
+
+mmm.select("foreignObject")
+    .attr("class", "about-map");
 
 const cityCircles = map.append("g");
 let citydata;
@@ -478,7 +480,7 @@ function networkGenres(citydata) {
         // use scaling function
         let biggestNode = d3.max(cityNodes, d => d.radius);
         legendCircle
-            .attr("width", biggestNode*4)
+            .attr("width", biggestNode*3.5)
             .attr("height", biggestNode*2+5);
 
         function circleLegend(selection) {
@@ -490,7 +492,7 @@ function networkGenres(citydata) {
                 domain: [0, biggestNode], // the values min and max
                 range: [0, maxNodeSize], // the circle area/size mapping
                 values: [round(biggestNode/21), round(biggestNode/3), round(biggestNode)], // values for circles
-                width: biggestNode*4,
+                width: biggestNode*3.5,
                 height: biggestNode*2+5,
                 suffix:'', // ability to pass in a suffix
                 circleColor: '#888',
@@ -521,7 +523,7 @@ function networkGenres(citydata) {
                     .enter().append('circle')
                     .attr('class', d => 'values values-' + d)
                     .attr('r', d => sqrtScale(d))
-                    .attr('cx', api.width/3)
+                    .attr('cx', biggestNode+4)
                     .attr('cy', d => api.height/2 - sqrtScale(d))
                     .style('fill', 'none')
                     .style('stroke', api.circleColor)
@@ -531,8 +533,8 @@ function networkGenres(citydata) {
                     .selectAll('.values-labels')
                     .data(api.values)
                     .enter().append('line')
-                    .attr('x1', d => api.width/3 + sqrtScale(d))
-                    .attr('x2', d => api.width/3 + sqrtScale(api.domain[1]) + 16 - d.toString().length*3)
+                    .attr('x1', d => biggestNode+4 + sqrtScale(d))
+                    .attr('x2', d => biggestNode+4 + sqrtScale(api.domain[1]) + 16 - d.toString().length*3)
                     .attr('y1', d => api.height/1.5 - powScale(d)-15)
                     .attr('y2', d => api.height/1.5 - powScale(d)-15)
                     .style('stroke', api.textColor)
@@ -544,7 +546,7 @@ function networkGenres(citydata) {
                     .selectAll('.values-labels')
                     .data(api.values)
                     .enter().append('text')
-                    .attr('x', api.width/3 + sqrtScale(api.domain[1]) + api.textPadding)
+                    .attr('x', biggestNode+4 + sqrtScale(api.domain[1]) + api.textPadding)
                     .attr('y', d => (api.height/1.5 - powScale(d) - 12))
                     .attr('shape-rendering', 'crispEdges')
                     .style('text-anchor', 'end')
