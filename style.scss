@@ -233,8 +233,8 @@ body {
 
   .about-viz-wrap {
     box-sizing: border-box;
-    padding-left: 3em;
-    padding-top: 1em;
+    padding-left: 2.5em;
+    padding-top: 0.5em;
     position: relative;
     width: 30%;
 
@@ -260,6 +260,7 @@ body {
 
       .legend-svg {
         margin-top: 1em;
+        overflow: visible;
       }
 
       .legend-single {
@@ -441,13 +442,30 @@ body {
 
 // }
 
-@media (max-width: 850px) and (min-width: 751px) {
+@media (min-width: 851px) and (max-width: 1000px) {
+  .svg-viz-wrap .about-viz-wrap p {
+    width: 123%;
+  }
+
+}
+
+@media (min-width: 751px) and (max-width: 850px) {
   .svg-viz-wrap .about-viz-wrap {
     padding-left: 1em;
     padding-top: 0;
 
     p {
-      width: 119%;
+      font-size: 0.85em;
+      line-height: 1.15;
+      width: 129%;
+    }
+
+    .legend-wrap {
+      width: 42vw;
+    }
+
+    .legend-wrap div:first-of-type {
+      margin-right: 1.5em;
     }
   }
 
