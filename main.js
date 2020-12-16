@@ -513,9 +513,7 @@ function networkGenres(citydata) {
             instance.render = function () {
 
                 const s = selection.append('g')
-                    .attr('class', 'legend-wrap')
-                    // push down to radius of largest circle
-                    .attr('transform', 'translate(0,' + sqrtScale(d3.max(api.values)) + ')')
+                    .attr('class', 'legend-wrap');
 
                 // append the values for circles
                 s.append('g')
