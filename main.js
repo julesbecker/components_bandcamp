@@ -131,20 +131,15 @@ const svg = d3.select(mapWrap)
     // .classed("svg-content", true)
       .attr("preserveAspectRatio", "xMidYMid meet");
 
-let mapSmallDesc = document.createElement("div");
-mapSmallDesc.setAttribute("class", "map-mobile-desc");
-mapSmallDesc.innerHTML = "<h4>This map marks cities with at least 500 albums or individual tracks sold between August 19 and November 10, 2020 on Bandcamp.</h4>";
-mapWrap.appendChild(mapSmallDesc);
-
 let nv_svg = d3.select(vizWrap)
     .append("svg")
     .attr("id", "nv_svg")
     .attr("width", cWidth);
 
 let legendWrap = sourceDiv.querySelector(".legend-wrap");
-let partic = {w: 200, h: 90};
-let legend_svg = d3.select(legendWrap.querySelector(".particularity-wrap")).append("svg")
-    .attr("viewBox", `0 0 ${partic.w} ${partic.h}`)
+let partic = {w: 200, h: 60};
+let legendBar = d3.select(legendWrap.querySelector(".particularity-wrap")).append("svg")
+    .attr("class", "legend-svg")
     .attr("width", partic.w)
     .attr("height", partic.h)
     .attr("preserveAspectRatio", "xMinYMin meet");
@@ -197,17 +192,15 @@ svg.append("rect")
     .attr("width", 1000)
     .attr("fill", "white");
 
-var legendBar = legend_svg.append('g');
-
 legendBar.append("rect")
     .attr("id", "color")
-    .attr('y', 30)
+    .attr('y', 0)
     .attr('height', 30)
     .attr('width', 200);
 
 legendBar.append("rect")
     .attr("x", 70)
-    .attr("y", 43)
+    .attr("y", 13)
     .attr("height", 2)
     .attr("width", 55)
     .attr("fill", "white");
@@ -217,14 +210,14 @@ let less = legendBar.append("text")
     .attr("font-family", font)
     .attr('font-size', "14px")
     .attr("x", 10)
-    .attr("y", 50);
+    .attr("y", 20);
 
 let more = legendBar.append("text")
     .attr("fill", "black")
     .attr("font-family", font)
     .attr('font-size', "14px")
     .attr("x", 150)
-    .attr("y", 50);
+    .attr("y", 20);
 
 svg.append("path")
     .datum(geooutline)
@@ -275,6 +268,7 @@ let hhh = svg.append("g");
 
 hhh.append('text')
     .text("This map marks cities with at least 500 albums or individual tracks sold between August 19 and November 10, 2020 on Bandcamp.")
+    .attr("class", "map-information")
     .attr('x', 685)
     .attr('y', 340)
     .call(wrap);
