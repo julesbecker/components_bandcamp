@@ -443,9 +443,6 @@ function networkGenres(citydata) {
 
     netviz.selectAll("g").remove();
 
-    netviz.select("rect#nvbg")
-        .on('click', fade(1));
-
     function composition(f, g) { return t => f(g(t)); }
     let custominterpolation = composition(d3.interpolateRgbBasis(["#4d3d95", "#3ab1b2", "#fcff00"]), t=>t**.8) //rgb(255, 255, 77)
     let statusColor = d3.scaleSequential([0, d3.max(cityNodes, d => d.relative)], custominterpolation);
@@ -492,7 +489,7 @@ function networkGenres(citydata) {
             const api = {
                 domain: [0, biggestCircle], // the values min and max
                 range: [0, maxNodeSize], // the circle area/size mapping
-                values: [{"circ": round(biggestCircle/21), "text":round(biggestNode/21)}, {"circ": round(biggestCircle/3), "text":round(biggestNode/3)}, {"circ": round(biggestCircle), "text":round(biggestNode)},], // values for circles
+                values: [{"circ": round(biggestCircle/21), "text":round(biggestNode/21), "id":1}, {"circ": round(biggestCircle/3), "text":round(biggestNode/3), "id":2}, {"circ": round(biggestCircle), "text":round(biggestNode), "id":3},], // values for circles
                 width: biggestCircle*4,
                 height: biggestCircle*2+5,
                 suffix:'', // ability to pass in a suffix
@@ -534,11 +531,13 @@ function networkGenres(citydata) {
                     .enter().append('line')
                     .attr('x1', d => biggestCircle+4 + sqrtScale(d.circ))
                     .attr('x2', d => biggestCircle+4 + sqrtScale(api.domain[1]) + 16 - d.text.toString().length*3)
-                    .attr('y1', d => api.height - powScale(d.circ)-15)
-                    .attr('y2', d => api.height - powScale(d.circ)-15)
+                    .attr("id", d => "ln" + d.id)
+                    .attr('y1', d => api.height - powScale(d.circ) * 1.65)
+                    .attr('y2', d => api.height - powScale(d.circ) * 1.65)
                     .style('stroke', api.textColor)
                     .style('stroke-dasharray', ('2,2'))
 
+                s.select("#ln3").attr('x1', d => biggestCircle+4 + sqrtScale(d.circ) *.7)
                 // append some labels from values
                 s.append('g')
                     .attr('class', 'values-labels-wrap')
@@ -546,7 +545,7 @@ function networkGenres(citydata) {
                     .data(api.values)
                     .enter().append('text')
                     .attr('x', biggestCircle+4 + sqrtScale(api.domain[1]) + api.textPadding)
-                    .attr('y', d => (api.height - powScale(d.circ) - 12))
+                    .attr('y', d => (api.height - powScale(d.circ) * 1.65 + 4))
                     .attr('shape-rendering', 'crispEdges')
                     .style('text-anchor', 'end')
                     .style('fill', api.textColor)
@@ -633,6 +632,8 @@ function networkGenres(citydata) {
           netviz.selectAll(`#${prepped_name}`).attr("opacity", 0);
         });
 
+    nv_svg.select("rect#nvbg")
+        .on('click', fade(1));
     drawNodeLegend();
 
     const textElems = netviz.append('g')
