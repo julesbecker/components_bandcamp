@@ -384,7 +384,7 @@ function networkGenres(citydata) {
     let cHyp = Math.hypot(cHeight, cWidth)
 
     // variables for netviz rendering
-    let maxNodeSize = cArea / 15000;
+    let maxNodeSize = Math.sqrt(cArea / 200);
     let linkwidthMax = cHyp/115;
     let smallLabel = cHyp/120;
     let bigLabel = smallLabel*2.15;
@@ -632,7 +632,7 @@ function networkGenres(citydata) {
           netviz.selectAll(`#${prepped_name}`).attr("opacity", 0);
         });
 
-    nv_svg.select("rect#nvbg")
+    nv_svg.select("#nvbg")
         .on('click', fade(1));
     drawNodeLegend();
 
