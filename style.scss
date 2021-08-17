@@ -287,12 +287,18 @@ body {
 
       // & div:first-of-type {
       .particularity-wrap {
-        margin-right: 1em;
-        min-width: 200px;
+        margin-right: 1rem;
+        min-width: Max(200px, 15.6vw);
         // width: 60%;
 
         svg {
           max-width: 100%;
+        }
+      }
+
+      .appearances-wrap {
+        .values-labels-wrap text {
+          font-size: Max(10px, 0.8vw);
         }
       }
     }
@@ -313,10 +319,10 @@ body {
     color: white;
     display: none;
     font-family: "Andale Mono", monospace;
-    font-size: 1em;
+    font-size: 1rem;
     margin-bottom: 0em;
-    max-width: 140px;
-    padding: 1em;
+    max-width: Max(140px, 11vw);
+    padding: 1rem;
     text-transform: uppercase;
 
     &.text-tab, &.regenerate-nodes, &.current {

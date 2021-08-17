@@ -139,27 +139,29 @@ mapWrap.appendChild(mapSmallDesc);
 
 let nv_svg = d3.select(vizWrap)
     .append("svg")
-    .attr("id", "nv_svg")
-    .attr("width", cWidth);
+    .attr("id", "nv_svg");
+    // .attr("width", cWidth);
 
 let legendWrap = sourceDiv.querySelector(".legend-wrap");
 let partic = {w: 200, h: 60};
 let legendBar = d3.select(legendWrap.querySelector(".particularity-wrap")).append("svg")
     .attr("class", "legend-svg")
-    .attr("width", partic.w)
-    .attr("height", partic.h)
+    .attr("viewBox", `0 0 ${partic.w} ${partic.h}`)
+    // .attr("width", partic.w)
+    // .attr("height", partic.h)
     .attr("preserveAspectRatio", "xMinYMin meet");
 
 // let appearDim = { w: 150, h: 110 }; //previously 400x400
 let legendCircle = d3.select(legendWrap.querySelector(".appearances-wrap")).append("svg")
-    .attr("class", "legend-svg")
-    .attr("y", 20)
-    .attr("preserveAspectRatio", "xMinYMin meet");
+    .attr("class", "legend-svg legend-circle")
+    .attr("y", 20);
+    // .attr("preserveAspectRatio", "xMinYMin meet");
 
 nv_svg.append("rect")
     .attr("id", "nvbg")
-    .attr("width", cWidth)
-    .attr("height", cHeight)
+    .attr("viewBox", `0 0 ${cWidth} ${cHeight}`)
+    // .attr("width", cWidth)
+    // .attr("height", cHeight)
     .attr("fill", "white");
 
 let netviz = nv_svg.append('g');
@@ -478,6 +480,7 @@ function networkGenres(citydata) {
         let biggestNode = d3.max(cityNodes, d => d.count);
         let biggestCircle = d3.max(cityNodes, d => d.radius);
         legendCircle
+            // .attr("viewBox", `0 0 ${biggestCircle*4} ${biggestCircle*2+5}`);
             .attr("width", biggestCircle*4)
             .attr("height", biggestCircle*2+5);
 
@@ -550,7 +553,7 @@ function networkGenres(citydata) {
                     .style('text-anchor', 'end')
                     .style('fill', api.textColor)
                     .style("font-family", font)
-                    .attr('font-size', 10)
+                    // .attr('font-size', 10)
                     .text(d => d.text + api.suffix);
 
                 return instance
@@ -832,7 +835,8 @@ document.addEventListener("enter", function() {
 
 function resizeViz() {
   let cDims = getVizDimensions();
-  nv_svg.attr("width", cDims.w).attr("height", cDims.h);
+  // nv_svg.attr("width", cDims.w).attr("height", cDims.h);
+  nv_svg.attr("viewBox", `0 0 ${cDims.w} ${cDims.h}`);
 }
 
 // window.mobileCheck = function() {
