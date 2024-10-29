@@ -2,18 +2,17 @@ const express = require('express');
 const app = express();
 var path = require('path');
 
-app.use('/static', express.static(__dirname + '/static'));
-
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname + '/static/index.html'));
-})
+});
 
-app.get("/ext", function(req, res) {
+app.get("/ext", function (req, res) {
   res.sendFile(path.join(__dirname + '/static/json/external.json'));
-})
+});
 
-let server = app.listen(5000, function() {
-  console.log("listening on 5000");
+const port = process.env.PORT || 5000;
+let server = app.listen(port, function () {
+  console.log(`listening on ${port}`);
 });
 
 process.on('unhandledRejection', (reason, p) => {
@@ -24,4 +23,4 @@ process.on('unhandledRejection', (reason, p) => {
 process.on('SIGINT', () => {
   console.log("closing server");
   server.close();
-})
+});

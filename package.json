@@ -26,8 +26,8 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "node-sass": "^7.0.3",
     "npm-run-all": "^4.1.5",
+    "sass": "^1.80.4",
     "uglifyify": "^5.0.2",
     "watchify": "^4.0.0"
   },
@@ -37,8 +37,8 @@
   "scripts": {
     "build": "browserify main.js > ./static/js/bundle.js -v -t [ babelify --presets [@babel/preset-env] ] -t browserify-css -g [ uglifyify -c ]",
     "watch": "watchify main.js -o ./static/js/bundle.js -v -t [ babelify --presets [@babel/preset-env] ] -t browserify-css",
-    "scss-build": "node-sass style.scss static/css/style.css --output-style compressed",
-    "scss-watch": "node-sass --watch style.scss static/css/style.css",
+    "scss-build": "sass --style=compressed style.scss:static/css/style.css",
+    "scss-watch": "sass --watch style.scss:static/css/style.css",
     "serve": "nodemon server.js",
     "dev": "npm-run-all -p watch scss-watch serve",
     "start": "npm run scss-build && npm run build && npm run serve"
