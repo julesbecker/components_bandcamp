@@ -24,7 +24,7 @@ app.get("/ext", function (req, res) {
   res.sendFile(path.join(__dirname + '/static/json/external.json'));
 });
 
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 5000;
 let server = app.listen(port, function () {
   console.log(`listening on ${port}`);
 });
